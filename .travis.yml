@@ -1,2 +1,4 @@
 language: java
 jdk: oraclejdk8
+notifications:
+  slack: hhu-null:NmhWY3diJUWwnsdI2ACvFzu4
