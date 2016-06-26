@@ -1,6 +1,6 @@
-import java.util.List;
-
 package Models;
+
+import java.util.List;
 
 public class Catalog {
 	public List<Excercise> excercises;
