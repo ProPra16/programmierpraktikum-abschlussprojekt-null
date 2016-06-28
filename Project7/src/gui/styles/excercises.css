@@ -1,10 +1,12 @@
-.anchor-pane {
-	-fx-background-color: #000;
+.excercises {
+	-fx-background-color: #eee;
+	-fx-padding: 20px;
 }
 
 .excercise-tile {
 	-fx-background-color: #fff;
 	-fx-padding: 10px;
+	/*-fx-min-width: 50%;*/
 }
 
 .excercise-tile .excercise-header {
