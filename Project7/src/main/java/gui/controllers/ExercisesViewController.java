@@ -26,13 +26,16 @@ import models.Catalog;
 import models.Exercise;
 import xmlModelParser.Parser;
 
-public class ExercisesController implements Initializable {
+public class ExercisesViewController implements Initializable {
 
 	@FXML
 	GridPane exercisesGrid;
 	Catalog catalog;
-	Stage stage;
+	Scene scene;
 	boolean inDetailView;
+	
+	MenuViewController menuController; 
+
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -42,7 +45,6 @@ public class ExercisesController implements Initializable {
 		// TETING PURPOSES
 		Parser parser = new Parser();
 		try {
-
 			catalog = parser.parse("default.xml");
 		} catch (SAXException | IOException | ParserConfigurationException e) {
 			// TODO Handle Error appropriately
@@ -51,16 +53,9 @@ public class ExercisesController implements Initializable {
 
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * Initializes controller with stage and adds  
-	 * @param stage
-	 */
-	public void initWithStage(Stage stage) {
-		this.stage = stage;
+		
 		// Arrange exercises on width change
-		stage.widthProperty().addListener(new ChangeListener<Number>() {
+		exercisesGrid.widthProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observableValue, Number oldWidth,
 					Number newWidth) {
@@ -68,7 +63,16 @@ public class ExercisesController implements Initializable {
 			}
 		});
 	}
-
+	
+	
+	/**
+	 * Sets the menu controller
+	 */
+	public void setMenuController(MenuViewController menuController) {
+		this.menuController = menuController;
+	}
+	
+	
 	/**
 	 * Arranges exercises on grid, respective to the current width
 	 */
@@ -80,13 +84,15 @@ public class ExercisesController implements Initializable {
 		
 		// Get number of columns from width
 		int columnsNumber = 1;
-		double width = stage.getWidth();
+		double width = exercisesGrid.getWidth();
 		if (width > 600)
 			columnsNumber = 2;
 		if (width > 900)
 			columnsNumber = 3;
 
-		// TODO only arrange, if not equal columnsNumber
+		// Only arrange, if number of columns did change
+		if(exercisesGrid.getColumnConstraints().size() == columnsNumber)
+			return;
 		
 		// Clear grid
 		exercisesGrid.getChildren().clear();
@@ -119,6 +125,7 @@ public class ExercisesController implements Initializable {
 			tile.add(header, 0, 0);
 			tile.add(descriptionFlow, 0, 1);
 			tile.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+				@Override
 				public void handle(MouseEvent e) {
 					selectExercise(exercise);
 				}
@@ -147,20 +154,14 @@ public class ExercisesController implements Initializable {
 		TextFlow descriptionFlow = new TextFlow(description);
 		
 		Button selectButton = new Button("Select");
-		selectButton.setOnAction(e -> {
-			try{
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/TestView.fxml"));	
-				Parent root = loader.load();
-				Scene scene = new Scene(root, 900, 600);
-				stage.setScene(scene);
-				TestController testController = loader.getController();
-				testController.initWithStage(stage);
-			}catch(IOException io){
-				io.printStackTrace();
-				System.out.println("Fehler");
-			}
+		selectButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	menuController.selectExercise(exercise);            	
+            }
 		});
 		selectButton.setAlignment(Pos.BOTTOM_RIGHT);
+		
 		Button backButton = new Button("Return to overview");
 		backButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -180,7 +181,6 @@ public class ExercisesController implements Initializable {
 		tile.add(descriptionFlow, 0, 1);
 		tile.add(backButton, 0, 2);
 		tile.add(selectButton, 1, 2);
-		
 		
 		exercisesGrid.add(tile, 0, 0);
 		GridPane.setHgrow(tile, Priority.ALWAYS);
