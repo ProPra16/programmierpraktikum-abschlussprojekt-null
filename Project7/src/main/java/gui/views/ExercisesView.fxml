@@ -9,7 +9,7 @@
 <?import javafx.scene.text.*?>
 <?import java.net.*?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" stylesheets="@../styles/excercises.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ExcercisesController">
+<VBox prefHeight="400.0" prefWidth="640.0" stylesheets="@../styles/exercises.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ExercisesController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -52,7 +52,7 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
-            <GridPane fx:id="excercisesPane" hgap="20.0" layoutX="7.0" layoutY="43.0" styleClass="excercises" vgap="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <GridPane fx:id="exercisesGrid" hgap="20.0" layoutX="7.0" layoutY="43.0" styleClass="exercises" vgap="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

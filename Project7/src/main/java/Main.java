@@ -2,7 +2,7 @@
 import java.io.IOException;
 import java.net.URL;
 
-import gui.controllers.ExcercisesController;
+import gui.controllers.ExercisesController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -19,12 +19,13 @@ public class Main extends Application {
 		primaryStage.setMinWidth(600);
 		primaryStage.setMinHeight(400);
 		
+		// Load exercises overview 
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/ExcercisesView.fxml"));	
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/ExercisesView.fxml"));	
 			Parent root = loader.load();
 			Scene scene = new Scene(root, 900, 600);
 			primaryStage.setScene(scene);
-			ExcercisesController controller = loader.getController();
+			ExercisesController controller = loader.getController();
 			controller.initWithStage(primaryStage);
 		} catch (IOException e) {
 			// TODO Handle exception
