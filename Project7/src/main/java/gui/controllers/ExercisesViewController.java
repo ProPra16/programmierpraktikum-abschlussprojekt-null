@@ -124,9 +124,9 @@ public class ExercisesViewController implements Initializable {
 			tile.getStyleClass().add("exercise-tile");
 			tile.add(header, 0, 0);
 			tile.add(descriptionFlow, 0, 1);
-			tile.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+			tile.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
 				@Override
-				public void handle(MouseEvent e) {
+				public void handle(MouseEvent event) {
 					selectExercise(exercise);
 				}
 			});

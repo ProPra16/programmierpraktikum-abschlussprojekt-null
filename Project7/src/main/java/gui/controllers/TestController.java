@@ -20,14 +20,6 @@ public class TestController implements Initializable{
 		
 	}
 	
-	/**
-	 * Initializes controller with stage 
-	 * @param stage
-	 */
-	public static void initWithStage(Stage stage) {
-		testStage = stage;
-	}
-	
 	@FXML
 	public void cancelAction(){
 		System.out.println("Hello");
