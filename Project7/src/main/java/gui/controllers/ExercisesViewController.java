@@ -11,6 +11,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import javafx.fxml.*;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -24,12 +25,12 @@ import models.Catalog;
 import models.Exercise;
 import xmlModelParser.Parser;
 
-public class ExercisesController implements Initializable {
+public class ExercisesViewController implements Initializable {
 
 	@FXML
 	GridPane exercisesGrid;
 	Catalog catalog;
-	Stage stage;
+	Scene scene;
 	boolean inDetailView;
 
 	@Override
@@ -40,7 +41,6 @@ public class ExercisesController implements Initializable {
 		// TETING PURPOSES
 		Parser parser = new Parser();
 		try {
-
 			catalog = parser.parse("default.xml");
 		} catch (SAXException | IOException | ParserConfigurationException e) {
 			// TODO Handle Error appropriately
@@ -49,16 +49,9 @@ public class ExercisesController implements Initializable {
 
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * Initializes controller with stage and adds  
-	 * @param stage
-	 */
-	public void initWithStage(Stage stage) {
-		this.stage = stage;
+		
 		// Arrange exercises on width change
-		stage.widthProperty().addListener(new ChangeListener<Number>() {
+		exercisesGrid.widthProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observableValue, Number oldWidth,
 					Number newWidth) {
@@ -67,6 +60,7 @@ public class ExercisesController implements Initializable {
 		});
 	}
 
+	
 	/**
 	 * Arranges exercises on grid, respective to the current width
 	 */
@@ -78,7 +72,7 @@ public class ExercisesController implements Initializable {
 		
 		// Get number of columns from width
 		int columnsNumber = 1;
-		double width = stage.getWidth();
+		double width = exercisesGrid.getWidth();
 		if (width > 600)
 			columnsNumber = 2;
 		if (width > 900)
