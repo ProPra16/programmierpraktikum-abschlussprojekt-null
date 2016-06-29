@@ -1,6 +1,5 @@
 .menu {
 	-fx-background-color: #333;
-	-fx-padding: 20px;
 }
 
 .header {
@@ -13,7 +12,15 @@
 }
 
 .menu-item {
-	
+	-fx-padding: 10px 20px;
+}
+
+.menu-item:hover {
+	-fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+.menu-item.active {
+	-fx-background-color: rgba(255, 255, 255, 0.3);
 }
 
 .menu-item-icon {

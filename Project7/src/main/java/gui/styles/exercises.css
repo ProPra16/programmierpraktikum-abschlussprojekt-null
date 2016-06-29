@@ -15,8 +15,7 @@
 }
 
 .exercise-tile-detail .exercise-header {
-	-fx-font-size: 32px;
-	-fx-margin-bottom: 20px;
+	-fx-font-size: 30px;
 }
 
 .exercise-tile .exercise-description {
@@ -24,5 +23,6 @@
 }
 
 .exercise-tile-detail .exercise-description {
-	-fx-font-size: 22px;
+	-fx-font-size: 18px;
+	-fx-margin: 20px 0 0 0;
 }
