@@ -1,5 +1,10 @@
+plugins {
+  id "com.github.johnrengelman.shadow" version "1.2.3" 
+}
+
 apply plugin: "java"
 apply plugin: "eclipse"
+apply plugin: "com.github.johnrengelman.shadow"
 
 
 repositories {
@@ -8,4 +13,16 @@ repositories {
 
 dependencies {
  testCompile "junit:junit:4.8.2"
+}
+
+shadowJar {
+    mergeServiceFiles()
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "Main"
+    }
 }

@@ -1,0 +1,28 @@
+.exercises {
+	-fx-background-color: #eee;
+	-fx-padding: 20px;
+}
+
+.exercise-tile {
+	-fx-background-color: #fff;
+	-fx-padding: 10px;
+	/*-fx-min-width: 50%;*/
+}
+
+.exercise-tile .exercise-header {
+	-fx-font-weight: bold;
+	-fx-font-size: 20px;
+}
+
+.exercise-tile-detail .exercise-header {
+	-fx-font-size: 32px;
+	-fx-margin-bottom: 20px;
+}
+
+.exercise-tile .exercise-description {
+	-fx-font-size: 14px;
+}
+
+.exercise-tile-detail .exercise-description {
+	-fx-font-size: 22px;
+}

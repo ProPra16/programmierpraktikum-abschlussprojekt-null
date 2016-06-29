@@ -49,7 +49,7 @@ public class Catalog implements Parsable {
 	 * Returns the the list of Exercieses currently stored in the
 	 * {@code Catalog}
 	 * 
-	 * @return A {@code ArrayList<Exercise>} of exercieses
+	 * @return An {@code ArrayList<Exercise>} of exercieses
 	 */
 	public ArrayList<Exercise> getExercises() {
 		return exercises;
