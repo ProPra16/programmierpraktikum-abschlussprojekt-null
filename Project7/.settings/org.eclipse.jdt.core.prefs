@@ -9,3 +9,6 @@ org.eclipse.jdt.core.compiler.debug.sourceFile=generate
 org.eclipse.jdt.core.compiler.problem.assertIdentifier=error
 org.eclipse.jdt.core.compiler.problem.enumIdentifier=error
 org.eclipse.jdt.core.compiler.source=1.8
+org.eclipse.jdt.core.compiler.taskCaseSensitive=disabled
+org.eclipse.jdt.core.compiler.taskPriorities=NORMAL,HIGH,NORMAL
+org.eclipse.jdt.core.compiler.taskTags=TODO,FIXME,XXX

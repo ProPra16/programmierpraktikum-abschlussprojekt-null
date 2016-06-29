@@ -1,11 +1,13 @@
 package gui.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 import javafx.fxml.*;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -17,6 +19,10 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import models.*;
+import models.Catalog;
+import models.Exercise;
+import xmlModelParser.Parser;
+
 
 public class ExcercisesController implements Initializable {
 	
@@ -26,31 +32,22 @@ public class ExcercisesController implements Initializable {
 	Stage stage;
 	
 	public ExcercisesController() {
-		Excercise excercise1 = new Excercise(
-				"Roman Numbers", 
-				"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et",
-				new String[] { "class A { public static void main(String[] args) {} }" },
-				new String[] { "Test1", "Test2" },
-				new Config(true, false)
-			);
 		
-		Excercise excercise2 = new Excercise(
-				"Roman Numbers Extended", 
-				"Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-				new String[] { "class A { public static void main(String[] args) {} }" },
-				new String[] { "Test" },
-				new Config(true, false)
-			);
 		
-		Excercise excercise3 = new Excercise(
-				"Roman Numbers Heavy Hard", 
-				"Never will be solved...",
-				new String[] { "class A { public static void main(String[] args) {} }" },
-				new String[] { "Test" },
-				new Config(true, false)
-			);
+		//TODO Discuss how to load and unload XML with the UI; e.g. Storage class
+		//TODO TAKE THIS OUT BEFORE RELEASE THE FOLLOWING LINES ARE JUST FOR TETING PURPOSES
+		Parser parser = new Parser();
+		try {
+			
+			catalog =parser.parse("default.xml");
+		} catch (SAXException | IOException | ParserConfigurationException e) {
+			// TODO Handle Error appropriately
+			catalog= new Catalog();
+			System.out.println("Shit!!!");
+			
+			e.printStackTrace();
+		}
 		
-		catalog = new Catalog("Test Catalog", excercise1, excercise2, excercise3);
 	}
 	
 	@Override
@@ -79,14 +76,14 @@ public class ExcercisesController implements Initializable {
 		excercisesPane.getColumnConstraints().clear();
 		excercisesPane.getRowConstraints().clear();
 		
-		for(int i = 0; i < catalog.excercises.size(); i++) {
+		for(int i = 0; i < catalog.getExcercises().size(); i++) {
 			Excercise excercise = catalog.excercises.get(i);
 			
 			String excerciseName = (excercise.name.length() > 50) ? excercise.name.substring(0, 49).trim() + "..." : excercise.name.trim();
 			Label header = new Label(excerciseName);
 			header.getStyleClass().add("excercise-header");
 			
-			String excerciseDescription = (excercise.description.length() > 100) ? excercise.description.substring(0, 99).trim() + "..." : excercise.description.trim();
+			String excerciseDescription = (excercise.getDescription().length() > 100) ? excercise.getDescription().substring(0, 99).trim() + "..." : excercise.getDescription().trim();
 			Text description = new Text(excerciseDescription);
 			description.getStyleClass().add("excercise-description");
 			TextFlow descriptionFlow = new TextFlow(description);
