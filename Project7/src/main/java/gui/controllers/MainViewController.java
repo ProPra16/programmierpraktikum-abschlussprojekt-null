@@ -28,9 +28,13 @@ public class MainViewController implements Initializable {
 			mainSection.getChildren().add(exerciseView);
 			setAllAnchorsNull(exerciseView);
 			
-			Parent menuView = FXMLLoader.load(getClass().getResource("/gui/views/MenuView.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/MenuView.fxml"));
+			Parent menuView = loader.load();
 			sideSection.getChildren().add(menuView);
 			setAllAnchorsNull(menuView);
+			MenuViewController controller = loader.getController();
+			controller.setMainSection(mainSection);
+			controller.setExerciseView(exerciseView);
 		} catch (IOException e) {
 			// TODO Handle exception
 			e.printStackTrace();

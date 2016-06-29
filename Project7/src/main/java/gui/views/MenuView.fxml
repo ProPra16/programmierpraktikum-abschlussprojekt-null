@@ -7,25 +7,29 @@
 <?import javafx.scene.layout.*?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" styleClass="menu" stylesheets="@../styles/menu.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.MenuViewController">
-   <children>
-      <Label layoutX="14.0" layoutY="14.0" styleClass="header" text="Menu" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <HBox layoutX="17.7" layoutY="50.3" prefHeight="17.0" prefWidth="383.0" styleClass="menu-item" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="46.0">
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.MenuViewController">
+   <content>
+      <AnchorPane prefHeight="600.0" prefWidth="400.0" styleClass="menu" stylesheets="@../styles/menu.css">
          <children>
-            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="menu-item-icon">
-               <image>
-                  <Image url="@../images/icons/home.png" />
-               </image>
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </ImageView>
-            <Label prefHeight="30.0" styleClass="menu-item-label" text="Exercise overview">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </Label>
+            <Label layoutX="14.0" layoutY="14.0" styleClass="header" text="Menu" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <HBox fx:id="menuItemExerciseOverview" layoutX="17.7" layoutY="50.3" prefHeight="17.0" prefWidth="383.0" styleClass="menu-item" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="46.0">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="menu-item-icon">
+                     <image>
+                        <Image url="@../images/icons/home.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </ImageView>
+                  <Label prefHeight="30.0" styleClass="menu-item-label" text="Exercise overview">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
          </children>
-      </HBox>
-   </children>
-</AnchorPane>
+      </AnchorPane>
+   </content>
+</ScrollPane>

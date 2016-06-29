@@ -17,8 +17,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("TDDT");
-		primaryStage.setMinWidth(600);
-		primaryStage.setMinHeight(400);
+		primaryStage.setMinWidth(800);
+		primaryStage.setMinHeight(600);
 		
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("/gui/views/MainView.fxml"));

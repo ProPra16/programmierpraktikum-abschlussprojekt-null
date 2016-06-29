@@ -78,7 +78,9 @@ public class ExercisesViewController implements Initializable {
 		if (width > 900)
 			columnsNumber = 3;
 
-		// TODO only arrange, if not equal columnsNumber
+		// Only arrange, if number of columns did change
+		if(exercisesGrid.getColumnConstraints().size() == columnsNumber)
+			return;
 		
 		// Clear grid
 		exercisesGrid.getChildren().clear();
@@ -111,6 +113,7 @@ public class ExercisesViewController implements Initializable {
 			tile.add(header, 0, 0);
 			tile.add(descriptionFlow, 0, 1);
 			tile.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+				@Override
 				public void handle(MouseEvent e) {
 					selectExercise(exercise);
 				}
