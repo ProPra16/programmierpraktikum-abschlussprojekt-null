@@ -11,6 +11,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import javafx.fxml.*;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -32,6 +33,9 @@ public class ExercisesViewController implements Initializable {
 	Catalog catalog;
 	Scene scene;
 	boolean inDetailView;
+	
+	MenuViewController menuController; 
+
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -59,7 +63,15 @@ public class ExercisesViewController implements Initializable {
 			}
 		});
 	}
-
+	
+	
+	/**
+	 * Sets the menu controller
+	 */
+	public void setMenuController(MenuViewController menuController) {
+		this.menuController = menuController;
+	}
+	
 	
 	/**
 	 * Arranges exercises on grid, respective to the current width
@@ -142,7 +154,14 @@ public class ExercisesViewController implements Initializable {
 		TextFlow descriptionFlow = new TextFlow(description);
 		
 		Button selectButton = new Button("Select");
+		selectButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	menuController.selectExercise(exercise);            	
+            }
+		});
 		selectButton.setAlignment(Pos.BOTTOM_RIGHT);
+		
 		Button backButton = new Button("Return to overview");
 		backButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -162,11 +181,6 @@ public class ExercisesViewController implements Initializable {
 		tile.add(descriptionFlow, 0, 1);
 		tile.add(backButton, 0, 2);
 		tile.add(selectButton, 1, 2);
-		tile.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-			public void handle(MouseEvent e) {
-				selectExercise(exercise);
-			}
-		});
 		
 		exercisesGrid.add(tile, 0, 0);
 		GridPane.setHgrow(tile, Priority.ALWAYS);

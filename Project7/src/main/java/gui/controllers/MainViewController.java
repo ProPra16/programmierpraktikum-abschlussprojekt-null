@@ -24,17 +24,22 @@ public class MainViewController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
-			Parent exerciseView = FXMLLoader.load(getClass().getResource("/gui/views/ExercisesView.fxml"));
-			mainSection.getChildren().add(exerciseView);
-			setAllAnchorsNull(exerciseView);
-			
+			// Load menu in sidebar
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/MenuView.fxml"));
 			Parent menuView = loader.load();
 			sideSection.getChildren().add(menuView);
 			setAllAnchorsNull(menuView);
-			MenuViewController controller = loader.getController();
-			controller.setMainSection(mainSection);
-			controller.setExerciseView(exerciseView);
+			MenuViewController menuController = loader.getController();
+			menuController.setMainSection(mainSection);
+			
+			// Load exercise overview in main section
+			loader = new FXMLLoader(getClass().getResource("/gui/views/ExercisesView.fxml"));
+			Parent exerciseView = loader.load();
+			mainSection.getChildren().add(exerciseView);
+			setAllAnchorsNull(exerciseView);
+			ExercisesViewController exercisesController = loader.getController();
+			exercisesController.setMenuController(menuController);
+			menuController.setExerciseView(exerciseView);
 		} catch (IOException e) {
 			// TODO Handle exception
 			e.printStackTrace();
