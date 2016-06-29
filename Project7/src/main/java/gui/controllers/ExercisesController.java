@@ -131,6 +131,8 @@ public class ExercisesController implements Initializable {
 	 * @param exercise
 	 */
 	private void selectExercise(Exercise exercise) {
+		inDetailView = true;
+		
 		exercisesGrid.getChildren().clear();
 		exercisesGrid.getColumnConstraints().clear();
 		exercisesGrid.getRowConstraints().clear();
