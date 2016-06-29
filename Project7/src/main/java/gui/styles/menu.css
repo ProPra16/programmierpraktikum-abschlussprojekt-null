@@ -1,0 +1,27 @@
+.menu {
+	-fx-background-color: #333;
+	-fx-padding: 20px;
+}
+
+.header {
+	-fx-font-size: 16px;
+	-fx-font-weight: bold;
+}
+
+* {
+	-fx-text-fill: #fff;
+}
+
+.menu-item {
+	
+}
+
+.menu-item-icon {
+	
+}
+
+.menu-item-label {
+	-fx-padding: 0 0 0 10px;
+	-fx-font-size: 14px;
+	-fx-font-weight: bold;
+}
