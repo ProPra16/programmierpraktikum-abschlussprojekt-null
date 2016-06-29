@@ -11,6 +11,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import javafx.fxml.*;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -145,6 +147,19 @@ public class ExercisesController implements Initializable {
 		TextFlow descriptionFlow = new TextFlow(description);
 		
 		Button selectButton = new Button("Select");
+		selectButton.setOnAction(e -> {
+			try{
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/TestView.fxml"));	
+				Parent root = loader.load();
+				Scene scene = new Scene(root, 900, 600);
+				stage.setScene(scene);
+				TestController testController = loader.getController();
+				testController.initWithStage(stage);
+			}catch(IOException io){
+				io.printStackTrace();
+				System.out.println("Fehler");
+			}
+		});
 		selectButton.setAlignment(Pos.BOTTOM_RIGHT);
 		Button backButton = new Button("Return to overview");
 		backButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -165,11 +180,7 @@ public class ExercisesController implements Initializable {
 		tile.add(descriptionFlow, 0, 1);
 		tile.add(backButton, 0, 2);
 		tile.add(selectButton, 1, 2);
-		tile.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-			public void handle(MouseEvent e) {
-				selectExercise(exercise);
-			}
-		});
+		
 		
 		exercisesGrid.add(tile, 0, 0);
 		GridPane.setHgrow(tile, Priority.ALWAYS);
