@@ -69,19 +69,19 @@ public class MenuViewController implements Initializable {
 	 */
 	public void setExerciseView(Node exerciseView) {
 		this.exerciseView = exerciseView;
+		for(MenuItem menuItem : menuItems) {
+			if(menuItem instanceof OverviewMenuItem)
+				menuItem.setMainView(exerciseView);
+		}
 	}
 	
 	/**
 	 * Selects the exercise overview menu item
 	 */
 	public void selectExerciseOverview() {
-		mainSection.getChildren().clear();
-		mainSection.getChildren().add(exerciseView);
-		
-		unselectAllMenuItems();
 		for(MenuItem menuItem : menuItems) {
 			if(menuItem instanceof OverviewMenuItem) {
-				menuItem.select();
+				selectMenuItem(menuItem);
 				break; // Usually only one overview menu item
 			}
 		}
@@ -102,35 +102,46 @@ public class MenuViewController implements Initializable {
 				AnchorPane.setLeftAnchor(testView, 0.0);
 				AnchorPane.setRightAnchor(testView, 0.0);
 				AnchorPane.setBottomAnchor(testView, 0.0);
-				mainSection.getChildren().clear();
-				mainSection.getChildren().add(testView);
 				TestController testController = loader.getController();
 				
 				ExerciseMenuItem exerciseMenuItem = new ExerciseMenuItem(exercise);
 				exerciseMenuItem.setMainView(testView);
-				exerciseMenuItem.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+				EventHandler<MouseEvent> menuItemClickEventHandler = new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
 						selectExercise(exercise);
 					}
+				};
+				
+				exerciseMenuItem.addEventHandler(MouseEvent.MOUSE_RELEASED, menuItemClickEventHandler);
+				exerciseMenuItem.setRemoveHandler(new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent event) {
+						int menuIndex = getMenuIndex(exercise);
+						if(menuIndex != -1) {
+							MenuItem menuItem = menuItems.get(menuIndex);
+							// Remove click event handler, otherwise exercise will selected and created immediately after removing
+							menuItem.removeEventHandler(MouseEvent.MOUSE_RELEASED, menuItemClickEventHandler);
+							removeMenuItem(menuItem);
+							// Select menu item before this one if one exists, otherwise select exercise overview
+							if(menuIndex > 0)
+								selectMenuItem(menuItems.get(menuIndex - 1));
+							else
+								selectExerciseOverview();
+						}
+					}
 				});
 				unselectAllMenuItems();
-				exerciseMenuItem.select();
+				selectMenuItem(exerciseMenuItem);
 				menuItems.add(exerciseMenuItem);
 				menu.getChildren().add(exerciseMenuItem);
 			} catch(IOException exception) {
 				exception.printStackTrace();
 			}
 		} else {
-			MenuItem exerciseMenuItem = menuItems.get(exerciseIndexInMenu);
-			mainSection.getChildren().clear();
-			mainSection.getChildren().add(exerciseMenuItem.getMainView());
-			
-			unselectAllMenuItems();
-			exerciseMenuItem.select();
+			selectMenuItem(menuItems.get(exerciseIndexInMenu));
 		}
 	}
-	
 	
 	/**
 	 * Removes all active style classes from menu items
@@ -138,6 +149,17 @@ public class MenuViewController implements Initializable {
 	private void unselectAllMenuItems() {
 		for(MenuItem menuItem : menuItems)
 			menuItem.unselect();
+	}
+	
+	/**
+	 * Selects a menu item and shows it in main view
+	 * @param menuItem
+	 */
+	private void selectMenuItem(MenuItem menuItem) {
+		unselectAllMenuItems();
+		menuItem.select();
+		mainSection.getChildren().clear();
+		mainSection.getChildren().add(menuItem.getMainView());
 	}
 	
 	
@@ -155,5 +177,19 @@ public class MenuViewController implements Initializable {
 		
 		return -1;
 	}
+	
+	/**
+	 * Removes an exercise from menu
+	 * @param exercise
+	 */
+	private void removeMenuItem(MenuItem menuItem) {
+		if(!menuItems.contains(menuItem))
+			return;
+		
+		menuItems.remove(menuItem);
+		menu.getChildren().remove(menuItem);
+	}
+	
+	
 
 }

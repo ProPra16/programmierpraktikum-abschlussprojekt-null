@@ -157,7 +157,8 @@ public class ExercisesViewController implements Initializable {
 		selectButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	menuController.selectExercise(exercise);            	
+            	menuController.selectExercise(exercise);
+            	showOverview(); // Bring back the exercises overview, when selected one
             }
 		});
 		selectButton.setAlignment(Pos.BOTTOM_RIGHT);
@@ -166,8 +167,7 @@ public class ExercisesViewController implements Initializable {
 		backButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                inDetailView = false;
-                arrangeExercises();
+                showOverview();
             }
         });
 		backButton.setAlignment(Pos.BOTTOM_LEFT);
@@ -185,5 +185,13 @@ public class ExercisesViewController implements Initializable {
 		exercisesGrid.add(tile, 0, 0);
 		GridPane.setHgrow(tile, Priority.ALWAYS);
 		GridPane.setVgrow(tile, Priority.ALWAYS);
+	}
+	
+	/**
+	 * Shows the exercise overview
+	 */
+	private void showOverview() {
+		inDetailView = false;
+        arrangeExercises();
 	}
 }

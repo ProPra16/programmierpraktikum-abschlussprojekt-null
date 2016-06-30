@@ -2,7 +2,7 @@ package gui.views;
 
 import models.Exercise;
 
-public class ExerciseMenuItem extends MenuItem {
+public class ExerciseMenuItem extends RemovableMenuItem {
 	
 	Exercise exercise;
 	
