@@ -10,6 +10,9 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import models.Exercise;
 
+import vk.core.api.*;
+
+
 public class TestController implements Initializable{
 	Exercise exercise;
 	String value;
