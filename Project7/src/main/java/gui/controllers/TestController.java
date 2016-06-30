@@ -36,14 +36,27 @@ public class TestController implements Initializable{
 	public void confirmTest(){	
 		
 		System.out.println("World");
-		CompilationUnit compilatedData = new CompilationUnit(test.getName(), test.getContent(), true);
+		CompilationUnit compilatedData = new CompilationUnit(test.getName(), TestTextField.getText(), true);
+		// TODO Save changes in the TextArea
+		
 		compiler = CompilerFactory.getCompiler(compilatedData);
 		
 		compiler.compileAndRunTests();
 		CompilerResult comResult = compiler.getCompilerResult();
 		TestResult tesResult = compiler.getTestResult();
 		
-		System.out.println(comResult.hasCompileErrors());
+		if(comResult.hasCompileErrors() == false){
+			// TODO Alertbox
+		}
+		else{
+			if(tesResult.getNumberOfFailedTests() == 1){
+				// TODO switch scene
+			}
+			else{
+				// TODO Alertbox too many new or wrong tests
+			}
+		}
+		
 		
 	}
 	
