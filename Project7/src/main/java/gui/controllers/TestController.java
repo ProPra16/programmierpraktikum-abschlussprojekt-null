@@ -8,9 +8,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import models.Exercise;
 
 public class TestController implements Initializable{
-	static Stage testStage;
+	Exercise exercise;
+	String value;
 	
 	@FXML
 	TextArea TestTextField;
@@ -28,6 +30,12 @@ public class TestController implements Initializable{
 	@FXML
 	public void confirmTest(){
 		System.out.println("World");
+	}
+	
+	public void setExercise(Exercise exercise){
+		this.exercise = exercise;
+		value = exercise.getTests().get(0).getContent();
+		TestTextField.setText(value);
 	}
 	
 

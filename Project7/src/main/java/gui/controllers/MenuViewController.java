@@ -90,6 +90,7 @@ public class MenuViewController implements Initializable {
 				mainSection.getChildren().add(testView);
 				exercisesViews.add(testView);
 				TestController testController = loader.getController();
+				testController.setExercise(exercise);
 						
 				exercisesMenu.add(exercise);
 				Node exerciseMenuItem = createMenuItem(exercise);
