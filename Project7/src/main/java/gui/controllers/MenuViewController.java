@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import gui.views.ExerciseMenuItem;
+import gui.views.MenuItem;
+import gui.views.OverviewMenuItem;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,32 +23,36 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import models.Exercise;
 
 public class MenuViewController implements Initializable {
 	
+	@FXML 
+	AnchorPane menuSection;
 	@FXML
-	AnchorPane menu; 
-	@FXML
-	HBox menuItemExerciseOverview;
+	VBox menu; 
 	
 	Pane mainSection;
 	Node exerciseView;
-	List<Exercise> exercisesMenu;
-	List<Node> exercisesViews;
+	List<MenuItem> menuItems;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		exercisesMenu = new ArrayList<Exercise>();
-		exercisesViews = new ArrayList<Node>();
+		menuItems = new ArrayList<MenuItem>();
 		
-		menuItemExerciseOverview.getStyleClass().add("active");
-		menuItemExerciseOverview.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+		MenuItem overviewMenuItem = new OverviewMenuItem();
+		overviewMenuItem.select();
+		
+		overviewMenuItem.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				selectExerciseOverview();
 			}
 		});
+		
+		menuItems.add(overviewMenuItem);
+		menu.getChildren().addAll(menuItems);
 	}
 
 	/**
@@ -65,20 +72,29 @@ public class MenuViewController implements Initializable {
 	}
 	
 	/**
-	 * Selects the exercise overview
+	 * Selects the exercise overview menu item
 	 */
 	public void selectExerciseOverview() {
 		mainSection.getChildren().clear();
 		mainSection.getChildren().add(exerciseView);
+		
 		unselectAllMenuItems();
-		menuItemExerciseOverview.getStyleClass().add("active");
+		for(MenuItem menuItem : menuItems) {
+			if(menuItem instanceof OverviewMenuItem) {
+				menuItem.select();
+				break; // Usually only one overview menu item
+			}
+		}
 	}
 	
 	/**
-	 * Selects an {@link Exercise}
+	 * Selects the menu item of the given {@link Exercise}
+	 * @param exercise
 	 */
 	public void selectExercise(Exercise exercise) {
-		if(!exercisesMenu.contains(exercise)) {
+		int exerciseIndexInMenu = getMenuIndex(exercise); 
+		
+		if(exerciseIndexInMenu == -1) {
 			try {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/TestView.fxml"));	
 				Parent testView = loader.load();
@@ -88,11 +104,10 @@ public class MenuViewController implements Initializable {
 				AnchorPane.setBottomAnchor(testView, 0.0);
 				mainSection.getChildren().clear();
 				mainSection.getChildren().add(testView);
-				exercisesViews.add(testView);
 				TestController testController = loader.getController();
-						
-				exercisesMenu.add(exercise);
-				Node exerciseMenuItem = createMenuItem(exercise);
+				
+				ExerciseMenuItem exerciseMenuItem = new ExerciseMenuItem(exercise);
+				exerciseMenuItem.setMainView(testView);
 				exerciseMenuItem.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
@@ -100,56 +115,45 @@ public class MenuViewController implements Initializable {
 					}
 				});
 				unselectAllMenuItems();
-				exerciseMenuItem.getStyleClass().add("active");
+				exerciseMenuItem.select();
+				menuItems.add(exerciseMenuItem);
 				menu.getChildren().add(exerciseMenuItem);
 			} catch(IOException exception) {
 				exception.printStackTrace();
 			}
 		} else {
-			int exerciseIndex = exercisesMenu.indexOf(exercise);
-			Node testView = exercisesViews.get(exerciseIndex);
+			MenuItem exerciseMenuItem = menuItems.get(exerciseIndexInMenu);
 			mainSection.getChildren().clear();
-			mainSection.getChildren().add(testView);
+			mainSection.getChildren().add(exerciseMenuItem.getMainView());
 			
 			unselectAllMenuItems();
-			menu.getChildren().get(exerciseIndex + 1).getStyleClass().add("active"); // +1 for exercise overview menu item
+			exerciseMenuItem.select();
 		}
 	}
 	
-	/**
-	 * Creates a menu item from an {@link Exercise}
-	 * @param exercise
-	 * @return
-	 */
-	private Node createMenuItem(Exercise exercise) {
-		// Create class for menu item
-		ImageView iconView = new ImageView(new Image("/gui/images/icons/pencil.png"));
-		iconView.setFitHeight(20.0);
-		iconView.setFitWidth(20.0);
-		iconView.getStyleClass().add("menu-item-icon");
-		Label exerciseLabel = new Label(exercise.getName().trim());
-		exerciseLabel.setPrefHeight(20.0);
-		exerciseLabel.getStyleClass().add("menu-item-label");
-			
-		HBox hbox = new HBox(iconView, exerciseLabel);
-		hbox.getStyleClass().add("menu-item");
-		AnchorPane.setTopAnchor(hbox, 40.0*(exercisesMenu.size() + 1)); // +1 for exercise overview menu-item
-		AnchorPane.setLeftAnchor(hbox, -8.0);
-		AnchorPane.setRightAnchor(hbox, -8.0);
-		
-		return hbox;
-	}
 	
 	/**
 	 * Removes all active style classes from menu items
 	 */
 	private void unselectAllMenuItems() {
-		if(menuItemExerciseOverview.getStyleClass().contains("active"))
-			menuItemExerciseOverview.getStyleClass().remove("active");
-		for(Node menuItem : menu.getChildren()) {
-			if(menuItem.getStyleClass().contains("active"))
-				menuItem.getStyleClass().remove("active");
+		for(MenuItem menuItem : menuItems)
+			menuItem.unselect();
+	}
+	
+	
+	/**
+	 * Checks if exercise is already in menu
+	 * @param exercise
+	 * @return -1 if not found, otherwise the index in menu items list
+	 */
+	private int getMenuIndex(Exercise exercise) {
+		for(int i = 0; i < menuItems.size(); i++) {
+			MenuItem menuItem = menuItems.get(i);
+			if(menuItem instanceof ExerciseMenuItem && ((ExerciseMenuItem) menuItem).getExercise() == exercise)
+				return i;
 		}
+		
+		return -1;
 	}
 
 }

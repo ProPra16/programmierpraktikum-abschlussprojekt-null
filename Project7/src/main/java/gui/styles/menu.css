@@ -1,14 +1,10 @@
-.menu {
-	-fx-background-color: #333;
-}
-
-.header {
-	-fx-font-size: 16px;
-	-fx-font-weight: bold;
-}
-
 * {
 	-fx-text-fill: #fff;
+}
+
+.menu-section {
+	-fx-background-color: #333;
+	-fx-padding: 0;
 }
 
 .menu-item {
