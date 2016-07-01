@@ -20,7 +20,11 @@ public class TestController implements Initializable{
 
 	
 	@FXML
-	TextArea TestTextField;
+	TextArea sourceTextField;
+	@FXML
+	Button cancelButton;
+	@FXML
+	Button confirmButton;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -33,10 +37,10 @@ public class TestController implements Initializable{
 	}
 	
 	@FXML
-	public void confirmTest(){	
+	public void confirmAction(){	
 	
 		System.out.println(test.getName());
-		CompilationUnit compilatedData = new CompilationUnit(test.getName(), TestTextField.getText(), true);
+		CompilationUnit compilatedData = new CompilationUnit(test.getName(), sourceTextField.getText(), true);
 		// TODO Save changes in the TextArea
 		
 		compiler = CompilerFactory.getCompiler(compilatedData);
@@ -68,7 +72,7 @@ public class TestController implements Initializable{
 		this.exercise = exercise;
 		test = exercise.getTests().get(0);
 		value = test.getContent();
-		TestTextField.setText(value);
+		sourceTextField.setText(value);
 	}
 	
 
