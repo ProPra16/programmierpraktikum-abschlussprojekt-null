@@ -36,7 +36,16 @@ public class TestController implements Initializable{
 	
 	@FXML
 	public void cancelAction(){
-		System.out.println("Hello");
+		AlertBox alertBox = new AlertBox("Exit", "Are you sure you want to go back to the Menu?", 2);
+		alertBox.buttonList[0].setText("Cancel");
+		alertBox.buttonList[0].setOnAction(e-> alertBox.end());
+		alertBox.buttonList[1].setText("Confirm");
+		alertBox.buttonList[1].setOnAction(e-> {
+			// TODO switch scene back to the menu!!!
+			alertBox.end();
+		});
+		alertBox.show();
+		
 	}
 	
 	@FXML
@@ -52,31 +61,38 @@ public class TestController implements Initializable{
 		CompilerResult comResult = compiler.getCompilerResult();
 		TestResult tesResult = compiler.getTestResult();
 		
+		//Checks for Syntax-Errors
 		if(comResult.hasCompileErrors()){
-			AlertBox alertBox = new AlertBox("Error", "Ein Syntax-Fehler ist aufgetreten! Bitte korrigieren!", 1);
+			AlertBox alertBox = new AlertBox("Error", "Die folgenden Syntax-Fehler sind aufgetreten:", 1);
+			alertBox.setComResult(comResult);
+			alertBox.setCompilatedData(compilatedData);
 			alertBox.buttonList[0].setText("Confirm");
-			alertBox.buttonList[0].setOnAction(e-> {
-				Node source = (Node) e.getSource();
-				Stage stage = (Stage) source.getScene().getWindow();
-				stage.close();
-			});
-			
+			alertBox.buttonList[0].setOnAction(e-> alertBox.end());
 			alertBox.show();
-			
-			for(CompileError error : comResult.getCompilerErrorsForCompilationUnit(compilatedData))
-				System.out.println(error.getMessage());
+
 		}
 		else{
+			//One failed test which is Okay
 			if(tesResult.getNumberOfFailedTests() == 1){
 				// TODO switch scene
 				System.out.println("Test1");
 			}
+			//Multiple or none failed tests
 			else{
-				// TODO Alertbox too many new or wrong tests
-				System.out.println("Test2");
+				if(tesResult.getNumberOfFailedTests() == 0){
+					AlertBox alertBox = new AlertBox("Error", "Kein Test ist fehlgeschlagen! Bitte einen Test schreiben der fehlschlägt!", 1);
+					alertBox.buttonList[0].setText("Confirm");
+					alertBox.buttonList[0].setOnAction(e-> alertBox.end());
+					alertBox.show();
+					
+				}else{
+					AlertBox alertBox = new AlertBox("Error", "Zu viele Tests sind fehlgeschlagen! Bitte nur genau EINEN Test schreiben der fehlschlagen soll!", 1);
+					alertBox.buttonList[0].setText("Confirm");
+					alertBox.buttonList[0].setOnAction(e-> alertBox.end());
+					alertBox.show();
+				}
 			}
 		}
-		
 		
 	}
 	
@@ -86,6 +102,4 @@ public class TestController implements Initializable{
 		value = test.getContent();
 		sourceTextField.setText(value);
 	}
-	
-
 }
