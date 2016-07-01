@@ -4,9 +4,12 @@ package gui.controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import gui.views.AlertBox;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import models.*;
 
 import vk.core.api.*;
@@ -50,7 +53,16 @@ public class TestController implements Initializable{
 		TestResult tesResult = compiler.getTestResult();
 		
 		if(comResult.hasCompileErrors()){
-			// TODO Alertbox
+			AlertBox alertBox = new AlertBox("Error", "Ein Syntax-Fehler ist aufgetreten! Bitte korrigieren!", 1);
+			alertBox.buttonList[0].setText("Confirm");
+			alertBox.buttonList[0].setOnAction(e-> {
+				Node source = (Node) e.getSource();
+				Stage stage = (Stage) source.getScene().getWindow();
+				stage.close();
+			});
+			
+			alertBox.show();
+			
 			for(CompileError error : comResult.getCompilerErrorsForCompilationUnit(compilatedData))
 				System.out.println(error.getMessage());
 		}
