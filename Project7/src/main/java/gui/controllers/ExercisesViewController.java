@@ -33,8 +33,6 @@ public class ExercisesViewController implements Initializable {
 		} catch (SAXException | IOException | ParserConfigurationException e) {
 			// TODO Handle Error appropriately
 			catalog = new Catalog();
-			System.out.println("Shit!!!");
-
 			e.printStackTrace();
 		}
 		
@@ -44,10 +42,6 @@ public class ExercisesViewController implements Initializable {
 		});
 		
 		mainPane.setContent(exercisesGrid);
-		/*AnchorPane.setTopAnchor(exercisesGrid, 0.0);
-		AnchorPane.setLeftAnchor(exercisesGrid, 0.0);
-		AnchorPane.setRightAnchor(exercisesGrid, 0.0);
-		AnchorPane.setBottomAnchor(exercisesGrid, 0.0);*/
 	}
 	
 	
