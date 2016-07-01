@@ -34,26 +34,30 @@ public class TestController implements Initializable{
 	
 	@FXML
 	public void confirmTest(){	
-		
-		System.out.println("World");
+	
+		System.out.println(test.getName());
 		CompilationUnit compilatedData = new CompilationUnit(test.getName(), TestTextField.getText(), true);
 		// TODO Save changes in the TextArea
 		
 		compiler = CompilerFactory.getCompiler(compilatedData);
-		
+				
 		compiler.compileAndRunTests();
 		CompilerResult comResult = compiler.getCompilerResult();
 		TestResult tesResult = compiler.getTestResult();
 		
-		if(comResult.hasCompileErrors() == false){
+		if(comResult.hasCompileErrors()){
 			// TODO Alertbox
+			for(CompileError error : comResult.getCompilerErrorsForCompilationUnit(compilatedData))
+				System.out.println(error.getMessage());
 		}
 		else{
 			if(tesResult.getNumberOfFailedTests() == 1){
 				// TODO switch scene
+				System.out.println("Test1");
 			}
 			else{
 				// TODO Alertbox too many new or wrong tests
+				System.out.println("Test2");
 			}
 		}
 		
