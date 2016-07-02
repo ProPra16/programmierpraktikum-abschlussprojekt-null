@@ -15,12 +15,13 @@ import models.*;
 import vk.core.api.*;
 
 
-public class TestController implements Initializable{
+public class ExerciseController implements Initializable{
 	Exercise exercise;
-	String value;
+	String valueName;
+	String valueDescription;
 	Test test;
 	JavaStringCompiler compiler;
-
+	
 	
 	@FXML
 	TextArea sourceTextField;
@@ -36,24 +37,22 @@ public class TestController implements Initializable{
 	
 	@FXML
 	public void cancelAction(){
-		AlertBox alertBox = new AlertBox("Exit", "Are you sure you want to go back to the Menu?", 2);
+		
+		AlertBox alertBox = new AlertBox("Exit", "Are you sure you want to go back to edit the tests?", 2);
 		alertBox.buttonList[0].setText("Cancel");
 		alertBox.buttonList[0].setOnAction(e-> alertBox.end());
 		alertBox.buttonList[1].setText("Confirm");
 		alertBox.buttonList[1].setOnAction(e-> {
-			// TODO switch scene back to the menu!!!
+			// TODO switch scene back to TestController
 			alertBox.end();
 		});
 		alertBox.show();
-		
 	}
 	
 	@FXML
 	public void confirmAction(){	
 	
-		System.out.println(test.getName());
 		CompilationUnit compilatedData = new CompilationUnit(test.getName(), sourceTextField.getText(), true);
-		// TODO Save changes in the TextArea
 		
 		compiler = CompilerFactory.getCompiler(compilatedData);
 				
@@ -72,34 +71,33 @@ public class TestController implements Initializable{
 
 		}
 		else{
-			//One failed test which is Okay
-			if(tesResult.getNumberOfFailedTests() == 1){
-				// TODO switch scene
-				System.out.println("Test1");
+			//failed tests 
+			if(tesResult.getNumberOfFailedTests() != 0){
+				
+				Alert alert = new Alert(Alert.AlertType.INFORMATION);
+				alert.setTitle("TDDT");
+				alert.setContentText("Tests failed!");
+				alert.showAndWait();
+				
 			}
-			//Multiple or none failed tests
+			// none failed tests
 			else{
-				if(tesResult.getNumberOfFailedTests() == 0){
-					AlertBox alertBox = new AlertBox("Error", "Kein Test ist fehlgeschlagen! Bitte einen Test schreiben der fehlschl�gt!", 1);
-					alertBox.buttonList[0].setText("Confirm");
-					alertBox.buttonList[0].setOnAction(e-> alertBox.end());
-					alertBox.show();
-					
-				}else{
-					AlertBox alertBox = new AlertBox("Error", "Zu viele Tests sind fehlgeschlagen! Bitte nur genau EINEN Test schreiben der fehlschlagen soll!", 1);
-					alertBox.buttonList[0].setText("Confirm");
-					alertBox.buttonList[0].setOnAction(e-> alertBox.end());
-					alertBox.show();
-				}
+				
+				Alert alert = new Alert(Alert.AlertType.INFORMATION);
+				alert.setTitle("TDDT");
+				alert.setContentText("none failed Tests!");
+				alert.showAndWait();
+				//TODO save changed code
 			}
 		}
-		
 	}
 	
 	public void setExercise(Exercise exercise){
 		this.exercise = exercise;
 		test = exercise.getTests().get(0);
-		value = test.getContent();
-		sourceTextField.setText(value);
+		valueName = exercise.getName();
+		valueDescription = exercise.getDescription();
+		// TODO check if TextField is able to combine name + description
+		sourceTextField.setText(valueName + valueDescription);
 	}
 }
