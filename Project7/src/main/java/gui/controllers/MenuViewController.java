@@ -91,7 +91,7 @@ public class MenuViewController implements Initializable {
 		
 		if(exerciseIndexInMenu == -1) {
 			try {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/TestView.fxml"));	
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/CycleView.fxml"));	
 				Parent testView = loader.load();
 				AnchorPane.setTopAnchor(testView, 0.0);
 				AnchorPane.setLeftAnchor(testView, 0.0);
