@@ -1,14 +1,19 @@
 package gui.controllers;
 
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import gui.views.AlertBox;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import models.*;
 
@@ -20,6 +25,7 @@ public class TestController implements Initializable{
 	String value;
 	Test test;
 	JavaStringCompiler compiler;
+	Pane mainSection;
 
 	
 	@FXML
@@ -42,7 +48,7 @@ public class TestController implements Initializable{
 		alertBox.buttonList[1].setText("Confirm");
 		alertBox.buttonList[1].setOnAction(e-> {
 			// TODO switch scene back to the menu!!!
-			alertBox.end();
+		alertBox.end();
 		});
 		alertBox.show();
 		
@@ -75,6 +81,23 @@ public class TestController implements Initializable{
 			//One failed test which is Okay
 			if(tesResult.getNumberOfFailedTests() == 1){
 				// TODO switch scene
+				
+				try{
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/CycleView.fxml"));
+					ExerciseController exerciseController = new ExerciseController();
+					loader.setController(exerciseController);
+					Parent exerciseView = loader.load();
+					AnchorPane.setTopAnchor(exerciseView, 0.0);
+					AnchorPane.setLeftAnchor(exerciseView, 0.0);
+					AnchorPane.setRightAnchor(exerciseView, 0.0);
+					AnchorPane.setBottomAnchor(exerciseView, 0.0);
+					mainSection.getChildren().clear();
+					mainSection.getChildren().add(exerciseView);
+				}
+				catch (IOException ex){
+					ex.printStackTrace();
+				}
+				
 				System.out.println("Test1");
 			}
 			//Multiple or none failed tests
@@ -101,5 +124,9 @@ public class TestController implements Initializable{
 		test = exercise.getTests().get(0);
 		value = test.getContent();
 		sourceTextField.setText(value);
+	}
+	
+	public void setMainSection(Pane mainSection){
+		this.mainSection = mainSection;
 	}
 }
