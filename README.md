@@ -7,7 +7,7 @@ This file contains important information about „“. Please read this informat
 
 
 GENERAL INFORMATION
-———————————————
+
 Project name: TDDT-NULL
 Names of developers on this project: Pascal Fischer, Christian Karamann, Marvin Krause, Patrick Remy, Elmedin Turic
 
@@ -16,17 +16,15 @@ Names of developers on this project: Pascal Fischer, Christian Karamann, Marvin 
 
 
 GENERAL USAGE NOTES
-———————————————
 
 
 
 FILE LIST
-———————————————
 
 
 
 INSTALLING INFORMATION
-———————————————
+
 -General System Requirements
 
 Windows Users
@@ -39,13 +37,13 @@ Linux/Unix Users
 
 
 CONTACT INFORMATION
-———————————————
+
 For concrete bug reports and issues use...
 For other information and support use...
 
 
 COPYRIGHT AND LICENSING INFORMATION
-———————————————
+
 Read LICENSE.md
 
 [![Build Status](https://travis-ci.org/ProPra16/programmierpraktikum-abschlussprojekt-null.svg?branch=master)](https://travis-ci.org/ProPra16/programmierpraktikum-abschlussprojekt-null)
