@@ -5,8 +5,8 @@
 
 .exercise-tile {
 	-fx-background-color: #fff;
-	-fx-padding: 10px;
-	/*-fx-min-width: 50%;*/
+	-fx-padding: 14px;
+	-fx-cursor: hand;
 }
 
 .exercise-tile .exercise-header {
@@ -14,15 +14,13 @@
 	-fx-font-size: 20px;
 }
 
-.exercise-tile-detail .exercise-header {
-	-fx-font-size: 32px;
-	-fx-margin-bottom: 20px;
-}
-
 .exercise-tile .exercise-description {
 	-fx-font-size: 14px;
 }
 
-.exercise-tile-detail .exercise-description {
-	-fx-font-size: 22px;
+.exercise-tile:hover {
+	-fx-border-color: #50c878;
+	-fx-border-width: 0 0 0 4px;
+	-fx-padding: 14px 14px 14px 10px;
+	/*-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.45), 15, 0, 0, 0);*/
 }

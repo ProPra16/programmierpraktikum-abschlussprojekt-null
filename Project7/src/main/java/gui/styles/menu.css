@@ -1,0 +1,30 @@
+* {
+	-fx-text-fill: #fff;
+}
+
+.menu-section {
+	-fx-background-color: #333;
+	-fx-padding: 0;
+}
+
+.menu-item {
+	-fx-padding: 10px 20px;
+}
+
+.menu-item:hover {
+	-fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+.menu-item.active {
+	-fx-background-color: rgba(255, 255, 255, 0.3);
+}
+
+.menu-item-icon {
+	
+}
+
+.menu-item-label {
+	-fx-padding: 0 0 0 10px;
+	-fx-font-size: 14px;
+	-fx-font-weight: bold;
+}
