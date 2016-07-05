@@ -16,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import models.*;
+import models.Class;
 
 import vk.core.api.*;
 
@@ -24,8 +25,10 @@ public class TestController implements Initializable{
 	Exercise exercise;
 	String value;
 	Test test;
+	Class classCode;
 	JavaStringCompiler compiler;
 	Pane mainSection;
+	
 
 	
 	@FXML
@@ -58,17 +61,21 @@ public class TestController implements Initializable{
 	public void confirmAction(){	
 	
 		System.out.println(test.getName());
-		CompilationUnit compilatedData = new CompilationUnit(test.getName(), sourceTextField.getText(), true);
+		test.setContent(sourceTextField.getText());
+		CompilationUnit compilatedData = new CompilationUnit(test.getName(), test.getContent(), true);
+		CompilationUnit compilatedClass = new CompilationUnit(classCode.getName(), classCode.getContent(), false);
+		
 		// TODO Save changes in the TextArea
 		
-		compiler = CompilerFactory.getCompiler(compilatedData);
+		compiler = CompilerFactory.getCompiler(compilatedData, compilatedClass);
 				
 		compiler.compileAndRunTests();
 		CompilerResult comResult = compiler.getCompilerResult();
-		TestResult tesResult = compiler.getTestResult();
+		TestResult testResult = compiler.getTestResult();
 		
 		//Checks for Syntax-Errors
-		if(comResult.hasCompileErrors()){
+		if(comResult.hasCompileErrors() && containsError(comResult, compilatedData)){
+			
 			AlertBox alertBox = new AlertBox("Error", "Die folgenden Syntax-Fehler sind aufgetreten:", 1);
 			alertBox.setComResult(comResult);
 			alertBox.setCompilatedData(compilatedData);
@@ -79,7 +86,7 @@ public class TestController implements Initializable{
 		}
 		else{
 			//One failed test which is Okay
-			if(tesResult.getNumberOfFailedTests() == 1){
+			if(comResult.hasCompileErrors() && !containsError(comResult, compilatedData) || testResult.getNumberOfFailedTests() == 1){
 				// TODO switch scene
 				
 				try{
@@ -87,6 +94,7 @@ public class TestController implements Initializable{
 					ExerciseController exerciseController = new ExerciseController();
 					loader.setController(exerciseController);
 					Parent exerciseView = loader.load();
+					exerciseController.setExercise(exercise);
 					AnchorPane.setTopAnchor(exerciseView, 0.0);
 					AnchorPane.setLeftAnchor(exerciseView, 0.0);
 					AnchorPane.setRightAnchor(exerciseView, 0.0);
@@ -102,7 +110,7 @@ public class TestController implements Initializable{
 			}
 			//Multiple or none failed tests
 			else{
-				if(tesResult.getNumberOfFailedTests() == 0){
+				if(testResult.getNumberOfFailedTests() == 0){
 					AlertBox alertBox = new AlertBox("Error", "Kein Test ist fehlgeschlagen! Bitte einen Test schreiben der fehlschl�gt!", 1);
 					alertBox.buttonList[0].setText("Confirm");
 					alertBox.buttonList[0].setOnAction(e-> alertBox.end());
@@ -122,11 +130,22 @@ public class TestController implements Initializable{
 	public void setExercise(Exercise exercise){
 		this.exercise = exercise;
 		test = exercise.getTests().get(0);
+		classCode = exercise.getClasses().get(0);
 		value = test.getContent();
 		sourceTextField.setText(value);
 	}
 	
 	public void setMainSection(Pane mainSection){
 		this.mainSection = mainSection;
+	}
+	
+	private boolean containsError(CompilerResult comResult, CompilationUnit compilatedData) {
+		// TODO check if every error is a method error
+		for(CompileError error : comResult.getCompilerErrorsForCompilationUnit(compilatedData)) {
+			if(error.getMessage().contains("method") && error.getMessage().contains(classCode.getName())) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

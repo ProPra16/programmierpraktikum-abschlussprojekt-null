@@ -52,9 +52,11 @@ public class ExerciseController implements Initializable{
 	@FXML
 	public void confirmAction(){	
 	
-		CompilationUnit compilatedData = new CompilationUnit(test.getName(), sourceTextField.getText(), true);
+		exercise.getClasses().get(0).setContent(sourceTextField.getText());
+		CompilationUnit compilatedData = new CompilationUnit(test.getName(), exercise.getTests().get(0).getContent(), true);
+		CompilationUnit compilatedDataB = new CompilationUnit(exercise.getClasses().get(0).getName(), exercise.getClasses().get(0).getContent(), false);
 		
-		compiler = CompilerFactory.getCompiler(compilatedData);
+		compiler = CompilerFactory.getCompiler(compilatedData,compilatedDataB);
 				
 		compiler.compileAndRunTests();
 		CompilerResult comResult = compiler.getCompilerResult();
@@ -95,9 +97,9 @@ public class ExerciseController implements Initializable{
 	public void setExercise(Exercise exercise){
 		this.exercise = exercise;
 		test = exercise.getTests().get(0);
-		valueName = exercise.getName();
-		valueDescription = exercise.getDescription();
+		valueName = exercise.getClasses().get(0).getName();
+		valueDescription = exercise.getClasses().get(0).getContent();
 		// TODO check if TextField is able to combine name + description
-		sourceTextField.setText(valueName + valueDescription);
+		sourceTextField.setText(valueDescription);
 	}
 }
