@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import gui.views.AlertBox;
+import gui.views.JavaCodeArea;
 import models.Exercise;
 import models.Test;
 import javafx.fxml.FXML;
@@ -30,7 +31,7 @@ public class ExerciseController implements Initializable{
 	
 	
 	@FXML
-	TextArea sourceTextField;
+	JavaCodeArea sourceTextField;
 	@FXML
 	Button cancelButton;
 	@FXML
@@ -146,7 +147,7 @@ public class ExerciseController implements Initializable{
 		this.exercise = exercise;
 		test = exercise.getTests().get(0);
 		value = exercise.getClasses().get(0).getContent();
-		sourceTextField.setText(value);
+		sourceTextField.replaceText(value);
 	}
 	
 	public void setMainSection(Pane mainSection){

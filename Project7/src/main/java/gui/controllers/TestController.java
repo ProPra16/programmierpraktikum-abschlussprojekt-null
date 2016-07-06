@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.fxmisc.richtext.CodeArea;
+
 import gui.views.AlertBox;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,10 +31,8 @@ public class TestController implements Initializable{
 	JavaStringCompiler compiler;
 	Pane mainSection;
 	
-
-	
 	@FXML
-	TextArea sourceTextField;
+	CodeArea sourceTextField;
 	@FXML
 	Button cancelButton;
 	@FXML
@@ -124,7 +124,7 @@ public class TestController implements Initializable{
 		test = exercise.getTests().get(0);
 		classCode = exercise.getClasses().get(0);
 		value = test.getContent();
-		sourceTextField.setText(value);
+		sourceTextField.replaceText(value);
 	}
 	
 	public void setMainSection(Pane mainSection){
