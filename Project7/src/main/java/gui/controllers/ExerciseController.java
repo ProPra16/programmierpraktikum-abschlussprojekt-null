@@ -52,7 +52,6 @@ public class ExerciseController implements Initializable{
 				
 		compiler.compileAndRunTests();
 		CompilerResult comResult = compiler.getCompilerResult();
-		TestResult testResult = compiler.getTestResult();
 		
 		//Checks for Syntax-Errors
 		if(!comResult.hasCompileErrors()){
@@ -147,7 +146,6 @@ public class ExerciseController implements Initializable{
 		this.exercise = exercise;
 		test = exercise.getTests().get(0);
 		value = exercise.getClasses().get(0).getContent();
-		// TODO check if TextField is able to combine name + description
 		sourceTextField.setText(value);
 	}
 	
