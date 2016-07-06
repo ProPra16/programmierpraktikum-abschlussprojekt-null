@@ -14,6 +14,7 @@
 
 package gui.views;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.regex.Matcher;
@@ -24,6 +25,8 @@ import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.StyleSpans;
 import org.fxmisc.richtext.StyleSpansBuilder;
 
+import vk.core.api.CompileError;
+
 public class JavaCodeArea extends CodeArea {
 
 	private final String[] KEYWORDS = new String[] {
@@ -33,7 +36,7 @@ public class JavaCodeArea extends CodeArea {
             "enum", "extends", "final", "finally", "float",
             "for", "goto", "if", "implements", "import",
             "instanceof", "int", "interface", "long", "native",
-            "new", "package", "private", "protected", "public",
+            "new", "null", "package", "private", "protected", "public",
             "return", "short", "static", "strictfp", "super",
             "switch", "synchronized", "this", "throw", "throws",
             "transient", "try", "void", "volatile", "while"
@@ -89,6 +92,26 @@ public class JavaCodeArea extends CodeArea {
         spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
         return spansBuilder.create();
     }
+	
+	/**
+	 * Marks the paragraphs containing errors
+	 * @param compileErrors
+	 */
+	public void markErrors(Collection<CompileError> compileErrors) {
+		// Remove all paragraph styles 
+		for(int lineIndex = 0; lineIndex < getParagraphs().size(); lineIndex++) {
+			if(lineIndex != this.getCurrentParagraph())
+				setParagraphStyle(lineIndex, Collections.emptyList());
+			else 
+				setParagraphStyle(lineIndex, Collections.singletonList("has-caret")); // If current line, set caret
+		}
+		
+		// Add style class to error lines
+		for(CompileError compileError : compileErrors) {
+			int lineIndex = Math.toIntExact(compileError.getLineNumber()) - 1;
+			setParagraphStyle(lineIndex, Collections.singletonList("has-error"));
+		}
+	}
 	
 
 }
