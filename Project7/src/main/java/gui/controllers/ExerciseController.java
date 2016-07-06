@@ -7,8 +7,7 @@ import java.util.ResourceBundle;
 
 import gui.views.AlertBox;
 import gui.views.JavaCodeArea;
-import models.Exercise;
-import models.Test;
+import services.CompileService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,19 +16,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-
-import vk.core.api.*;
 
 
 public class ExerciseController implements Initializable{
-	Exercise exercise;
-	String value;
-	Test test;
-	JavaStringCompiler compiler;
 	Pane mainSection;
+	CompileService compileService;
 	
-	
+	@FXML
+	AnchorPane rootPane;
 	@FXML
 	JavaCodeArea sourceTextField;
 	@FXML
@@ -39,117 +33,95 @@ public class ExerciseController implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		rootPane.getStyleClass().add("green");
 	}
 	
 	@FXML
 	public void cancelAction(){
-		
-		exercise.getClasses().get(0).setContent(sourceTextField.getText());
-		CompilationUnit compilatedTest = new CompilationUnit(test.getName(), exercise.getTests().get(0).getContent(), true);
-		CompilationUnit compilatedData = new CompilationUnit(exercise.getClasses().get(0).getName(), exercise.getClasses().get(0).getContent(), false);
-		
-		compiler = CompilerFactory.getCompiler(compilatedTest,compilatedData);
-				
-		compiler.compileAndRunTests();
-		CompilerResult comResult = compiler.getCompilerResult();
+		compileService.getExercise().getClasses().get(0).setContent(sourceTextField.getText());
+		compileService.compileAndRunTests();
 		
 		//Checks for Syntax-Errors
-		if(!comResult.hasCompileErrors()){
+		if(!compileService.isValid()){
 			
-			AlertBox alertBox = new AlertBox("Exit", "Are you sure you want to go back to edit the tests?", 2);
-			alertBox.buttonList[0].setText("Cancel");
-			alertBox.buttonList[0].setOnAction(e-> alertBox.end());
-			alertBox.buttonList[1].setText("Confirm");
-			alertBox.buttonList[1].setOnAction(e-> {
-				// TODO switch scene back to TestController
-				
-				try{
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/CycleView.fxml"));
-					TestController testController = new TestController();
-					loader.setController(testController);
-					Parent testView = loader.load();
-					AnchorPane.setTopAnchor(testView, 0.0);
-					AnchorPane.setLeftAnchor(testView, 0.0);
-					AnchorPane.setRightAnchor(testView, 0.0);
-					AnchorPane.setBottomAnchor(testView, 0.0);
-					testController.setExercise(exercise);
-					testController.setMainSection(mainSection);
-					mainSection.getChildren().clear();
-					mainSection.getChildren().add(testView);
-				}
-				catch (IOException ex){
-					ex.printStackTrace();
-				}
-				
-				
-				
-				alertBox.end();
-			});
-			alertBox.show();
-		}
-		else{
-			AlertBox alertBox = new AlertBox("Error", "Die folgenden Syntax-Fehler sind aufgetreten:", 1);
-			alertBox.setComResult(comResult);
-			alertBox.setCompilatedData(compilatedData);
-			alertBox.buttonList[0].setText("Confirm");
-			alertBox.buttonList[0].setOnAction(e-> alertBox.end());
-			alertBox.show();
-		}
-	}
-	
-	@FXML
-	public void confirmAction(){	
-	
-		exercise.getClasses().get(0).setContent(sourceTextField.getText());
-		CompilationUnit compilatedTest = new CompilationUnit(test.getName(), exercise.getTests().get(0).getContent(), true);
-		CompilationUnit compilatedData = new CompilationUnit(exercise.getClasses().get(0).getName(), exercise.getClasses().get(0).getContent(), false);
-		
-		compiler = CompilerFactory.getCompiler(compilatedTest,compilatedData);
-				
-		compiler.compileAndRunTests();
-		CompilerResult comResult = compiler.getCompilerResult();
-		TestResult testResult = compiler.getTestResult();
-		
-		//Checks for Syntax-Errors
-		if(comResult.hasCompileErrors()){
-			AlertBox alertBox = new AlertBox("Error", "Die folgenden Syntax-Fehler sind aufgetreten:", 1);
-			alertBox.setComResult(comResult);
-			alertBox.setCompilatedData(compilatedData);
-			alertBox.buttonList[0].setText("Confirm");
-			alertBox.buttonList[0].setOnAction(e-> alertBox.end());
-			alertBox.show();
-
-		}
-		else{
-			//failed tests 
-			if(testResult.getNumberOfFailedTests() != 0){
-				
+			sourceTextField.markErrors(compileService.getCompileErrors());
+			/*if(compileService.getTestResult().getNumberOfFailedTests() != 0) {
 				Alert alert = new Alert(Alert.AlertType.INFORMATION);
 				alert.setTitle("TDDT");
 				alert.setContentText("Tests failed!");
 				alert.showAndWait();
-				
+			}*/
+		}
+		
+		AlertBox alertBox = new AlertBox("Exit", "Are you sure you want to go back to edit the tests?", 2);
+		alertBox.buttonList[0].setText("Cancel");
+		alertBox.buttonList[0].setOnAction(e-> alertBox.end());
+		alertBox.buttonList[1].setText("Confirm");
+		alertBox.buttonList[1].setOnAction(e-> {
+			// TODO switch scene back to TestController
+			
+			try{
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/CycleView.fxml"));
+				TestController testController = new TestController();
+				loader.setController(testController);
+				Parent testView = loader.load();
+				AnchorPane.setTopAnchor(testView, 0.0);
+				AnchorPane.setLeftAnchor(testView, 0.0);
+				AnchorPane.setRightAnchor(testView, 0.0);
+				AnchorPane.setBottomAnchor(testView, 0.0);
+				testController.setCompileService(compileService);
+				testController.setMainSection(mainSection);
+				mainSection.getChildren().clear();
+				mainSection.getChildren().add(testView);
 			}
-			// none failed tests
-			else{
-				
+			catch (IOException ex){
+				ex.printStackTrace();
+			}
+			
+			
+			alertBox.end();
+		});
+		alertBox.show();
+	}
+	
+	@FXML
+	public void confirmAction(){	
+		compileService.getExercise().getClasses().get(0).setContent(sourceTextField.getText());
+		compileService.compileAndRunTests();
+		
+		if(!compileService.isValid()){
+			sourceTextField.markErrors(compileService.getCompileErrors());
+			
+			if(compileService.getTestResult().getNumberOfFailedTests() != 0) {
 				Alert alert = new Alert(Alert.AlertType.INFORMATION);
 				alert.setTitle("TDDT");
-				alert.setContentText("No failed Tests!");
+				alert.setContentText("Tests failed!");
 				alert.showAndWait();
-				//TODO save changed code
-			}
+			}	
+		}
+		else{
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("TDDT");
+			alert.setContentText("No failed Tests!");
+			alert.showAndWait();
+			//TODO save changed code
 		}
 	}
 	
-	public void setExercise(Exercise exercise){
-		this.exercise = exercise;
-		test = exercise.getTests().get(0);
-		value = exercise.getClasses().get(0).getContent();
-		sourceTextField.replaceText(value);
+	/**
+	 * Sets the compile service
+	 * @param compileService
+	 */
+	public void setCompileService(CompileService compileService) {
+		this.compileService = compileService;
+		compileService.setMode(CompileService.Mode.GREEN);
+		sourceTextField.replaceText(compileService.getExercise().getClasses().get(0).getContent());
 	}
 	
+	/**
+	 * Sets the main section
+	 * @param mainSection
+	 */
 	public void setMainSection(Pane mainSection){
 		this.mainSection = mainSection;
 	}
