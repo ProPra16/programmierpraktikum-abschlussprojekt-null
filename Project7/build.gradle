@@ -6,13 +6,13 @@ apply plugin: "java"
 apply plugin: "eclipse"
 apply plugin: "com.github.johnrengelman.shadow"
 
-
 repositories {
  mavenCentral()
 }
 
 dependencies {
  compile "de.hhu.stups:virtual-kata-lib:1.0.1"
+ compile "org.fxmisc.richtext:richtextfx:0.7-M1"
  testCompile "junit:junit:4.12"
 }
 
