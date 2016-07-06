@@ -99,6 +99,7 @@ public class TestController implements Initializable{
 					AnchorPane.setLeftAnchor(exerciseView, 0.0);
 					AnchorPane.setRightAnchor(exerciseView, 0.0);
 					AnchorPane.setBottomAnchor(exerciseView, 0.0);
+					exerciseController.setMainSection(mainSection);
 					mainSection.getChildren().clear();
 					mainSection.getChildren().add(exerciseView);
 				}
