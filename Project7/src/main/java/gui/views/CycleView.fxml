@@ -10,7 +10,7 @@
    <children>
       <ButtonBar layoutX="8.0" layoutY="331.0" prefHeight="34.0" prefWidth="580.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
         <buttons>
-            <Button mnemonicParsing="false" onAction="#cancelAction" text="Cancel" fx:id="cancelButton"/>
+            <Button mnemonicParsing="false" onAction="#cancelAction" text="Back" fx:id="cancelButton"/>
           <Button mnemonicParsing="false" onAction="#confirmAction" text="Confirm" fx:id="confirmButton"/>
         </buttons>
       </ButtonBar>

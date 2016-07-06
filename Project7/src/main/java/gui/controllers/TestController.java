@@ -40,21 +40,12 @@ public class TestController implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		cancelButton.setVisible(false);
 	}
 	
 	@FXML
 	public void cancelAction(){
-		AlertBox alertBox = new AlertBox("Exit", "Are you sure you want to go back to the Menu?", 2);
-		alertBox.buttonList[0].setText("Cancel");
-		alertBox.buttonList[0].setOnAction(e-> alertBox.end());
-		alertBox.buttonList[1].setText("Confirm");
-		alertBox.buttonList[1].setOnAction(e-> {
-			// TODO switch scene back to the menu!!!
-		alertBox.end();
-		});
-		alertBox.show();
-		
+	
 	}
 	
 	@FXML
