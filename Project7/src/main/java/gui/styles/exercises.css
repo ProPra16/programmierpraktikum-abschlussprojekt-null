@@ -19,7 +19,7 @@
 }
 
 .exercise-tile:hover {
-	-fx-border-color: #50c878;
+	-fx-border-color: #2ecc71;
 	-fx-border-width: 0 0 0 4px;
 	-fx-padding: 14px 14px 14px 10px;
 	/*-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.45), 15, 0, 0, 0);*/

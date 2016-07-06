@@ -12,33 +12,53 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/* Colors by: https://github.com/syntaxhighlighter/theme-eclipse/blob/master/theme.scss */
+
+.code-area {
+	-fx-fill: #657b83;
+}
+
 .keyword {
-    -fx-fill: purple;
+    -fx-fill: #7f0055;
     -fx-font-weight: bold;
 }
+
 .semicolon {
     -fx-font-weight: bold;
 }
+
 .paren {
-    -fx-fill: firebrick;
+    -fx-fill: #657b83;
     -fx-font-weight: bold;
 }
+
 .bracket {
-    -fx-fill: darkgreen;
+    -fx-fill: #657b83;
     -fx-font-weight: bold;
 }
+
 .brace {
-    -fx-fill: teal;
+    -fx-fill: #657b83;
     -fx-font-weight: bold;
 }
+
 .string {
-    -fx-fill: blue;
+    -fx-fill: #2a00ff;
 }
 
 .comment {
-	-fx-fill: cadetblue;
+	-fx-fill: #3f5fbf;
+}
+
+/* TODO implement function name matcher */
+.function {
+	-fx-fill: #ff1493; 
 }
 
 .paragraph-box:has-caret {
     -fx-background-color: #f2f9fc;
+}
+
+.paragraph-box:has-error, .has-error {
+	-fx-background-color: rgba(231, 77, 60, 0.4);
 }
