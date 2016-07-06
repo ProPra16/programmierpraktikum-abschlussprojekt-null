@@ -3,19 +3,19 @@
 		<description>Konvertiert arabische in römische Zahlen.</description>
 		<classes>
 			<class name="RomanNumberConverter">
-				public class RomanNumberConverter {
-				}
+public class RomanNumberConverter {
+}
 			</class>
 		</classes>
 		<tests>
 			<test name="RomanNumberConverterTest">
-				import static org.junit.Assert.*;
-				import org.junit.Test;
-				public class RomanNumbersTest {
-					@Test
-					public void testSomething() {
-					}
-				}
+import static org.junit.Assert.*;
+import org.junit.Test;
+public class RomanNumberConverterTest {
+	@Test
+	public void testSomething() {
+	}
+}
 			</test>
 		</tests>
 		<config>
@@ -27,32 +27,32 @@
 		<description>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</description>
 		<classes>
 			<class name="LoremIpsum">
-				public class LoremIpsum {
-				}
+public class LoremIpsum {
+}
 			</class>
 			<class name="LoremIpsumTwo">
-				public class LoremIpsumTwo {
-				}
+public class LoremIpsumTwo {
+}
 			</class>
 		</classes>
 		<tests>
 			<test name="LoremIpsumTest">
-				import static org.junit.Assert.*;
-				import org.junit.Test;
-				public class LoremIpsumTest {
-					@Test
-					public void testSomething() {
-					}
-				}
+import static org.junit.Assert.*;
+import org.junit.Test;
+public class LoremIpsumTest {
+	@Test
+	public void testSomething() {
+	}
+}
 			</test>
 			<test name="LoremIpsumTestTwo">
-				import static org.junit.Assert.*;
-				import org.junit.Test;
-				public class LoremIpsumTestTwo {
-					@Test
-					public void testSomething() {
-					}
-				}
+import static org.junit.Assert.*;
+import org.junit.Test;
+public class LoremIpsumTestTwo {
+	@Test
+	public void testSomething() {
+	}
+}
 			</test>
 		</tests>
 		<config>
@@ -64,19 +64,19 @@
 		<description>Konvertiert ganz viele arabische in römische Zahlen.</description>
 		<classes>
 			<class name="RomanNumberConverter">
-				public class RomanNumberConverter {
-				}
+public class RomanNumberConverter {
+}
 			</class>
 		</classes>
 		<tests>
 			<test name="RomanNumberConverterTest">
-				import static org.junit.Assert.*;
-				import org.junit.Test;
-				public class RomanNumbersTest {
-					@Test
-					public void testSomething() {
-					}
-				}
+import static org.junit.Assert.*;
+import org.junit.Test;
+public class RomanNumberConverterTest {
+	@Test
+	public void testSomething() {
+	}
+}
 			</test>
 		</tests>
 		<config>
@@ -88,32 +88,32 @@
 		<description>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</description>
 		<classes>
 			<class name="LoremIpsum">
-				public class LoremIpsum {
-				}
+public class LoremIpsum {
+}
 			</class>
 			<class name="LoremIpsumTwo">
-				public class LoremIpsumTwo {
-				}
+public class LoremIpsumTwo {
+}
 			</class>
 		</classes>
 		<tests>
 			<test name="LoremIpsumTest">
-				import static org.junit.Assert.*;
-				import org.junit.Test;
-				public class LoremIpsumTest {
-					@Test
-					public void testSomething() {
-					}
-				}
+import static org.junit.Assert.*;
+import org.junit.Test;
+public class LoremIpsumTest {
+	@Test
+	public void testSomething() {
+	}
+}
 			</test>
 			<test name="LoremIpsumTestTwo">
-				import static org.junit.Assert.*;
-				import org.junit.Test;
-				public class LoremIpsumTestTwo {
-					@Test
-					public void testSomething() {
-					}
-				}
+import static org.junit.Assert.*;
+import org.junit.Test;
+public class LoremIpsumTestTwo {
+	@Test
+	public void testSomething() {
+	}
+}
 			</test>
 		</tests>
 		<config>
@@ -125,32 +125,32 @@
 		<description>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</description>
 		<classes>
 			<class name="LoremIpsum">
-				public class LoremIpsum {
-				}
+public class LoremIpsum {
+}
 			</class>
 			<class name="LoremIpsumTwo">
-				public class LoremIpsumTwo {
-				}
+public class LoremIpsumTwo {
+}
 			</class>
 		</classes>
 		<tests>
 			<test name="LoremIpsumTest">
-				import static org.junit.Assert.*;
-				import org.junit.Test;
-				public class LoremIpsumTest {
-					@Test
-					public void testSomething() {
-					}
-				}
+import static org.junit.Assert.*;
+import org.junit.Test;
+public class LoremIpsumTest {
+	@Test
+	public void testSomething() {
+	}
+}
 			</test>
 			<test name="LoremIpsumTestTwo">
-				import static org.junit.Assert.*;
-				import org.junit.Test;
-				public class LoremIpsumTestTwo {
-					@Test
-					public void testSomething() {
-					}
-				}
+import static org.junit.Assert.*;
+import org.junit.Test;
+public class LoremIpsumTestTwo {
+	@Test
+	public void testSomething() {
+	}
+}
 			</test>
 		</tests>
 		<config>
