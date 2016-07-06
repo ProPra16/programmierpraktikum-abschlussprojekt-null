@@ -6,17 +6,17 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import gui.views.AlertBox;
-import gui.views.ExerciseMenuItem;
+import models.Exercise;
+import models.Test;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import models.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 
 import vk.core.api.*;
 
