@@ -15,13 +15,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import models.Exercise;
@@ -103,7 +98,8 @@ public class MenuViewController implements Initializable {
 				AnchorPane.setRightAnchor(testView, 0.0);
 				AnchorPane.setBottomAnchor(testView, 0.0);
 				TestController testController = loader.getController();
-				
+				testController.setExercise(exercise);
+                
 				ExerciseMenuItem exerciseMenuItem = new ExerciseMenuItem(exercise);
 				exerciseMenuItem.setMainView(testView);
 				EventHandler<MouseEvent> menuItemClickEventHandler = new EventHandler<MouseEvent>() {

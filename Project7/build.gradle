@@ -13,7 +13,7 @@ repositories {
 
 dependencies {
  compile "de.hhu.stups:virtual-kata-lib:1.0.1"
- testCompile "junit:junit:4.8.2"
+ testCompile "junit:junit:4.12"
 }
 
 shadowJar {
