@@ -10,6 +10,7 @@ import gui.views.cycle.JavaCodeArea;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -30,9 +31,9 @@ public class RedViewController implements Initializable {
 	@FXML
 	JavaCodeArea sourceTextField;
 	@FXML
-	Button backButton;
+	Node backButton;
 	@FXML
-	Button confirmButton;
+	Node confirmButton;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
