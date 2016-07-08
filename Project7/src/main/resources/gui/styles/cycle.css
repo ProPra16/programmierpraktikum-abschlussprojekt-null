@@ -1,0 +1,13 @@
+.header .label {
+	-fx-text-fill: #ffffff;
+	-fx-font-weight: bold;
+	-fx-font-size: 14px;
+}
+
+.red {
+	-fx-background-color: #e74c3c;
+}
+
+.green {
+	-fx-background-color: #2ecc71;
+}

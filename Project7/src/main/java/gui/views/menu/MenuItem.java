@@ -1,4 +1,4 @@
-package gui.views;
+package gui.views.menu;
 
 import javafx.scene.Node;
 import javafx.scene.control.Label;

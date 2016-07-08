@@ -6,9 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import gui.views.ExerciseMenuItem;
-import gui.views.MenuItem;
-import gui.views.OverviewMenuItem;
+import gui.controllers.cycle.RedViewController;
+import gui.views.menu.ExerciseMenuItem;
+import gui.views.menu.MenuItem;
+import gui.views.menu.OverviewMenuItem;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -92,7 +93,7 @@ public class MenuViewController implements Initializable {
 		if(exerciseIndexInMenu == -1) {
 			try {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/CycleView.fxml"));
-				TestController testController = new TestController();
+				RedViewController testController = new RedViewController();
 				loader.setController(testController);
 				Parent testView = loader.load();
 				AnchorPane.setTopAnchor(testView, 0.0);

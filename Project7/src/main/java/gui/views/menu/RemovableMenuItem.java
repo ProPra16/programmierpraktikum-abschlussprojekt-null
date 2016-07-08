@@ -1,4 +1,4 @@
-package gui.views;
+package gui.views.menu;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
