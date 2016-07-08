@@ -5,7 +5,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
-import gui.views.ExercisesGrid;
+
+import gui.views.exercises.ExercisesGrid;
 import javafx.fxml.*;
 import javafx.scene.control.ScrollPane;
 import models.Catalog;

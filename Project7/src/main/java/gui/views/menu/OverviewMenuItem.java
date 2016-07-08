@@ -1,4 +1,4 @@
-package gui.views;
+package gui.views.menu;
 
 public class OverviewMenuItem extends MenuItem {
 

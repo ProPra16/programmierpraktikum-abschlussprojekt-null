@@ -1,4 +1,4 @@
-package gui.views;
+package gui.views.exercises;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;

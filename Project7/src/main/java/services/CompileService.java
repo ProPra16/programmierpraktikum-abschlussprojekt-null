@@ -66,7 +66,32 @@ public class CompileService {
 				Test exerciseTest = exercise.getTests().get(i);
 				CompilationUnit testUnit = compiler.getCompilationUnitByName(exerciseTest.getName());
 				compileErrors.addAll(compilerResult.getCompilerErrorsForCompilationUnit(testUnit));
-				// Check if it's very first compile and every possible compile error is caused by an not implemented method, otherwise return false
+			}
+			break;
+		case GREEN:
+		case REFACTOR:
+			for(Class exerciseClass : exercise.getClasses()) {
+				CompilationUnit testUnit = compiler.getCompilationUnitByName(exerciseClass.getName());
+				compileErrors.addAll(compilerResult.getCompilerErrorsForCompilationUnit(testUnit));
+			}
+		}
+		
+		return compileErrors;
+	}
+	
+	/**
+	 * Gets the last filtered compiler errors for mode
+	 * @return 
+	 */
+	public Collection<CompileError> getFilteredCompileErrors() {
+		Collection<CompileError> compileErrors = new ArrayList<CompileError>();
+		switch(mode) {
+		case RED:
+			for(int i = 0; i < exercise.getTests().size(); i++) {
+				Test exerciseTest = exercise.getTests().get(i);
+				CompilationUnit testUnit = compiler.getCompilationUnitByName(exerciseTest.getName());
+				compileErrors.addAll(compilerResult.getCompilerErrorsForCompilationUnit(testUnit));
+				// Check if any compile error is caused by an not implemented method, then remove them
 				for(Iterator<CompileError> iterator = compileErrors.iterator(); iterator.hasNext(); ) {
 					// Debug: System.out.println(error.getMessage());
 					CompileError error = iterator.next();
@@ -90,7 +115,6 @@ public class CompileService {
 	 * Compiles and runs tests
 	 */
 	public void compileAndRunTests() {
-		// TODO own thread
 		List<CompilationUnit> compilationUnits = new ArrayList<CompilationUnit>();
 		for(Test exerciseTest : exercise.getTests()) {
 			compilationUnits.add(new CompilationUnit(exerciseTest.getName(), exerciseTest.getContent(), true));
