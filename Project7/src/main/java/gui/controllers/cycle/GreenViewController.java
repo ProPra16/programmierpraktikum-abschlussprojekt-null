@@ -1,12 +1,12 @@
-package gui.controllers;
+package gui.controllers.cycle;
 
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
-import gui.views.AlertBox;
-import gui.views.JavaCodeArea;
+import gui.views.cycle.JavaCodeArea;
 import services.CompileService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,9 +16,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 
 
-public class ExerciseController implements Initializable{
+public class GreenViewController implements Initializable{
 	Pane mainSection;
 	CompileService compileService;
 	
@@ -27,42 +28,36 @@ public class ExerciseController implements Initializable{
 	@FXML
 	JavaCodeArea sourceTextField;
 	@FXML
-	Button cancelButton;
+	Button backButton;
 	@FXML
 	Button confirmButton;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// Set css class for styling
+		if(rootPane.getStyleClass().contains("red")) {
+			rootPane.getStyleClass().remove("red");
+		}
 		rootPane.getStyleClass().add("green");
 	}
 	
+	/**
+	 * FXML-Action for back button
+	 */
 	@FXML
-	public void cancelAction(){
-		compileService.getExercise().getClasses().get(0).setContent(sourceTextField.getText());
-		compileService.compileAndRunTests();
+	public void backAction(){
+		// Ask for going back 
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.setTitle("TDDT");
+		alert.setHeaderText("Going back");
+		alert.setContentText("Are you sure you want to go back to edit the tests?");
+		Optional<ButtonType> result = alert.showAndWait();
 		
-		//Checks for Syntax-Errors
-		if(!compileService.isValid()){
-			
-			sourceTextField.markErrors(compileService.getCompileErrors());
-			/*if(compileService.getTestResult().getNumberOfFailedTests() != 0) {
-				Alert alert = new Alert(Alert.AlertType.INFORMATION);
-				alert.setTitle("TDDT");
-				alert.setContentText("Tests failed!");
-				alert.showAndWait();
-			}*/
-		}
-		
-		AlertBox alertBox = new AlertBox("Exit", "Are you sure you want to go back to edit the tests?", 2);
-		alertBox.buttonList[0].setText("Cancel");
-		alertBox.buttonList[0].setOnAction(e-> alertBox.end());
-		alertBox.buttonList[1].setText("Confirm");
-		alertBox.buttonList[1].setOnAction(e-> {
-			// TODO switch scene back to TestController
-			
-			try{
+		if(result.get() == ButtonType.OK) {
+			// Go back to RED
+			try {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/CycleView.fxml"));
-				TestController testController = new TestController();
+				RedViewController testController = new RedViewController();
 				loader.setController(testController);
 				Parent testView = loader.load();
 				AnchorPane.setTopAnchor(testView, 0.0);
@@ -74,37 +69,42 @@ public class ExerciseController implements Initializable{
 				mainSection.getChildren().clear();
 				mainSection.getChildren().add(testView);
 			}
-			catch (IOException ex){
+			catch (IOException ex) {
 				ex.printStackTrace();
 			}
-			
-			
-			alertBox.end();
-		});
-		alertBox.show();
+		}
 	}
 	
+	/**
+	 * FXML-Action for confirm button
+	 */
 	@FXML
-	public void confirmAction(){	
+	public void confirmAction() {	
 		compileService.getExercise().getClasses().get(0).setContent(sourceTextField.getText());
 		compileService.compileAndRunTests();
 		
-		if(!compileService.isValid()){
+		// Check if there are compile errors
+		if(!compileService.isValid() && compileService.getCompilerResult().hasCompileErrors()) {
+			// Mark compile errors
 			sourceTextField.markErrors(compileService.getCompileErrors());
 			
-			if(compileService.getTestResult().getNumberOfFailedTests() != 0) {
-				Alert alert = new Alert(Alert.AlertType.INFORMATION);
-				alert.setTitle("TDDT");
-				alert.setContentText("Tests failed!");
-				alert.showAndWait();
-			}	
-		}
-		else{
-			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			// Show alert
+			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("TDDT");
-			alert.setContentText("No failed Tests!");
+			alert.setHeaderText("Compile errors");
+			alert.setContentText("There are compile errors in the tests or in the current code.");
 			alert.showAndWait();
-			//TODO save changed code
+		}
+		// Check if all tests are passed
+		else if(!compileService.getCompilerResult().hasCompileErrors() && compileService.getTestResult().getNumberOfFailedTests() != 0) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("TDDT");
+			alert.setHeaderText("Tests failed");
+			alert.setContentText("Your code have not passed all tests.");
+			alert.showAndWait();
+		}
+		else if(compileService.isValid()) {
+			// TODO Switch to refactor 
 		}
 	}
 	

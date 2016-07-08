@@ -21,7 +21,8 @@ public class Main extends Application {
 		primaryStage.setMinHeight(600);
 		
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("/gui/views/MainView.fxml"));
+			URL url = getClass().getResource("/gui/views/MainView.fxml");
+			Parent root = FXMLLoader.load(url);
 			Scene scene = new Scene(root, 900, 600);
 			primaryStage.setScene(scene);
 		} catch (IOException e) {

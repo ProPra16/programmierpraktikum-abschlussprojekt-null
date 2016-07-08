@@ -1,4 +1,4 @@
-package gui.views;
+package gui.views.exercises;
 
 import java.util.ArrayList;
 import java.util.List;

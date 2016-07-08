@@ -5,13 +5,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import gui.views.JavaCodeArea?>
+<?import gui.views.cycle.JavaCodeArea?>
 
 <AnchorPane prefHeight="377.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../styles/cycle.css" fx:id="rootPane">
    <children>
       <ButtonBar layoutX="306.0" layoutY="322.0" prefHeight="36.0" prefWidth="276.0" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="306.0" AnchorPane.rightAnchor="20.0">
         <buttons>
-            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" text="Back" />
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#backAction" text="Back" />
           <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#confirmAction" text="Confirm" />
         </buttons>
       </ButtonBar>
