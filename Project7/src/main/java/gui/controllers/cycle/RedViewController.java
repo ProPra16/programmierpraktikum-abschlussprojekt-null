@@ -3,22 +3,27 @@ package gui.controllers.cycle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collection;
+import java.util.Observable;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import gui.views.cycle.JavaCodeArea;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import models.Exercise;
 import services.CompileService;
+import vk.core.api.CompileError;
 import vk.core.api.TestResult;
 
 
@@ -35,6 +40,9 @@ public class RedViewController implements Initializable {
 	@FXML
 	Node confirmButton;
 	
+	Thread compileThread;
+	ObservableList<CompileError> compileErrors;;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// Disable back button - nothing to go back here
@@ -45,9 +53,32 @@ public class RedViewController implements Initializable {
 			rootPane.getStyleClass().remove("green");
 		}
 		rootPane.getStyleClass().add("red");
-		/*sourceTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-			
+		
+		/* TODO autocompile - Not working until yet... 
+		// Initialize observable list
+		compileErrors = FXCollections.observableArrayList();
+		// Mark compile errors, if they changed
+		compileErrors.addListener(new ListChangeListener<CompileError>() {
+			@Override
+			public void onChanged(Change<? extends CompileError> change) {
+				sourceTextField.markErrors(compileErrors);
+			}
+		});
+		
+		// Auto compile on change 
+		sourceTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+			// Check if possible previous compile is finished (thread terminated) 
+			if(compileThread == null || compileThread.getState() == Thread.State.TERMINATED) {
+				// Then compile and change errors  
+				compileThread = new Thread(() -> {
+					compileService.compileAndRunTests();
+					compileErrors.clear();
+					compileErrors.addAll(compileService.getCompileErrors());
+				});
+				compileThread.start();
+			}
 		});*/
+		
 	}
 	
 	/**

@@ -115,7 +115,6 @@ public class CompileService {
 	 * Compiles and runs tests
 	 */
 	public void compileAndRunTests() {
-		// TODO own thread
 		List<CompilationUnit> compilationUnits = new ArrayList<CompilationUnit>();
 		for(Test exerciseTest : exercise.getTests()) {
 			compilationUnits.add(new CompilationUnit(exerciseTest.getName(), exerciseTest.getContent(), true));
