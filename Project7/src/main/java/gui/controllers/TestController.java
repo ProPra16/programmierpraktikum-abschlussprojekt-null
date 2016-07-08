@@ -71,6 +71,11 @@ public class TestController implements Initializable{
 					alertBox.buttonList[0].setOnAction(e-> alertBox.end());
 					alertBox.show();
 				} 
+			} else if(compileService.missingAssertEquals()) {
+				AlertBox alertBox = new AlertBox("Error", "Es fehlt assertEquals!", 1);
+				alertBox.buttonList[0].setText("Confirm");
+				alertBox.buttonList[0].setOnAction(e-> alertBox.end());
+				alertBox.show();
 			}
 		}
 		else {

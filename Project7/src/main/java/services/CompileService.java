@@ -62,9 +62,17 @@ public class CompileService {
 		Collection<CompileError> compileErrors = new ArrayList<CompileError>();
 		switch(mode) {
 		case RED:
-			for(Test exerciseTest : exercise.getTests()) {
+			for(int i = 0; i < exercise.getTests().size(); i++) {
+				Test exerciseTest = exercise.getTests().get(i);
 				CompilationUnit testUnit = compiler.getCompilationUnitByName(exerciseTest.getName());
 				compileErrors.addAll(compilerResult.getCompilerErrorsForCompilationUnit(testUnit));
+				// Check if it's very first compile and every possible compile error is caused by an not implemented method, otherwise return false
+				for(Iterator<CompileError> iterator = compileErrors.iterator(); iterator.hasNext(); ) {
+					// Debug: System.out.println(error.getMessage());
+					CompileError error = iterator.next();
+					if(ignoreMethodErrors && error.getMessage().contains("method") && error.getMessage().contains("type " + exercise.getClasses().get(i).getName()) && !error.getMessage().contains(exerciseTest.getName()))
+						iterator.remove(); // Filter "valid" errors
+				}
 			}
 			break;
 		case GREEN:
@@ -129,6 +137,19 @@ public class CompileService {
 	}
 	
 	/**
+	 * Checks for missing assertEquals
+	 * @return
+	 */
+	public boolean missingAssertEquals() {
+		for(Test exerciseTest : exercise.getTests()) {
+			if(!exerciseTest.getContent().contains("assertEquals")){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Checks if code is valid for red mode
 	 * @return
 	 */
@@ -148,8 +169,13 @@ public class CompileService {
 				else
 					iterator.remove(); // Filter "valid" errors
 			}
+			
+			// Missing assert equals?
+			if(!exerciseTest.getContent().contains("assertEquals")){
+				return false;
+			}
 		}
-		
+			
 		if(!compilerResult.hasCompileErrors() && compiler.getTestResult().getNumberOfFailedTests() != 1) {
 			return false;
 		}  
