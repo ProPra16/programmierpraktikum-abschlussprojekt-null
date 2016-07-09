@@ -19,7 +19,7 @@ public class Main extends Application {
 		primaryStage.setTitle("TDDT");
 		primaryStage.setMinWidth(800);
 		primaryStage.setMinHeight(600);
-		
+
 		try {
 			URL url = getClass().getResource("/gui/views/MainView.fxml");
 			Parent root = FXMLLoader.load(url);
@@ -29,12 +29,12 @@ public class Main extends Application {
 			// TODO Handle exception
 			e.printStackTrace();
 		}
-		
+
 		primaryStage.show();
 	}
 
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
+
 }

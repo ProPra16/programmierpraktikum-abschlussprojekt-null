@@ -23,12 +23,12 @@ import javafx.scene.layout.VBox;
 import models.Exercise;
 
 public class MenuViewController implements Initializable {
-	
-	@FXML 
+
+	@FXML
 	AnchorPane menuSection;
 	@FXML
-	VBox menu; 
-	
+	VBox menu;
+
 	Pane mainSection;
 	Node exerciseView;
 	List<MenuItem> menuItems;
@@ -36,61 +36,64 @@ public class MenuViewController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		menuItems = new ArrayList<MenuItem>();
-		
+
 		MenuItem overviewMenuItem = new OverviewMenuItem();
 		overviewMenuItem.select();
-		
+
 		overviewMenuItem.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				selectExerciseOverview();
 			}
 		});
-		
+
 		menuItems.add(overviewMenuItem);
 		menu.getChildren().addAll(menuItems);
 	}
 
 	/**
 	 * Sets the main section
+	 * 
 	 * @param mainSection
 	 */
 	public void setMainSection(Pane mainSection) {
 		this.mainSection = mainSection;
 	}
-	
+
 	/**
 	 * Sets the exercise view
+	 * 
 	 * @param exerciseView
 	 */
 	public void setExerciseView(Node exerciseView) {
 		this.exerciseView = exerciseView;
-		for(MenuItem menuItem : menuItems) {
-			if(menuItem instanceof OverviewMenuItem)
+		for (MenuItem menuItem : menuItems) {
+			if (menuItem instanceof OverviewMenuItem)
 				menuItem.setMainView(exerciseView);
 		}
 	}
-	
+
 	/**
 	 * Selects the exercise overview menu item
 	 */
 	public void selectExerciseOverview() {
-		for(MenuItem menuItem : menuItems) {
-			if(menuItem instanceof OverviewMenuItem) {
+		for (MenuItem menuItem : menuItems) {
+			if (menuItem instanceof OverviewMenuItem) {
 				selectMenuItem(menuItem);
 				break; // Usually only one overview menu item
 			}
 		}
 	}
-	
+
 	/**
 	 * Selects the menu item of the given {@link Exercise}
+	 * 
 	 * @param exercise
 	 */
 	public void selectExercise(Exercise exercise) {
-		int exerciseIndexInMenu = getMenuIndex(exercise); 
-		
-		if(exerciseIndexInMenu == -1) {
+		int exerciseIndexInMenu = getMenuIndex(exercise);
+
+		if (exerciseIndexInMenu == -1) {
 			try {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/CycleView.fxml"));
 				RedViewController testController = new RedViewController();
@@ -102,7 +105,7 @@ public class MenuViewController implements Initializable {
 				AnchorPane.setBottomAnchor(testView, 0.0);
 				testController.setExercise(exercise);
 				testController.setMainSection(mainSection);
-                
+
 				ExerciseMenuItem exerciseMenuItem = new ExerciseMenuItem(exercise);
 				exerciseMenuItem.setMainView(testView);
 				EventHandler<MouseEvent> menuItemClickEventHandler = new EventHandler<MouseEvent>() {
@@ -111,19 +114,22 @@ public class MenuViewController implements Initializable {
 						selectExercise(exercise);
 					}
 				};
-				
+
 				exerciseMenuItem.addEventHandler(MouseEvent.MOUSE_RELEASED, menuItemClickEventHandler);
 				exerciseMenuItem.setRemoveHandler(new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
 						int menuIndex = getMenuIndex(exercise);
-						if(menuIndex != -1) {
+						if (menuIndex != -1) {
 							MenuItem menuItem = menuItems.get(menuIndex);
-							// Remove click event handler, otherwise exercise will selected and created immediately after removing
+							// Remove click event handler, otherwise exercise
+							// will selected and created immediately after
+							// removing
 							menuItem.removeEventHandler(MouseEvent.MOUSE_RELEASED, menuItemClickEventHandler);
 							removeMenuItem(menuItem);
-							// Select menu item before this one if one exists, otherwise select exercise overview
-							if(menuIndex > 0)
+							// Select menu item before this one if one exists,
+							// otherwise select exercise overview
+							if (menuIndex > 0)
 								selectMenuItem(menuItems.get(menuIndex - 1));
 							else
 								selectExerciseOverview();
@@ -134,24 +140,25 @@ public class MenuViewController implements Initializable {
 				selectMenuItem(exerciseMenuItem);
 				menuItems.add(exerciseMenuItem);
 				menu.getChildren().add(exerciseMenuItem);
-			} catch(IOException exception) {
+			} catch (IOException exception) {
 				exception.printStackTrace();
 			}
 		} else {
 			selectMenuItem(menuItems.get(exerciseIndexInMenu));
 		}
 	}
-	
+
 	/**
 	 * Removes all active style classes from menu items
 	 */
 	private void unselectAllMenuItems() {
-		for(MenuItem menuItem : menuItems)
+		for (MenuItem menuItem : menuItems)
 			menuItem.unselect();
 	}
-	
+
 	/**
 	 * Selects a menu item and shows it in main view
+	 * 
 	 * @param menuItem
 	 */
 	private void selectMenuItem(MenuItem menuItem) {
@@ -160,35 +167,34 @@ public class MenuViewController implements Initializable {
 		mainSection.getChildren().clear();
 		mainSection.getChildren().add(menuItem.getMainView());
 	}
-	
-	
+
 	/**
 	 * Checks if exercise is already in menu
+	 * 
 	 * @param exercise
 	 * @return -1 if not found, otherwise the index in menu items list
 	 */
 	private int getMenuIndex(Exercise exercise) {
-		for(int i = 0; i < menuItems.size(); i++) {
+		for (int i = 0; i < menuItems.size(); i++) {
 			MenuItem menuItem = menuItems.get(i);
-			if(menuItem instanceof ExerciseMenuItem && ((ExerciseMenuItem) menuItem).getExercise() == exercise)
+			if (menuItem instanceof ExerciseMenuItem && ((ExerciseMenuItem) menuItem).getExercise() == exercise)
 				return i;
 		}
-		
+
 		return -1;
 	}
-	
+
 	/**
 	 * Removes an exercise from menu
+	 * 
 	 * @param exercise
 	 */
 	private void removeMenuItem(MenuItem menuItem) {
-		if(!menuItems.contains(menuItem))
+		if (!menuItems.contains(menuItem))
 			return;
-		
+
 		menuItems.remove(menuItem);
 		menu.getChildren().remove(menuItem);
 	}
-	
-	
 
 }

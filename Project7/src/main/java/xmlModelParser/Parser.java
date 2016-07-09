@@ -1,7 +1,11 @@
 package xmlModelParser;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -31,9 +35,11 @@ public class Parser {
 	 * @throws SAXException
 	 * @throws IOException
 	 * @throws ParserConfigurationException
+	 * @throws ParserException
 	 */
-	public Catalog parse(String url) throws SAXException, IOException, ParserConfigurationException {
-		
+	public Catalog deserailize(String url)
+			throws SAXException, IOException, ParserConfigurationException, ParserException {
+
 		File file = new File(url);
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -46,4 +52,11 @@ public class Parser {
 
 	}
 
+	public void serialize(String path, Catalog catalog) throws IOException {
+		XmlNode obj = catalog.objectToXMLObject();
+		String json = obj.toXmlString();
+		Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), "utf-8"));
+		writer.write(json);
+		writer.close();
+	}
 }
