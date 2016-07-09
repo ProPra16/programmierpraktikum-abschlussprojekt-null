@@ -11,6 +11,7 @@ import javafx.fxml.*;
 import javafx.scene.control.ScrollPane;
 import models.Catalog;
 import xmlModelParser.Parser;
+import xmlModelParser.ParserException;
 
 public class ExercisesViewController implements Initializable {
 
@@ -18,9 +19,8 @@ public class ExercisesViewController implements Initializable {
 	ScrollPane mainPane;
 	Catalog catalog;
 	boolean inDetailView;
-	
-	MenuViewController menuController; 
 
+	MenuViewController menuController;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -30,29 +30,32 @@ public class ExercisesViewController implements Initializable {
 		// TETING PURPOSES
 		Parser parser = new Parser();
 		try {
-			catalog = parser.parse("default.xml");
-		} catch (SAXException | IOException | ParserConfigurationException e) {
+			catalog = parser.deserailize("default.xml");
+		} catch (SAXException | IOException | ParserConfigurationException | ParserException e) {
 			// TODO Handle Error appropriately
 			catalog = new Catalog();
 			e.printStackTrace();
 		}
-		
+         try {
+			parser.serialize("test.xml", catalog);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+         
 		ExercisesGrid exercisesGrid = new ExercisesGrid(catalog.getExercises());
 		exercisesGrid.addSelectExerciseHandler((exercise) -> {
 			menuController.selectExercise(exercise);
 		});
-		
+
 		mainPane.setContent(exercisesGrid);
 	}
-	
-	
+
 	/**
 	 * Sets the menu controller
 	 */
 	public void setMenuController(MenuViewController menuController) {
 		this.menuController = menuController;
 	}
-	
-	
-	
+
 }

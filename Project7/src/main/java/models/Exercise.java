@@ -3,12 +3,19 @@ package models;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Observable;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import xmlModelParser.Parsable;
+import xmlModelParser.ParserException;
+import xmlModelParser.XmlAtribute;
+import xmlModelParser.XmlList;
+import xmlModelParser.XmlNode;
+import xmlModelParser.XmlString;
+import xmlModelParser.XmlValue;
 
 /**
  * Represents the XML tag "exercise", implements {@link Parsable}
@@ -108,7 +115,7 @@ public class Exercise implements Parsable {
 		return config;
 	}
 
-	public Parsable loadfromXML(Element element) {
+	public Parsable loadfromXML(Element element) throws ParserException {
 		// TODO implement method
 
 		// Gets the content of the "description" tag from the XML file and sets
@@ -173,6 +180,36 @@ public class Exercise implements Parsable {
 		this.config = (Config) new Config().loadfromXML(configContent);
 
 		return this;
+	}
+
+	@Override
+	public XmlNode objectToXMLObject() {
+
+		XmlList exerciseParameters = new XmlList();
+		//Description
+		XmlNode xmlDescription = new XmlNode("description", new XmlString(this.description));
+		exerciseParameters.add(xmlDescription);
+		//Classes
+		XmlList classesXmlList = new XmlList();
+		for (Class cls : this.classes) {
+			classesXmlList.add(cls);
+		}
+		XmlNode classesXmlObj = new XmlNode("classes", classesXmlList);
+		exerciseParameters.add(classesXmlObj);
+		//Tests
+		XmlList xmlTestsXmlList = new XmlList();
+		for (Test test : this.tests) {
+			xmlTestsXmlList.add(test);
+		}
+		XmlNode TestsXmlObj = new XmlNode("tests", xmlTestsXmlList);
+		exerciseParameters.add(TestsXmlObj);
+		
+		exerciseParameters.add(this.config);
+		
+		XmlNode exercise = new XmlNode("exercise", exerciseParameters);
+		exercise.addAtribute(new XmlAtribute("name", this.name));
+
+		return exercise;
 	}
 
 }
