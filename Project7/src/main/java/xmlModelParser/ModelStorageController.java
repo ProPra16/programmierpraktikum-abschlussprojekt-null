@@ -10,6 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import models.Catalog;
+import models.Exercise;
 
 public class ModelStorageController extends Observable implements Observer {
 	private static ModelStorageController instance;
@@ -36,11 +37,16 @@ public class ModelStorageController extends Observable implements Observer {
 		return defaultPath + defaultFileName;
 	}
 
-	// FIXME Write import alogorithm
-	public synchronized Catalog importModel(String path)
+	
+	public synchronized void importModel(String path)
 			throws SAXException, IOException, ParserConfigurationException, ParserException {
 		Parser parser = new Parser();
-		return parser.deserailize(path);
+		Catalog tempCatalog=parser.deserailize(path);
+		for (Exercise exercise:tempCatalog.getExercises())
+		{
+			this.catalog.addExercise(exercise);
+		}
+		
 	}
 
 	public synchronized Catalog loadModel()
