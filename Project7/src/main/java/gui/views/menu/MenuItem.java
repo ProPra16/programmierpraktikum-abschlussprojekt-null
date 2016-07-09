@@ -9,56 +9,57 @@ import javafx.scene.layout.HBox;
 import models.Exercise;
 
 public class MenuItem extends HBox {
-	
+
 	static final String iconHomePath = "/gui/images/icons/home.png";
-	static final String iconPencilPath = "/gui/images/icons/pencil.png"; 
-	
+	static final String iconPencilPath = "/gui/images/icons/pencil.png";
+
 	final double height;
 	final double iconSize;
-	
+
 	/**
 	 * The main view node
 	 */
 	Node mainView;
-	
+
 	/**
 	 * Image view for the icon
 	 */
 	ImageView iconView;
-	
+
 	/**
-	 * Label instance  
+	 * Label instance
 	 */
 	Label label;
-	
+
 	/**
 	 * Status as selected menu item
 	 */
 	boolean selected;
-	
+
 	/**
-	 * Constructs a menu item  
+	 * Constructs a menu item
 	 */
 	public MenuItem() {
 		height = 30;
 		iconSize = height;
-		
+
 		iconView = new ImageView(new Image(iconHomePath));
 		iconView.setFitHeight(iconSize);
 		iconView.setFitWidth(iconSize);
 		iconView.getStyleClass().add("menu-item-icon");
-		
+
 		label = new Label("Menu item");
 		label.setPrefHeight(height);
 		label.getStyleClass().add("menu-item-label");
 		getStyleClass().add("menu-item");
-		
+
 		getChildren().clear();
 		getChildren().addAll(iconView, label);
 	}
-	
+
 	/**
 	 * Sets the connected main view
+	 * 
 	 * @return
 	 */
 	public Node getMainView() {
@@ -67,6 +68,7 @@ public class MenuItem extends HBox {
 
 	/**
 	 * Gets the main view for this menu item
+	 * 
 	 * @param mainView
 	 */
 	public void setMainView(Node mainView) {
@@ -75,6 +77,7 @@ public class MenuItem extends HBox {
 
 	/**
 	 * Sets the icon from a file path
+	 * 
 	 * @param icon
 	 */
 	public void setIcon(String icon) {
@@ -83,15 +86,17 @@ public class MenuItem extends HBox {
 
 	/**
 	 * Sets the label from a string
+	 * 
 	 * @param label
 	 */
 	public void setLabel(String label) {
 		this.label.setText(label);
 	}
-	
+
 	/**
 	 * Gets the selected status
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public boolean isSelected() {
 		return selected;
@@ -99,26 +104,28 @@ public class MenuItem extends HBox {
 
 	/**
 	 * Sets the selected status
+	 * 
 	 * @param selected
 	 */
 	public void setSelected(boolean selected) {
-		// First make sure if status has changed to add multiple times the same class or remove a non-existent
-		if(this.selected != selected) {
+		// First make sure if status has changed to add multiple times the same
+		// class or remove a non-existent
+		if (this.selected != selected) {
 			this.selected = selected;
-			if(selected) 
+			if (selected)
 				getStyleClass().add("active");
 			else
 				getStyleClass().remove("active");
 		}
 	}
-	
+
 	/**
 	 * Select the menu item
 	 */
 	public void select() {
 		setSelected(true);
 	}
-	
+
 	/**
 	 * Unselects the menu item
 	 */

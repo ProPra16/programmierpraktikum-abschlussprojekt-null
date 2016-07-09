@@ -37,11 +37,9 @@ public class XmlList extends XmlValue {
 	public void add(XmlNode obj) {
 		list.add(obj);
 	}
-	public void add(Parsable parsable)
-	{
+
+	public void add(Parsable parsable) {
 		list.add(parsable.objectToXMLObject());
 	}
-	
-
 
 }

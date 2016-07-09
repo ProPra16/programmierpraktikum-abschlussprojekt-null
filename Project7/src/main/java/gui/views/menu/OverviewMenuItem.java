@@ -10,5 +10,5 @@ public class OverviewMenuItem extends MenuItem {
 		setIcon(iconHomePath);
 		setLabel("Exercise overview");
 	}
-	
+
 }

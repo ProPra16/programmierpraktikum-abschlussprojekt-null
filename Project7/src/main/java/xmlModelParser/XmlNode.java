@@ -6,7 +6,6 @@ public class XmlNode extends XmlValue {
 	String name;
 	XmlValue value;
 
-
 	public void setValue(XmlValue value) {
 		this.value = value;
 	}
@@ -19,10 +18,11 @@ public class XmlNode extends XmlValue {
 	public String toXmlString() {
 		return "<" + name + this.AtributestoStringLine() + ">" + value.toXmlString() + "</" + name + ">\n";
 	}
-	public void addAtribute(XmlAtribute atribute)
-	{
+
+	public void addAtribute(XmlAtribute atribute) {
 		this.atributes.add(atribute);
 	}
+
 	public String objectToString() {
 		String string = value.objectToString();
 

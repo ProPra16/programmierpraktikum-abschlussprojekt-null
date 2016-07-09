@@ -12,7 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 
 public class MainViewController implements Initializable {
-	
+
 	@FXML
 	AnchorPane sideSection;
 	@FXML
@@ -28,7 +28,7 @@ public class MainViewController implements Initializable {
 			setAllAnchorsNull(menuView);
 			MenuViewController menuController = loader.getController();
 			menuController.setMainSection(mainSection);
-			
+
 			// Load exercise overview in main section
 			loader = new FXMLLoader(getClass().getResource("/gui/views/ExercisesView.fxml"));
 			Parent exerciseView = loader.load();
@@ -42,9 +42,10 @@ public class MainViewController implements Initializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Sets all anchors null
+	 * 
 	 * @param node
 	 */
 	private void setAllAnchorsNull(Node node) {

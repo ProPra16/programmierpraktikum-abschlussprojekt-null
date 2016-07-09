@@ -14,10 +14,10 @@ import xmlModelParser.XmlString;
  * Represents the XML tag "test", implements {@link Parsable}.
  *
  */
-public class Test implements Parsable {
-	
+public class Test extends Observable implements Parsable {
+
 	private String name;
-	
+
 	private String content;
 
 	public String getContent() {
@@ -27,10 +27,13 @@ public class Test implements Parsable {
 	/**
 	 * Sets the content of the {@code Test}
 	 * 
-	 * @param A {@link String} representation of the new content
+	 * @param A
+	 *            {@link String} representation of the new content
 	 */
 	public void setContent(String content) {
 		this.content = content;
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	/**
@@ -51,11 +54,9 @@ public class Test implements Parsable {
 
 	@Override
 	public XmlNode objectToXMLObject() {
-		XmlNode xmlObj = new XmlNode("test",new XmlString(this.content));
+		XmlNode xmlObj = new XmlNode("test", new XmlString(this.content));
 		xmlObj.addAtribute(new XmlAtribute("name", this.name));
 		return xmlObj;
 	}
-
-
 
 }

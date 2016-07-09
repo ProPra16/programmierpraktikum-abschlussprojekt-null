@@ -10,6 +10,7 @@ import gui.views.exercises.ExercisesGrid;
 import javafx.fxml.*;
 import javafx.scene.control.ScrollPane;
 import models.Catalog;
+import xmlModelParser.ModelStorageController;
 import xmlModelParser.Parser;
 import xmlModelParser.ParserException;
 
@@ -17,7 +18,7 @@ public class ExercisesViewController implements Initializable {
 
 	@FXML
 	ScrollPane mainPane;
-	Catalog catalog;
+
 	boolean inDetailView;
 
 	MenuViewController menuController;
@@ -28,22 +29,17 @@ public class ExercisesViewController implements Initializable {
 		// class
 		// TODO TAKE THIS OUT BEFORE RELEASE THE FOLLOWING LINES ARE JUST FOR
 		// TETING PURPOSES
-		Parser parser = new Parser();
+
 		try {
-			catalog = parser.deserailize("default.xml");
+			ModelStorageController.getInstance().loadModel();
 		} catch (SAXException | IOException | ParserConfigurationException | ParserException e) {
 			// TODO Handle Error appropriately
-			catalog = new Catalog();
+
 			e.printStackTrace();
 		}
-         try {
-			parser.serialize("test.xml", catalog);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-         
-		ExercisesGrid exercisesGrid = new ExercisesGrid(catalog.getExercises());
+
+		ExercisesGrid exercisesGrid = new ExercisesGrid(
+				ModelStorageController.getInstance().getCatalog().getExercises());
 		exercisesGrid.addSelectExerciseHandler((exercise) -> {
 			menuController.selectExercise(exercise);
 		});

@@ -28,89 +28,77 @@ import vk.core.api.CompileError;
 
 public class JavaCodeArea extends CodeArea {
 
-	private final String[] KEYWORDS = new String[] {
-            "abstract", "assert", "boolean", "break", "byte",
-            "case", "catch", "char", "class", "const",
-            "continue", "default", "do", "double", "else",
-            "enum", "extends", "final", "finally", "float",
-            "for", "goto", "if", "implements", "import",
-            "instanceof", "int", "interface", "long", "native",
-            "new", "null", "package", "private", "protected", "public",
-            "return", "short", "static", "strictfp", "super",
-            "switch", "synchronized", "this", "throw", "throws",
-            "transient", "try", "void", "volatile", "while"
-	};
-	
-	private final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
-    private final String PAREN_PATTERN = "\\(|\\)";
-    private final String BRACE_PATTERN = "\\{|\\}";
-    private final String BRACKET_PATTERN = "\\[|\\]";
-    private final String SEMICOLON_PATTERN = "\\;";
-    private final String STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
-    private final String COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
+	private final String[] KEYWORDS = new String[] { "abstract", "assert", "boolean", "break", "byte", "case", "catch",
+			"char", "class", "const", "continue", "default", "do", "double", "else", "enum", "extends", "final",
+			"finally", "float", "for", "goto", "if", "implements", "import", "instanceof", "int", "interface", "long",
+			"native", "new", "null", "package", "private", "protected", "public", "return", "short", "static",
+			"strictfp", "super", "switch", "synchronized", "this", "throw", "throws", "transient", "try", "void",
+			"volatile", "while" };
 
-    private final Pattern PATTERN = Pattern.compile(
-            "(?<KEYWORD>" + KEYWORD_PATTERN + ")"
-            + "|(?<PAREN>" + PAREN_PATTERN + ")"
-            + "|(?<BRACE>" + BRACE_PATTERN + ")"
-            + "|(?<BRACKET>" + BRACKET_PATTERN + ")"
-            + "|(?<SEMICOLON>" + SEMICOLON_PATTERN + ")"
-            + "|(?<STRING>" + STRING_PATTERN + ")"
-            + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
-    );
-	
+	private final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+	private final String PAREN_PATTERN = "\\(|\\)";
+	private final String BRACE_PATTERN = "\\{|\\}";
+	private final String BRACKET_PATTERN = "\\[|\\]";
+	private final String SEMICOLON_PATTERN = "\\;";
+	private final String STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
+	private final String COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
+
+	private final Pattern PATTERN = Pattern.compile("(?<KEYWORD>" + KEYWORD_PATTERN + ")" + "|(?<PAREN>" + PAREN_PATTERN
+			+ ")" + "|(?<BRACE>" + BRACE_PATTERN + ")" + "|(?<BRACKET>" + BRACKET_PATTERN + ")" + "|(?<SEMICOLON>"
+			+ SEMICOLON_PATTERN + ")" + "|(?<STRING>" + STRING_PATTERN + ")" + "|(?<COMMENT>" + COMMENT_PATTERN + ")");
+
 	{
 		setParagraphGraphicFactory(LineNumberFactory.get(this));
 
-        richChanges()
-                .filter(ch -> !ch.getInserted().equals(ch.getRemoved()))
-                .subscribe(change -> {
-                    setStyleSpans(0, computeHighlighting(getText()));
-                });
+		richChanges().filter(ch -> !ch.getInserted().equals(ch.getRemoved())).subscribe(change -> {
+			setStyleSpans(0, computeHighlighting(getText()));
+		});
 	}
-	
+
 	private StyleSpans<Collection<String>> computeHighlighting(String text) {
-        Matcher matcher = PATTERN.matcher(text);
-        int lastKwEnd = 0;
-        StyleSpansBuilder<Collection<String>> spansBuilder
-                = new StyleSpansBuilder<>();
-        while(matcher.find()) {
-            String styleClass =
-                    matcher.group("KEYWORD") != null ? "keyword" :
-                    matcher.group("PAREN") != null ? "paren" :
-                    matcher.group("BRACE") != null ? "brace" :
-                    matcher.group("BRACKET") != null ? "bracket" :
-                    matcher.group("SEMICOLON") != null ? "semicolon" :
-                    matcher.group("STRING") != null ? "string" :
-                    matcher.group("COMMENT") != null ? "comment" :
-                    null; /* never happens */ assert styleClass != null;
-            spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
-            spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
-            lastKwEnd = matcher.end();
-        }
-        spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
-        return spansBuilder.create();
-    }
-	
+		Matcher matcher = PATTERN.matcher(text);
+		int lastKwEnd = 0;
+		StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
+		while (matcher.find()) {
+			String styleClass = matcher.group("KEYWORD") != null ? "keyword"
+					: matcher.group("PAREN") != null ? "paren"
+							: matcher.group("BRACE") != null ? "brace"
+									: matcher.group("BRACKET") != null ? "bracket"
+											: matcher.group("SEMICOLON") != null ? "semicolon"
+													: matcher.group("STRING") != null ? "string"
+															: matcher.group("COMMENT") != null ? "comment" : null;
+			/* never happens */ assert styleClass != null;
+			spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
+			spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
+			lastKwEnd = matcher.end();
+		}
+		spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
+		return spansBuilder.create();
+	}
+
 	/**
 	 * Marks the paragraphs containing errors
+	 * 
 	 * @param compileErrors
 	 */
 	public void markErrors(Collection<CompileError> compileErrors) {
-		// Remove all paragraph styles 
-		for(int lineIndex = 0; lineIndex < getParagraphs().size(); lineIndex++) {
-			if(lineIndex != this.getCurrentParagraph())
+		// Remove all paragraph styles
+		for (int lineIndex = 0; lineIndex < getParagraphs().size(); lineIndex++) {
+			if (lineIndex != this.getCurrentParagraph())
 				setParagraphStyle(lineIndex, Collections.emptyList());
-			else 
-				setParagraphStyle(lineIndex, Collections.singletonList("has-caret")); // If current line, set caret
+			else
+				setParagraphStyle(lineIndex, Collections.singletonList("has-caret")); // If
+																						// current
+																						// line,
+																						// set
+																						// caret
 		}
-		
+
 		// Add style class to error lines
-		for(CompileError compileError : compileErrors) {
+		for (CompileError compileError : compileErrors) {
 			int lineIndex = Math.toIntExact(compileError.getLineNumber()) - 1;
 			setParagraphStyle(lineIndex, Collections.singletonList("has-error"));
 		}
 	}
-	
 
 }

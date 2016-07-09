@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -21,27 +22,17 @@ import xmlModelParser.XmlValue;
  * Represents the XML tag "exercise", implements {@link Parsable}
  *
  */
-public class Exercise implements Parsable {
+public class Exercise extends Observable implements Parsable, Observer {
 	private String name;
 	private String description;
 	private ArrayList<Class> classes;
 	private ArrayList<Test> tests;
 	private Config config;
 
-	public Exercise(String name, String description, ArrayList<Class> classes, ArrayList<Test> tests, Config config) {
+	public void setName(String name) {
 		this.name = name;
-		this.description = description;
-		this.classes = classes;
-		this.tests = tests;
-		this.config = config;
-	}
-
-	public Exercise(String name, String description, Class[] classes, Test[] tests, Config config) {
-		this.name = name;
-		this.description = description;
-		this.classes = (ArrayList<Class>) Arrays.asList(classes);
-		this.tests = (ArrayList<Test>) Arrays.asList(tests);
-		this.config = config;
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	public Exercise() {
@@ -56,7 +47,10 @@ public class Exercise implements Parsable {
 	 *            The {@link Test} that is to be added
 	 */
 	public void addTest(Test test) {
+		test.addObserver(this);
 		this.tests.add(test);
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	/**
@@ -66,7 +60,10 @@ public class Exercise implements Parsable {
 	 *            The {@link Class} that is to be added
 	 */
 	public void addClass(Class mClass) {
+		mClass.addObserver(this);
 		this.classes.add(mClass);
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	/**
@@ -186,30 +183,36 @@ public class Exercise implements Parsable {
 	public XmlNode objectToXMLObject() {
 
 		XmlList exerciseParameters = new XmlList();
-		//Description
+		// Description
 		XmlNode xmlDescription = new XmlNode("description", new XmlString(this.description));
 		exerciseParameters.add(xmlDescription);
-		//Classes
+		// Classes
 		XmlList classesXmlList = new XmlList();
 		for (Class cls : this.classes) {
 			classesXmlList.add(cls);
 		}
 		XmlNode classesXmlObj = new XmlNode("classes", classesXmlList);
 		exerciseParameters.add(classesXmlObj);
-		//Tests
+		// Tests
 		XmlList xmlTestsXmlList = new XmlList();
 		for (Test test : this.tests) {
 			xmlTestsXmlList.add(test);
 		}
 		XmlNode TestsXmlObj = new XmlNode("tests", xmlTestsXmlList);
 		exerciseParameters.add(TestsXmlObj);
-		
+
 		exerciseParameters.add(this.config);
-		
+
 		XmlNode exercise = new XmlNode("exercise", exerciseParameters);
 		exercise.addAtribute(new XmlAtribute("name", this.name));
 
 		return exercise;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 }

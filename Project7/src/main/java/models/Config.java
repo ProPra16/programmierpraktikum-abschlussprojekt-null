@@ -16,13 +16,13 @@ import xmlModelParser.XmlString;
  * Represents the XML tag "config", implements {@link Parsable}.
  *
  */
-public class Config implements Parsable {
-	public boolean babySteps;
+public class Config extends Observable implements Parsable {
+	private boolean babySteps;
 
-	public boolean timeTracking;
+	private boolean timeTracking;
 
 	// TimeLimit in milliseconds
-	public long timeLimit;
+	private long timeLimit;
 
 	public Config(boolean babysteps, boolean timetracking, long timeLimit) {
 		super();
@@ -33,6 +33,36 @@ public class Config implements Parsable {
 
 	public Config() {
 
+	}
+
+	public boolean isBabySteps() {
+		return babySteps;
+	}
+
+	public void setBabySteps(boolean babySteps) {
+		this.babySteps = babySteps;
+		this.setChanged();
+		this.notifyObservers();
+	}
+
+	public boolean isTimeTracking() {
+		return timeTracking;
+	}
+
+	public void setTimeTracking(boolean timeTracking) {
+		this.timeTracking = timeTracking;
+		this.setChanged();
+		this.notifyObservers();
+	}
+
+	public long getTimeLimit() {
+		return timeLimit;
+	}
+
+	public void setTimeLimit(long timeLimit) {
+		this.timeLimit = timeLimit;
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	@Override
