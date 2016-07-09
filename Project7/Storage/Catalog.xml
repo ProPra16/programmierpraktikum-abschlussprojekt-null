@@ -2,7 +2,9 @@
 <exercise name="RomanNumberConverter">
 <description>Konvertiert arabische in römische Zahlen.</description>
 <classes>
-<class name="RomanNumberConverter"></class>
+<class name="RomanNumberConverter">public class RomanNumberConverter {
+
+}</class>
 </classes>
 <tests>
 <test name="RomanNumberConverterTest">
@@ -11,6 +13,7 @@ import org.junit.Test;
 public class RomanNumberConverterTest {
 	@Test
 	public void testSomething() {
+	
 	}
 }
 			</test>

@@ -39,7 +39,7 @@ public class RedViewController implements Initializable {
 	Node confirmButton;
 
 	Thread compileThread;
-	ObservableList<CompileError> compileErrors;;
+	ObservableList<CompileError> compileErrors;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
