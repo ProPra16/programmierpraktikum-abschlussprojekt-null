@@ -2,7 +2,9 @@ package gui.controllers.cycle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.spec.EncodedKeySpec;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -21,13 +23,18 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import models.Exercise;
+import models.TrackingData;
+import models.TrackingSession;
 import services.CompileService;
+import services.TrackingService;
 import vk.core.api.CompileError;
 import vk.core.api.TestResult;
 
 public class RedViewController implements Initializable {
 	Pane mainSection;
 	CompileService compileService;
+	TrackingSession trackingSession;
+	TrackingData trackingData;
 
 	@FXML
 	AnchorPane rootPane;
@@ -94,7 +101,6 @@ public class RedViewController implements Initializable {
 	public void confirmAction() {
 
 		compileService.getExercise().getTests().get(0).setContent(sourceTextField.getText());
-
 		compileService.compileAndRunTests();
 
 		// Check if tests are valid
@@ -143,9 +149,15 @@ public class RedViewController implements Initializable {
 	 * @param exercise
 	 */
 	public void setExercise(Exercise exercise) {
+		// Create compile service
 		compileService = new CompileService(exercise);
 		compileService.setMode(CompileService.Mode.RED);
+		// Update source code
 		sourceTextField.replaceText(exercise.getTests().get(0).getContent());
+		
+		// Start tracking-session
+		trackingSession = TrackingService.shared().startSession(exercise.getName(), new Date());
+		createTrackingPoint();
 	}
 
 	/**
@@ -157,6 +169,16 @@ public class RedViewController implements Initializable {
 		this.compileService = compileService;
 		compileService.setMode(CompileService.Mode.RED);
 		sourceTextField.replaceText(compileService.getExercise().getTests().get(0).getContent());
+	}
+	
+	/**
+	 * Sets the tracking session
+	 * 
+	 * @param trackingSession the actual tracking result
+	 */
+	public void setTrackingSession(TrackingSession trackingSession) {
+		this.trackingSession = trackingSession;
+		createTrackingPoint();
 	}
 
 	/**
@@ -172,21 +194,41 @@ public class RedViewController implements Initializable {
 	 * Switches to green
 	 */
 	private void switchToGreen() {
+		// End tracking
+		endTracking();
+		
+		// load red
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/CycleView.fxml"));
-			GreenViewController exerciseController = new GreenViewController();
-			loader.setController(exerciseController);
-			Parent exerciseView = loader.load();
-			exerciseController.setCompileService(compileService);
-			AnchorPane.setTopAnchor(exerciseView, 0.0);
-			AnchorPane.setLeftAnchor(exerciseView, 0.0);
-			AnchorPane.setRightAnchor(exerciseView, 0.0);
-			AnchorPane.setBottomAnchor(exerciseView, 0.0);
-			exerciseController.setMainSection(mainSection);
+			GreenViewController greenController = new GreenViewController();
+			loader.setController(greenController);
+			Parent cycleView = loader.load();
+			AnchorPane.setTopAnchor(cycleView, 0.0);
+			AnchorPane.setLeftAnchor(cycleView, 0.0);
+			AnchorPane.setRightAnchor(cycleView, 0.0);
+			AnchorPane.setBottomAnchor(cycleView, 0.0);
+			greenController.setCompileService(compileService);
+			greenController.setTrackingSession(trackingSession);
+			greenController.setMainSection(mainSection);
 			mainSection.getChildren().clear();
-			mainSection.getChildren().add(exerciseView);
+			mainSection.getChildren().add(cycleView);
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Creates tracking point
+	 */
+	private void createTrackingPoint() {
+		trackingData = new TrackingData(TrackingData.Mode.RED, new Date());
+	}
+	
+	/**
+	 * Lets tracking end and adds tracking point to tracking session
+	 */
+	private void endTracking() {
+		trackingData.setEnd(new Date());
+		trackingSession.getData().add(trackingData);
 	}
 }
