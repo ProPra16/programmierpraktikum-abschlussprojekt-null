@@ -14,7 +14,7 @@ import models.Exercise;
 
 public class ModelStorageController extends Observable implements Observer {
 	private static ModelStorageController instance;
-	public static final String defaultPath = "Storage/";
+	public static final String defaultPath = ".tddt/";
 	public static final String defaultFileName = "Catalog.xml";
 	private Catalog catalog;
 

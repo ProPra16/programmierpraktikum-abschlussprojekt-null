@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onDragDropped="#dragDropped" onDragOver="#dragOver" onDragExited="#dragExited" prefHeight="400.0" prefWidth="600.0" styleClass="import" stylesheets="@../styles/import.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ImportViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onDragDropped="#dragDropped" onDragOver="#dragOver" onDragExited="#dragExited" prefHeight="400.0" prefWidth="600.0" styleClass="import" stylesheets="@../styles/import.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ImportViewController">
    <children>
       <VBox fx:id="dropArea" alignment="CENTER" prefHeight="200.0" prefWidth="286.0" styleClass="drop-area" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
          <children>

@@ -135,7 +135,6 @@ public class RedViewController implements Initializable {
 			// Really valid, so simply switch to green
 			switchToGreen();
 		}
-
 	}
 
 	/**

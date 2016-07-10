@@ -3,24 +3,18 @@ package gui.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import xmlModelParser.ModelStorageController;
 import xmlModelParser.ParserException;
 
@@ -76,6 +70,16 @@ public class ImportViewController implements Initializable {
 	
 	public void setMainController(MainViewController mainController) {
 		this.mainController = mainController;
+		/* TODO not possible, because blank file is created automatically... 
+		try {
+			// Try to load last exercise
+			ModelStorageController.getInstance().loadModel();
+			// Last session is restored, load exercise view
+			mainController.showExercisesView();
+		} catch (SAXException | IOException | ParserConfigurationException | ParserException e) {
+			// Do nothing - import view is already there
+		}
+		*/
 	}
 	
 	private void loadConfig(File file) {
