@@ -15,13 +15,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import models.TrackingData;
-import models.TrackingResult;
+import models.TrackingSession;
 import services.CompileService;
 
 public class BlueViewController implements Initializable {
 	Pane mainSection;
 	CompileService compileService;
-	TrackingResult trackingSession;
+	TrackingSession trackingSession;
 	TrackingData trackingData;
 
 	@FXML
@@ -102,7 +102,7 @@ public class BlueViewController implements Initializable {
 	 * 
 	 * @param trackingSession the actual tracking result
 	 */
-	public void setTrackingSession(TrackingResult trackingSession) {
+	public void setTrackingSession(TrackingSession trackingSession) {
 		this.trackingSession = trackingSession;
 		createTrackingPoint();
 	}

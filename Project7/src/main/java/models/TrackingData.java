@@ -4,6 +4,9 @@ import java.util.Date;
 
 public class TrackingData {
 	
+	/**
+	 * Cycle mode representation - red, green, blue
+	 */
 	public enum Mode {
 		RED,
 		GREEN,
@@ -11,7 +14,7 @@ public class TrackingData {
 	}
 	
 	/**
-	 * Mode
+	 * Cycle mode
 	 */
 	private final Mode mode; 
 	

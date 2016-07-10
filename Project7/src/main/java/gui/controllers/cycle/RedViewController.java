@@ -24,7 +24,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import models.Exercise;
 import models.TrackingData;
-import models.TrackingResult;
+import models.TrackingSession;
 import services.CompileService;
 import services.TrackingService;
 import vk.core.api.CompileError;
@@ -33,7 +33,7 @@ import vk.core.api.TestResult;
 public class RedViewController implements Initializable {
 	Pane mainSection;
 	CompileService compileService;
-	TrackingResult trackingSession;
+	TrackingSession trackingSession;
 	TrackingData trackingData;
 
 	@FXML
@@ -176,7 +176,7 @@ public class RedViewController implements Initializable {
 	 * 
 	 * @param trackingSession the actual tracking result
 	 */
-	public void setTrackingSession(TrackingResult trackingSession) {
+	public void setTrackingSession(TrackingSession trackingSession) {
 		this.trackingSession = trackingSession;
 		createTrackingPoint();
 	}

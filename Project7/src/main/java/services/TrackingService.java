@@ -4,20 +4,25 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-import models.TrackingResult;
+import models.TrackingSession;
 
 public class TrackingService {
 	
-	public enum Mode {
-		RED,
-		GREEN,
-		BLUE
-	}
+	/**
+	 * Shared TrackingService instance
+	 */
 	private static TrackingService instance;
-	private final Collection<TrackingResult> trackingResults;
 	
+	/**
+	 * All tracking results
+	 */
+	private final Collection<TrackingSession> trackingResults;
+	
+	/**
+	 * Constructs a tracking service for private purposes
+	 */
 	private TrackingService() {
-		trackingResults = new ArrayList<TrackingResult>();
+		trackingResults = new ArrayList<TrackingSession>();
 	}
 	
 	/**
@@ -37,17 +42,8 @@ public class TrackingService {
 	 * 
 	 * @return list of tracking results
 	 */
-	public synchronized Collection<TrackingResult> getTrackingResults() {
+	public synchronized Collection<TrackingSession> getTrackingResults() {
 		return this.trackingResults;
-	}
-	
-	/**
-	 * Adds a tracking result to the list 
-	 * 
-	 * @param trackingResult tracking result to be added
-	 */
-	public synchronized void addTrackingResult(TrackingResult trackingResult) {
-		trackingResults.add(trackingResult);
 	}
 	
 	/**
@@ -57,8 +53,8 @@ public class TrackingService {
 	 * @param startDate start date
 	 * @return the created tracking result
 	 */
-	public synchronized TrackingResult startSession(String exerciseName, Date startDate) {
-		TrackingResult trackingResult = new TrackingResult(exerciseName, startDate); 
+	public synchronized TrackingSession startSession(String exerciseName, Date startDate) {
+		TrackingSession trackingResult = new TrackingSession(exerciseName, startDate); 
 		trackingResults.add(trackingResult);
 		return trackingResult;
 	}	
