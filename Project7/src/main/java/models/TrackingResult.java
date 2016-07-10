@@ -1,37 +1,30 @@
 package models;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.ArrayList;
 
 public class TrackingResult {
-	private String exerciseName;
-	private final Collection<TrackingData> red;
-	private final Collection<TrackingData> green;
-	private final Collection<TrackingData> blue;
+	private final Date startDate;
+	private final String exerciseName;
+	private final Collection<TrackingData> data;
 	
-	public TrackingResult() {
-		red = new ArrayList<TrackingData>();
-		green = new ArrayList<TrackingData>();
-		blue = new ArrayList<TrackingData>();
+	public TrackingResult(String exerciseName, Date startDate) {
+		data = new ArrayList<TrackingData>();
+		
+		this.exerciseName = exerciseName;
+		this.startDate = startDate;
 	}
 	
-	public void setExerciseName(String exerciseName) {
-		this.exerciseName = exerciseName;
+	public Date getStartDate() {
+		return this.startDate;
 	}
 	
 	public String getExerciseName() {
 		return exerciseName;
 	}
 	
-	public Collection<TrackingData> getRed() {
-		return red;
-	}
-	
-	public Collection<TrackingData> getGreen() {
-		return green;
-	}
-	
-	public Collection<TrackingData> getBlue() {
-		return blue;
+	public Collection<TrackingData> getData() {
+		return data;
 	}
 }

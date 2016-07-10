@@ -2,6 +2,7 @@ package gui.controllers.cycle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import gui.views.cycle.JavaCodeArea;
@@ -13,11 +14,15 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import models.TrackingData;
+import models.TrackingResult;
 import services.CompileService;
 
 public class BlueViewController implements Initializable {
 	Pane mainSection;
 	CompileService compileService;
+	TrackingResult trackingSession;
+	TrackingData trackingData;
 
 	@FXML
 	AnchorPane rootPane;
@@ -44,7 +49,7 @@ public class BlueViewController implements Initializable {
 	 */
 	@FXML
 	public void backAction() {
-
+		// No back button here
 	}
 	
 	/**
@@ -77,22 +82,7 @@ public class BlueViewController implements Initializable {
 			alert.showAndWait();
 		} else if (compileService.isValid()) {
 			// Switch to RED
-			try {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/CycleView.fxml"));
-				RedViewController testController = new RedViewController();
-				loader.setController(testController);
-				Parent testView = loader.load();
-				AnchorPane.setTopAnchor(testView, 0.0);
-				AnchorPane.setLeftAnchor(testView, 0.0);
-				AnchorPane.setRightAnchor(testView, 0.0);
-				AnchorPane.setBottomAnchor(testView, 0.0);
-				testController.setCompileService(compileService);
-				testController.setMainSection(mainSection);
-				mainSection.getChildren().clear();
-				mainSection.getChildren().add(testView);
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
+			switchToRed();
 		}
 	}
 	
@@ -106,6 +96,16 @@ public class BlueViewController implements Initializable {
 		compileService.setMode(CompileService.Mode.GREEN);
 		sourceTextField.replaceText(compileService.getExercise().getClasses().get(0).getContent());
 	}
+	
+	/**
+	 * Sets the tracking session
+	 * 
+	 * @param trackingSession the actual tracking result
+	 */
+	public void setTrackingSession(TrackingResult trackingSession) {
+		this.trackingSession = trackingSession;
+		createTrackingPoint();
+	}
 
 	/**
 	 * Sets the main section
@@ -114,5 +114,45 @@ public class BlueViewController implements Initializable {
 	 */
 	public void setMainSection(Pane mainSection) {
 		this.mainSection = mainSection;
+	}
+	
+	/**
+	 * Switches to red
+	 */
+	private void switchToRed() {
+		endTracking();
+		
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/CycleView.fxml"));
+			RedViewController testController = new RedViewController();
+			loader.setController(testController);
+			Parent testView = loader.load();
+			AnchorPane.setTopAnchor(testView, 0.0);
+			AnchorPane.setLeftAnchor(testView, 0.0);
+			AnchorPane.setRightAnchor(testView, 0.0);
+			AnchorPane.setBottomAnchor(testView, 0.0);
+			testController.setCompileService(compileService);
+			testController.setTrackingSession(trackingSession);
+			testController.setMainSection(mainSection);
+			mainSection.getChildren().clear();
+			mainSection.getChildren().add(testView);
+		} catch (IOException exception) {
+			exception.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Creates tracking point
+	 */
+	private void createTrackingPoint() {
+		trackingData = new TrackingData(TrackingData.Mode.BLUE, new Date());
+	}
+	
+	/**
+	 * Lets tracking end and adds tracking point to tracking session
+	 */
+	private void endTracking() {
+		trackingData.setEnd(new Date());
+		trackingSession.getData().add(trackingData);
 	}
 }

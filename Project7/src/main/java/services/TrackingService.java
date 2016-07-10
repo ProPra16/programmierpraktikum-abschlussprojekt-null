@@ -1,16 +1,23 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import models.TrackingResult;
 
 public class TrackingService {
 	
+	public enum Mode {
+		RED,
+		GREEN,
+		BLUE
+	}
 	private static TrackingService instance;
-	private Collection<TrackingResult> trackingResults;
+	private final Collection<TrackingResult> trackingResults;
 	
 	private TrackingService() {
-		
+		trackingResults = new ArrayList<TrackingResult>();
 	}
 	
 	/**
@@ -43,6 +50,17 @@ public class TrackingService {
 		trackingResults.add(trackingResult);
 	}
 	
-	
+	/**
+	 * Starts a new tracking session 
+	 * 
+	 * @param exerciseName name of exercise
+	 * @param startDate start date
+	 * @return the created tracking result
+	 */
+	public synchronized TrackingResult startSession(String exerciseName, Date startDate) {
+		TrackingResult trackingResult = new TrackingResult(exerciseName, startDate); 
+		trackingResults.add(trackingResult);
+		return trackingResult;
+	}	
 
 }
