@@ -26,18 +26,18 @@ public class MainViewController implements Initializable {
 			// Load menu in sidebar
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/MenuView.fxml"));
 			Parent menuView = loader.load();
-			sideSection.getChildren().add(menuView);
 			setAllAnchorsNull(menuView);
+			sideSection.getChildren().add(menuView);
 			menuController = loader.getController();
 			menuController.setMainSection(mainSection);
 			
 			// Load import view in main section
 			loader = new FXMLLoader(getClass().getResource("/gui/views/ImportView.fxml"));
 			Parent importView = loader.load();
+			setAllAnchorsNull(importView);
 			mainSection.getChildren().add(importView);
 			ImportViewController importController = loader.getController();
 			importController.setMainController(this);
-			setAllAnchorsNull(importView);
 			
 		} catch (IOException exception) {
 			// TODO Handle exception
