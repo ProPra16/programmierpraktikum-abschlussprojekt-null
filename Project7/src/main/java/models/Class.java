@@ -1,17 +1,23 @@
 package models;
 
+import java.util.Observable;
+
 import org.w3c.dom.Element;
 
 import xmlModelParser.Parsable;
+import xmlModelParser.ParserException;
+import xmlModelParser.XmlAtribute;
+import xmlModelParser.XmlNode;
+import xmlModelParser.XmlString;
+import xmlModelParser.XmlValue;
 
 /**
  * Represents the XML tag "class", implements {@link Parsable}.
  *
  */
-public class Class implements Parsable {
+public class Class extends Observable implements Parsable {
 
 	private String name;
-	
 
 	private String content;
 
@@ -32,6 +38,8 @@ public class Class implements Parsable {
 	 */
 	public void setContent(String content) {
 		this.content = content;
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	/**
@@ -44,10 +52,18 @@ public class Class implements Parsable {
 	}
 
 	@Override
-	public Parsable loadfromXML(Element element) {
+	public Parsable loadfromXML(Element element) throws ParserException {
 		name = element.getAttribute("name");
 		content = element.getTextContent();
 		return this;
 
 	}
+
+	@Override
+	public XmlNode objectToXMLObject() {
+		XmlNode xmlObj = new XmlNode("class", new XmlString(this.content));
+		xmlObj.addAtribute(new XmlAtribute("name", this.name));
+		return xmlObj;
+	}
+
 }

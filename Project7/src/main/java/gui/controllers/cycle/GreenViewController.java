@@ -1,6 +1,5 @@
 package gui.controllers.cycle;
 
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -19,11 +18,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 
-
-public class GreenViewController implements Initializable{
+public class GreenViewController implements Initializable {
 	Pane mainSection;
 	CompileService compileService;
-	
+
 	@FXML
 	AnchorPane rootPane;
 	@FXML
@@ -32,29 +30,29 @@ public class GreenViewController implements Initializable{
 	Node backButton;
 	@FXML
 	Node confirmButton;
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// Set css class for styling
-		if(rootPane.getStyleClass().contains("red")) {
+		if (rootPane.getStyleClass().contains("red")) {
 			rootPane.getStyleClass().remove("red");
 		}
 		rootPane.getStyleClass().add("green");
 	}
-	
+
 	/**
 	 * FXML-Action for back button
 	 */
 	@FXML
-	public void backAction(){
-		// Ask for going back 
+	public void backAction() {
+		// Ask for going back
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 		alert.setTitle("TDDT");
 		alert.setHeaderText("Going back");
 		alert.setContentText("Are you sure you want to go back to edit the tests?");
 		Optional<ButtonType> result = alert.showAndWait();
-		
-		if(result.get() == ButtonType.OK) {
+
+		if (result.get() == ButtonType.OK) {
 			// Go back to RED
 			try {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/CycleView.fxml"));
@@ -69,26 +67,25 @@ public class GreenViewController implements Initializable{
 				testController.setMainSection(mainSection);
 				mainSection.getChildren().clear();
 				mainSection.getChildren().add(testView);
-			}
-			catch (IOException ex) {
+			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
 		}
 	}
-	
+
 	/**
 	 * FXML-Action for confirm button
 	 */
 	@FXML
-	public void confirmAction() {	
+	public void confirmAction() {
 		compileService.getExercise().getClasses().get(0).setContent(sourceTextField.getText());
 		compileService.compileAndRunTests();
-		
+
 		// Check if there are compile errors
-		if(!compileService.isValid() && compileService.getCompilerResult().hasCompileErrors()) {
+		if (!compileService.isValid() && compileService.getCompilerResult().hasCompileErrors()) {
 			// Mark compile errors
 			sourceTextField.markErrors(compileService.getCompileErrors());
-			
+
 			// Show alert
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("TDDT");
@@ -97,20 +94,21 @@ public class GreenViewController implements Initializable{
 			alert.showAndWait();
 		}
 		// Check if all tests are passed
-		else if(!compileService.getCompilerResult().hasCompileErrors() && compileService.getTestResult().getNumberOfFailedTests() != 0) {
+		else if (!compileService.getCompilerResult().hasCompileErrors()
+				&& compileService.getTestResult().getNumberOfFailedTests() != 0) {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("TDDT");
 			alert.setHeaderText("Tests failed");
 			alert.setContentText("Your code have not passed all tests.");
 			alert.showAndWait();
-		}
-		else if(compileService.isValid()) {
-			// TODO Switch to refactor 
+		} else if (compileService.isValid()) {
+			// TODO Switch to refactor
 		}
 	}
-	
+
 	/**
 	 * Sets the compile service
+	 * 
 	 * @param compileService
 	 */
 	public void setCompileService(CompileService compileService) {
@@ -118,12 +116,13 @@ public class GreenViewController implements Initializable{
 		compileService.setMode(CompileService.Mode.GREEN);
 		sourceTextField.replaceText(compileService.getExercise().getClasses().get(0).getContent());
 	}
-	
+
 	/**
 	 * Sets the main section
+	 * 
 	 * @param mainSection
 	 */
-	public void setMainSection(Pane mainSection){
+	public void setMainSection(Pane mainSection) {
 		this.mainSection = mainSection;
 	}
 }

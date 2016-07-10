@@ -10,17 +10,18 @@ import gui.views.exercises.ExercisesGrid;
 import javafx.fxml.*;
 import javafx.scene.control.ScrollPane;
 import models.Catalog;
+import xmlModelParser.ModelStorageController;
 import xmlModelParser.Parser;
+import xmlModelParser.ParserException;
 
 public class ExercisesViewController implements Initializable {
 
 	@FXML
 	ScrollPane mainPane;
-	Catalog catalog;
-	boolean inDetailView;
-	
-	MenuViewController menuController; 
 
+	boolean inDetailView;
+
+	MenuViewController menuController;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -28,31 +29,29 @@ public class ExercisesViewController implements Initializable {
 		// class
 		// TODO TAKE THIS OUT BEFORE RELEASE THE FOLLOWING LINES ARE JUST FOR
 		// TETING PURPOSES
-		Parser parser = new Parser();
+
 		try {
-			catalog = parser.parse("default.xml");
-		} catch (SAXException | IOException | ParserConfigurationException e) {
+			ModelStorageController.getInstance().loadModel();
+		} catch (SAXException | IOException | ParserConfigurationException | ParserException e) {
 			// TODO Handle Error appropriately
-			catalog = new Catalog();
+
 			e.printStackTrace();
 		}
-		
-		ExercisesGrid exercisesGrid = new ExercisesGrid(catalog.getExercises());
+
+		ExercisesGrid exercisesGrid = new ExercisesGrid(
+				ModelStorageController.getInstance().getCatalog().getExercises());
 		exercisesGrid.addSelectExerciseHandler((exercise) -> {
 			menuController.selectExercise(exercise);
 		});
-		
+
 		mainPane.setContent(exercisesGrid);
 	}
-	
-	
+
 	/**
 	 * Sets the menu controller
 	 */
 	public void setMenuController(MenuViewController menuController) {
 		this.menuController = menuController;
 	}
-	
-	
-	
+
 }
