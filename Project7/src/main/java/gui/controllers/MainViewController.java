@@ -17,6 +17,8 @@ public class MainViewController implements Initializable {
 	AnchorPane sideSection;
 	@FXML
 	AnchorPane mainSection;
+	
+	MenuViewController menuController;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -26,33 +28,52 @@ public class MainViewController implements Initializable {
 			Parent menuView = loader.load();
 			sideSection.getChildren().add(menuView);
 			setAllAnchorsNull(menuView);
-			MenuViewController menuController = loader.getController();
+			menuController = loader.getController();
 			menuController.setMainSection(mainSection);
-
-			// Load exercise overview in main section
-			loader = new FXMLLoader(getClass().getResource("/gui/views/ExercisesView.fxml"));
-			Parent exerciseView = loader.load();
-			mainSection.getChildren().add(exerciseView);
-			setAllAnchorsNull(exerciseView);
-			ExercisesViewController exercisesController = loader.getController();
-			exercisesController.setMenuController(menuController);
-			menuController.setExerciseView(exerciseView);
-		} catch (IOException e) {
+			
+			// Load import view in main section
+			loader = new FXMLLoader(getClass().getResource("/gui/views/ImportView.fxml"));
+			Parent importView = loader.load();
+			mainSection.getChildren().add(importView);
+			ImportViewController importController = loader.getController();
+			importController.setMainController(this);
+			setAllAnchorsNull(importView);
+			
+		} catch (IOException exception) {
 			// TODO Handle exception
-			e.printStackTrace();
+			exception.printStackTrace();
 		}
 	}
 
 	/**
 	 * Sets all anchors null
-	 * 
 	 * @param node
 	 */
-	private void setAllAnchorsNull(Node node) {
+	public static void setAllAnchorsNull(Node node) {
 		AnchorPane.setTopAnchor(node, 0.0);
 		AnchorPane.setLeftAnchor(node, 0.0);
 		AnchorPane.setRightAnchor(node, 0.0);
 		AnchorPane.setBottomAnchor(node, 0.0);
+	}
+	
+	/**
+	 * Shows exerciseView
+	 */
+	public void showExercisesView() {
+		try {
+			// Load exercise overview in main section
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/ExercisesView.fxml"));
+			Parent exerciseView = loader.load();
+			mainSection.getChildren().clear();
+			mainSection.getChildren().add(exerciseView);
+			setAllAnchorsNull(exerciseView);
+			ExercisesViewController exercisesController = loader.getController();
+			exercisesController.setMenuController(menuController);
+			menuController.setExerciseView(exerciseView);
+		} catch(IOException exception) {
+			// TODO Handle exception
+			exception.printStackTrace();
+		}
 	}
 
 }

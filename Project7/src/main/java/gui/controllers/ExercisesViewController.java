@@ -30,14 +30,6 @@ public class ExercisesViewController implements Initializable {
 		// TODO TAKE THIS OUT BEFORE RELEASE THE FOLLOWING LINES ARE JUST FOR
 		// TETING PURPOSES
 
-		try {
-			ModelStorageController.getInstance().loadModel();
-		} catch (SAXException | IOException | ParserConfigurationException | ParserException e) {
-			// TODO Handle Error appropriately
-
-			e.printStackTrace();
-		}
-
 		ExercisesGrid exercisesGrid = new ExercisesGrid(
 				ModelStorageController.getInstance().getCatalog().getExercises());
 		exercisesGrid.addSelectExerciseHandler((exercise) -> {

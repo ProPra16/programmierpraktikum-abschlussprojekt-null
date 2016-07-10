@@ -1,0 +1,31 @@
+.import {
+	-fx-background-color: #eee;
+}
+
+.drop-area {
+	-fx-border-style: dashed;
+	-fx-border-width: 6px;
+	-fx-border-color: rgba(0, 0, 0, 0.1);
+}
+
+.drop-area .arrow-down {
+	-fx-opacity: 0.1;
+}
+
+.drop-area .drop-label {
+	-fx-text-fill: rgba(0, 0, 0, 0.3);
+	-fx-font-size: 20px;
+	-fx-font-weight: bold;
+}
+
+.drop-area.active {
+	-fx-border-color: rgba(0, 0, 0, 0.3);
+}
+
+.drop-area.active .arrow-down {
+	-fx-opacity: 0.3;
+}
+
+.drop-area.active .drop-label {
+	-fx-text-fill: rgba(0, 0, 0, 0.6);
+}
