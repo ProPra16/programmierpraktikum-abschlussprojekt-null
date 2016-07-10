@@ -2,22 +2,20 @@ package gui.controllers.cycle;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 import gui.views.cycle.JavaCodeArea;
-import services.CompileService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import services.CompileService;
 
-public class GreenViewController implements Initializable {
+public class BlueViewController implements Initializable {
 	Pane mainSection;
 	CompileService compileService;
 
@@ -29,49 +27,26 @@ public class GreenViewController implements Initializable {
 	Node backButton;
 	@FXML
 	Node confirmButton;
-
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// Disable back button - don't edit red 
+		backButton.setVisible(false);
 		// Set css class for styling
-		if (rootPane.getStyleClass().contains("red")) {
-			rootPane.getStyleClass().remove("red");
+		if (rootPane.getStyleClass().contains("green")) {
+			rootPane.getStyleClass().remove("green");
 		}
-		rootPane.getStyleClass().add("green");
+		rootPane.getStyleClass().add("blue");
 	}
-
+	
 	/**
 	 * FXML-Action for back button
 	 */
 	@FXML
 	public void backAction() {
-		// Ask for going back
-		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-		alert.setTitle("TDDT");
-		alert.setHeaderText("Going back");
-		alert.setContentText("Are you sure you want to go back to edit the tests?");
-		Optional<ButtonType> result = alert.showAndWait();
 
-		if (result.get() == ButtonType.OK) {
-			// Go back to RED
-			try {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/CycleView.fxml"));
-				RedViewController testController = new RedViewController();
-				loader.setController(testController);
-				Parent testView = loader.load();
-				AnchorPane.setTopAnchor(testView, 0.0);
-				AnchorPane.setLeftAnchor(testView, 0.0);
-				AnchorPane.setRightAnchor(testView, 0.0);
-				AnchorPane.setBottomAnchor(testView, 0.0);
-				testController.setCompileService(compileService);
-				testController.setMainSection(mainSection);
-				mainSection.getChildren().clear();
-				mainSection.getChildren().add(testView);
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
 	}
-
+	
 	/**
 	 * FXML-Action for confirm button
 	 */
@@ -101,18 +76,18 @@ public class GreenViewController implements Initializable {
 			alert.setContentText("Your code have not passed all tests.");
 			alert.showAndWait();
 		} else if (compileService.isValid()) {
-			// Switch to BLUE
+			// Switch to RED
 			try {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/CycleView.fxml"));
-				BlueViewController refactorViewController = new BlueViewController();
-				loader.setController(refactorViewController);
+				RedViewController testController = new RedViewController();
+				loader.setController(testController);
 				Parent testView = loader.load();
 				AnchorPane.setTopAnchor(testView, 0.0);
 				AnchorPane.setLeftAnchor(testView, 0.0);
 				AnchorPane.setRightAnchor(testView, 0.0);
 				AnchorPane.setBottomAnchor(testView, 0.0);
-				refactorViewController.setCompileService(compileService);
-				refactorViewController.setMainSection(mainSection);
+				testController.setCompileService(compileService);
+				testController.setMainSection(mainSection);
 				mainSection.getChildren().clear();
 				mainSection.getChildren().add(testView);
 			} catch (IOException ex) {
@@ -120,7 +95,7 @@ public class GreenViewController implements Initializable {
 			}
 		}
 	}
-
+	
 	/**
 	 * Sets the compile service
 	 * 

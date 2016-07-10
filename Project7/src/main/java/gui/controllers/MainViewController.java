@@ -47,6 +47,7 @@ public class MainViewController implements Initializable {
 
 	/**
 	 * Sets all anchors null
+	 * 
 	 * @param node
 	 */
 	public static void setAllAnchorsNull(Node node) {
