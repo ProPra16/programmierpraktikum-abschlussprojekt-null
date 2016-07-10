@@ -52,25 +52,30 @@ public class RedViewController implements Initializable {
 		}
 		rootPane.getStyleClass().add("red");
 
-		/*
-		 * TODO autocompile - Not working until yet... // Initialize observable
-		 * list compileErrors = FXCollections.observableArrayList(); // Mark
-		 * compile errors, if they changed compileErrors.addListener(new
-		 * ListChangeListener<CompileError>() {
-		 * 
-		 * @Override public void onChanged(Change<? extends CompileError>
-		 * change) { sourceTextField.markErrors(compileErrors); } });
-		 * 
-		 * // Auto compile on change
-		 * sourceTextField.textProperty().addListener((observable, oldValue,
-		 * newValue) -> { // Check if possible previous compile is finished
-		 * (thread terminated) if(compileThread == null ||
-		 * compileThread.getState() == Thread.State.TERMINATED) { // Then
-		 * compile and change errors compileThread = new Thread(() -> {
-		 * compileService.compileAndRunTests(); compileErrors.clear();
-		 * compileErrors.addAll(compileService.getCompileErrors()); });
-		 * compileThread.start(); } });
-		 */
+		/* TODO autocompile - Not working until yet... 
+		// Initialize observable list
+		compileErrors = FXCollections.observableArrayList();
+		// Mark compile errors, if they changed
+		compileErrors.addListener(new ListChangeListener<CompileError>() {
+			@Override
+			public void onChanged(Change<? extends CompileError> change) {
+				sourceTextField.markErrors(compileErrors);
+			}
+		});
+		
+		// Auto compile on change 
+		sourceTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+			// Check if possible previous compile is finished (thread terminated) 
+			if(compileThread == null || compileThread.getState() == Thread.State.TERMINATED) {
+				// Then compile and change errors  
+				compileThread = new Thread(() -> {
+					compileService.compileAndRunTests();
+					compileErrors.clear();
+					compileErrors.addAll(compileService.getCompileErrors());
+				});
+				compileThread.start();
+			}
+		});*/
 
 	}
 
@@ -122,26 +127,14 @@ public class RedViewController implements Initializable {
 			alert.setContentText("There are compile errors in your code, are you sure to preceed?");
 			Optional<ButtonType> result = alert.showAndWait();
 
+			// Switch to green, if user is sure
 			if (result.get() == ButtonType.OK) {
-				// If assertEquals is missing, also ask for it
-				if (compileService.missingAssertEquals()) {
-					alert.setHeaderText("Missing assertEquals");
-					alert.setContentText("We think there is missing an assertEquals, are you sure to proceed?");
-					result = alert.showAndWait();
-					if (result.get() == ButtonType.OK) {
-						// Switch to green, if user is really sure for both
-						switchToGreen();
-					}
-				} else {
-					// Switch to green, if user is sure
-					switchToGreen();
-				}
+				switchToGreen();
 			}
 		} else {
 			// Really valid, so simply switch to green
 			switchToGreen();
 		}
-
 	}
 
 	/**

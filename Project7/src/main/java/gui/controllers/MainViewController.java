@@ -17,6 +17,8 @@ public class MainViewController implements Initializable {
 	AnchorPane sideSection;
 	@FXML
 	AnchorPane mainSection;
+	
+	MenuViewController menuController;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -24,22 +26,22 @@ public class MainViewController implements Initializable {
 			// Load menu in sidebar
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/MenuView.fxml"));
 			Parent menuView = loader.load();
-			sideSection.getChildren().add(menuView);
 			setAllAnchorsNull(menuView);
-			MenuViewController menuController = loader.getController();
+			sideSection.getChildren().add(menuView);
+			menuController = loader.getController();
 			menuController.setMainSection(mainSection);
-
-			// Load exercise overview in main section
-			loader = new FXMLLoader(getClass().getResource("/gui/views/ExercisesView.fxml"));
-			Parent exerciseView = loader.load();
-			mainSection.getChildren().add(exerciseView);
-			setAllAnchorsNull(exerciseView);
-			ExercisesViewController exercisesController = loader.getController();
-			exercisesController.setMenuController(menuController);
-			menuController.setExerciseView(exerciseView);
-		} catch (IOException e) {
+			
+			// Load import view in main section
+			loader = new FXMLLoader(getClass().getResource("/gui/views/ImportView.fxml"));
+			Parent importView = loader.load();
+			setAllAnchorsNull(importView);
+			mainSection.getChildren().add(importView);
+			ImportViewController importController = loader.getController();
+			importController.setMainController(this);
+			
+		} catch (IOException exception) {
 			// TODO Handle exception
-			e.printStackTrace();
+			exception.printStackTrace();
 		}
 	}
 
@@ -48,11 +50,31 @@ public class MainViewController implements Initializable {
 	 * 
 	 * @param node
 	 */
-	private void setAllAnchorsNull(Node node) {
+	public static void setAllAnchorsNull(Node node) {
 		AnchorPane.setTopAnchor(node, 0.0);
 		AnchorPane.setLeftAnchor(node, 0.0);
 		AnchorPane.setRightAnchor(node, 0.0);
 		AnchorPane.setBottomAnchor(node, 0.0);
+	}
+	
+	/**
+	 * Shows exerciseView
+	 */
+	public void showExercisesView() {
+		try {
+			// Load exercise overview in main section
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/ExercisesView.fxml"));
+			Parent exerciseView = loader.load();
+			mainSection.getChildren().clear();
+			mainSection.getChildren().add(exerciseView);
+			setAllAnchorsNull(exerciseView);
+			ExercisesViewController exercisesController = loader.getController();
+			exercisesController.setMenuController(menuController);
+			menuController.setExerciseView(exerciseView);
+		} catch(IOException exception) {
+			// TODO Handle exception
+			exception.printStackTrace();
+		}
 	}
 
 }
