@@ -21,14 +21,14 @@ public class Config extends Observable implements Parsable {
 
 	private boolean timeTracking;
 
-	// TimeLimit in milliseconds
-	private long timeLimit;
+	// time limit in milliseconds
+	private long bStepsTimeLimit;
 
-	public Config(boolean babysteps, boolean timetracking, long timeLimit) {
+	public Config(boolean babysteps, boolean timetracking, long bStepsTimeLimit) {
 		super();
 		this.babySteps = babysteps;
 		this.timeTracking = timetracking;
-		this.timeLimit = timeLimit;
+		this.bStepsTimeLimit = bStepsTimeLimit;
 	}
 
 	public Config() {
@@ -56,11 +56,11 @@ public class Config extends Observable implements Parsable {
 	}
 
 	public long getTimeLimit() {
-		return timeLimit;
+		return bStepsTimeLimit;
 	}
 
 	public void setTimeLimit(long timeLimit) {
-		this.timeLimit = timeLimit;
+		this.bStepsTimeLimit = timeLimit;
 		this.setChanged();
 		this.notifyObservers();
 	}
@@ -68,14 +68,6 @@ public class Config extends Observable implements Parsable {
 	@Override
 	public Parsable loadfromXML(Element element) throws ParserException {
 		// TODO: Discuss, how to implement this class! -->Class Variables
-
-		// Gets the content of every "babysteps" tag from the XML file and
-		// sets the variable babysteps to the boolean representation of its
-		// Atribute value.
-		// !!!Takes only the first Tag in the list, all others are ignored!!!
-		NodeList babyStepsList = element.getElementsByTagName("babysteps");
-		Element babyStepsContent = (Element) babyStepsList.item(0);
-		this.babySteps = Boolean.parseBoolean(babyStepsContent.getAttribute("value"));
 
 		// Gets the content of every "timetraking" tag from the XML file and
 		// sets the variable timeTracking to the boolean representation of its
@@ -85,15 +77,23 @@ public class Config extends Observable implements Parsable {
 		Element TimeTrackingContent = (Element) timeTrackingList.item(0);
 		this.timeTracking = Boolean.parseBoolean(TimeTrackingContent.getAttribute("value"));
 
-		if (this.timeTracking) {
+		// Gets the content of every "babysteps" tag from the XML file and
+		// sets the variable babysteps to the boolean representation of its
+		// Atribute value.
+		// !!!Takes only the first Tag in the list, all others are ignored!!!
+		NodeList babyStepsList = element.getElementsByTagName("babysteps");
+		Element babyStepsContent = (Element) babyStepsList.item(0);
+		this.babySteps = Boolean.parseBoolean(babyStepsContent.getAttribute("value"));
+
+		if (this.babySteps) {
 			try {
-				this.timeLimit = Long.parseLong(TimeTrackingContent.getTextContent());
+				this.bStepsTimeLimit = Long.parseLong(babyStepsContent.getTextContent());
 			} catch (NumberFormatException e) {
 
 				e.printStackTrace();
 				// TODO pass a better error message
-				throw new ParserException("The Content of <timetracking> is not parsable to long:\n"
-						+ TimeTrackingContent.getTextContent());
+				throw new ParserException("The Content of <babysteps /> cannot be parsed as long:\n"
+						+ babyStepsContent.getTextContent());
 			}
 		}
 		return this;
@@ -104,13 +104,14 @@ public class Config extends Observable implements Parsable {
 		// BabySteps
 		XmlNode xmlBabySteps = new XmlNode("babysteps", new XmlString(""));
 		xmlBabySteps.addAtribute(new XmlAtribute("value", String.valueOf(this.babySteps)));
+		if (this.babySteps) {
+			xmlBabySteps.setValue(new XmlString(String.valueOf(bStepsTimeLimit)));
+		}
 
 		// TimeTracking
 		XmlNode xmlTimeTracking = new XmlNode("timetracking", new XmlString(""));
 		xmlTimeTracking.addAtribute(new XmlAtribute("value", String.valueOf(this.timeTracking)));
-		if (this.timeTracking) {
-			xmlTimeTracking.setValue(new XmlString(String.valueOf(timeLimit)));
-		}
+		
 		XmlList xmlConfigParameters = new XmlList();
 		xmlConfigParameters.add(xmlBabySteps);
 		xmlConfigParameters.add(xmlTimeTracking);
