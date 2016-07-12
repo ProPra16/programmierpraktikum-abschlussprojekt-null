@@ -23,7 +23,7 @@ public class ImportViewController implements Initializable {
 	@FXML 
 	Node dropArea;
 	
-	MainViewController mainController;
+	MenuViewController menuController;
 	
 	
 	@Override
@@ -33,6 +33,7 @@ public class ImportViewController implements Initializable {
 	
 	/**
 	 * Drag over action
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -48,43 +49,50 @@ public class ImportViewController implements Initializable {
 	
 	/**
 	 * Drag exited action
+	 * 
 	 * @param event
 	 */
 	@FXML
 	public void dragExited(DragEvent event) {
-		if(dropArea.getStyleClass().contains("active"))
+		// Remove all duplicates  
+		while(dropArea.getStyleClass().contains("active")) {
 			dropArea.getStyleClass().remove("active");
+		}
 	}
 	
 	/**
 	 * Drag dropped action
+	 * 
 	 * @param event
 	 */
 	@FXML
 	public void dragDropped(DragEvent event) {		
     	loadConfig(event.getDragboard().getFiles().get(0));
-		mainController.showExercisesView();
+       
+		menuController.selectExerciseOverview();
     	event.setDropCompleted(true);
         event.consume();
 	}
 	
-	public void setMainController(MainViewController mainController) {
-		this.mainController = mainController;
-		/* TODO not possible, because blank file is created automatically... 
-		try {
-			// Try to load last exercise
-			ModelStorageController.getInstance().loadModel();
-			// Last session is restored, load exercise view
-			mainController.showExercisesView();
-		} catch (SAXException | IOException | ParserConfigurationException | ParserException e) {
-			// Do nothing - import view is already there
-		}
-		*/
+	/**
+	 * Sets the {@link MenuViewController} - needed for select exercise view
+	 * 
+	 * @param menuController
+	 */
+	public void setMenuController(MenuViewController menuController) {
+		this.menuController = menuController;
 	}
 	
+	/**
+	 * Imports config file to workspace and (re)loads model 
+	 * 
+	 * @param file
+	 */
 	private void loadConfig(File file) {
 		try {
 			ModelStorageController.getInstance().importModel(file.getAbsolutePath());
+			// TODO override old config
+			ModelStorageController.getInstance().loadModel();
 		} catch (SAXException | IOException | ParserConfigurationException | ParserException e) {
 			// TODO Handle Error appropriately
 			e.printStackTrace();
