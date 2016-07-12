@@ -1,0 +1,58 @@
+.statistics {
+	-fx-padding: 20px;
+}
+
+.statistics .error {
+	-fx-text-fill: rgba(0, 0, 0, 0.3);
+	-fx-font-size: 20px;
+	-fx-font-weight: bold;
+}
+
+.statistic {
+	-fx-padding: 20px;
+	-fx-background-color: #fff;
+}
+
+.statistic-header {
+	-fx-font-weight: bold;
+	-fx-font-size: 20px;
+}
+
+.statistic-date {
+	-fx-font-size: 16px;
+}
+
+/* 
+.statistic-chart .red {
+	-fx-background-color: #e74c3c;
+}
+
+.statistic-chart .green {
+	-fx-background-color: #2ecc71;
+}
+
+.statistic-chart .blue {
+	-fx-background-color: #3498db;
+}*/
+
+/* Set RED, GREEN, BLUE for line chart */
+.default-color0.chart-series-line { 
+	-fx-stroke: #e74c3c;
+}
+.default-color1.chart-series-line { 
+	-fx-stroke: #2ecc71;
+}
+.default-color2.chart-series-line { 
+	-fx-stroke: #3498db;
+}
+
+/* Set RED, GREEN, BLUE for pie chart */
+.default-color0.chart-pie { 
+	-fx-pie-color: #e74c3c;
+}
+.default-color1.chart-pie { 
+	-fx-pie-color: #2ecc71;
+}
+.default-color2.chart-pie { 
+	-fx-pie-color: #3498db;
+}

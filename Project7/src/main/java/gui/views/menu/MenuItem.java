@@ -13,6 +13,7 @@ public class MenuItem extends HBox {
 	static final String iconHomePath = "/gui/images/icons/home.png";
 	static final String iconPencilPath = "/gui/images/icons/pencil.png";
 	static final String iconImportPath = "/gui/images/icons/import.png";
+	static final String iconStatisticsPath = "/gui/images/icons/statistics.png";
 
 	final double height;
 	final double iconSize;

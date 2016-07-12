@@ -53,4 +53,31 @@ public class TrackingSession {
 	public Collection<TrackingData> getData() {
 		return data;
 	}
+	
+	/**
+	 * Adds all durations  
+	 * 
+	 * @return sums of duration (red, green, blue)
+	 */
+	public long[] getDuration() {
+		long redDuration = 0;
+		long greenDuration = 0;
+		long blueDuration = 0;
+		
+		for(TrackingData trackingData : data) {
+			switch(trackingData.getMode()) {
+			case RED:
+				redDuration += trackingData.getDuration() / 100.0;
+				break;
+			case GREEN:
+				greenDuration += trackingData.getDuration() / 100.0;
+				break;
+			case BLUE:
+				blueDuration += trackingData.getDuration() / 100.0;
+				break;
+			}
+		}
+		
+		return new long[] { redDuration, greenDuration, blueDuration };
+	}
 }
