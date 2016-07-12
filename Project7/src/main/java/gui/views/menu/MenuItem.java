@@ -12,6 +12,7 @@ public class MenuItem extends HBox {
 
 	static final String iconHomePath = "/gui/images/icons/home.png";
 	static final String iconPencilPath = "/gui/images/icons/pencil.png";
+	static final String iconImportPath = "/gui/images/icons/import.png";
 
 	final double height;
 	final double iconSize;
@@ -56,6 +57,30 @@ public class MenuItem extends HBox {
 		getChildren().clear();
 		getChildren().addAll(iconView, label);
 	}
+	
+	/**
+	 * Constructs a menu item from a label and an icon path 
+	 * 
+	 * @param labelString
+	 * @param iconPath
+	 */
+	public MenuItem(String labelString, String iconPath) {
+		height = 30;
+		iconSize = height;
+		
+		iconView = new ImageView(new Image(iconPath));
+		iconView.setFitHeight(iconSize);
+		iconView.setFitWidth(iconSize);
+		iconView.getStyleClass().add("menu-item-icon");
+
+		label = new Label(labelString);
+		label.setPrefHeight(height);
+		label.getStyleClass().add("menu-item-label");
+		getStyleClass().add("menu-item");
+
+		getChildren().clear();
+		getChildren().addAll(iconView, label);
+	}
 
 	/**
 	 * Sets the connected main view
@@ -67,7 +92,7 @@ public class MenuItem extends HBox {
 	}
 
 	/**
-	 * Gets the main view for this menu item
+	 * Sets the main view for this menu item
 	 * 
 	 * @param mainView
 	 */

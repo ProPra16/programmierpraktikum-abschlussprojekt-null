@@ -23,7 +23,7 @@ public class ImportViewController implements Initializable {
 	@FXML 
 	Node dropArea;
 	
-	MainViewController mainController;
+	MenuViewController menuController;
 	
 	
 	@Override
@@ -54,8 +54,10 @@ public class ImportViewController implements Initializable {
 	 */
 	@FXML
 	public void dragExited(DragEvent event) {
-		if(dropArea.getStyleClass().contains("active"))
+		// Remove all duplicates  
+		while(dropArea.getStyleClass().contains("active")) {
 			dropArea.getStyleClass().remove("active");
+		}
 	}
 	
 	/**
@@ -66,39 +68,31 @@ public class ImportViewController implements Initializable {
 	@FXML
 	public void dragDropped(DragEvent event) {		
     	loadConfig(event.getDragboard().getFiles().get(0));
-		mainController.showExercisesView();
+       
+		menuController.selectExerciseOverview();
     	event.setDropCompleted(true);
         event.consume();
 	}
 	
 	/**
-	 * Sets the mainController - needed for showExerciseView
+	 * Sets the {@link MenuViewController} - needed for select exercise view
 	 * 
-	 * @param mainController
+	 * @param menuController
 	 */
-	public void setMainController(MainViewController mainController) {
-		this.mainController = mainController;
-		 
-		// Try to load current workspace
-		try {
-			ModelStorageController.getInstance().loadModel();
-			
-			// If exercises are imported, show exercise view
-			if(ModelStorageController.getInstance().getCatalog().getExercises().size() != 0)
-				mainController.showExercisesView();
-		} catch (SAXException | IOException | ParserConfigurationException | ParserException e) {
-			// Do nothing - import view is already there
-		}
+	public void setMenuController(MenuViewController menuController) {
+		this.menuController = menuController;
 	}
 	
 	/**
-	 * Imports config file to workspace 
+	 * Imports config file to workspace and (re)loads model 
 	 * 
 	 * @param file
 	 */
 	private void loadConfig(File file) {
 		try {
 			ModelStorageController.getInstance().importModel(file.getAbsolutePath());
+			// TODO override old config
+			ModelStorageController.getInstance().loadModel();
 		} catch (SAXException | IOException | ParserConfigurationException | ParserException e) {
 			// TODO Handle Error appropriately
 			e.printStackTrace();
