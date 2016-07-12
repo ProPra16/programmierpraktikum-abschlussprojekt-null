@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import gui.views.cycle.JavaCodeArea;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -20,6 +21,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import models.Exercise;
@@ -35,6 +37,7 @@ public class RedViewController implements Initializable {
 	CompileService compileService;
 	TrackingSession trackingSession;
 	TrackingData trackingData;
+	long currentTime = 0;
 
 	@FXML
 	AnchorPane rootPane;
@@ -44,6 +47,8 @@ public class RedViewController implements Initializable {
 	Node backButton;
 	@FXML
 	Node confirmButton;
+	@FXML
+	Label timeLabel;
 
 	Thread compileThread;
 	ObservableList<CompileError> compileErrors;
@@ -85,6 +90,7 @@ public class RedViewController implements Initializable {
 		});*/
 
 	}
+
 
 	/**
 	 * FXML-Action for back button
@@ -158,6 +164,68 @@ public class RedViewController implements Initializable {
 		// Start tracking-session
 		trackingSession = TrackingService.shared().startSession(exercise.getName(), new Date());
 		createTrackingPoint();
+		if(compileService.getExercise().getConfig().isBabySteps()){
+			startBabysteps();
+		}
+	}
+	
+	/**
+	 * executes Babysteps;
+	 */
+	private void startBabysteps() {
+		
+		Thread t = new Thread(() ->{
+			boolean running = true;
+			long maxTime = compileService.getExercise().getConfig().getTimeLimit();
+			
+			Date dateStart = new Date();
+			
+			while(running){
+				Date dateNext = new Date();
+				if(currentTime < maxTime) currentTime = (dateNext.getTime() - dateStart.getTime())/1000;
+				else {
+					Platform.runLater(() ->{
+						Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+						alert.setTitle("Babysteps");
+						alert.setHeaderText("Out of time");
+						alert.setContentText("You did not finish in time!");
+						alert.showAndWait();
+						try{
+							FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/CycleView.fxml"));
+							RedViewController testController = new RedViewController();
+							loader.setController(testController);
+							Parent testView = loader.load();
+							AnchorPane.setTopAnchor(testView, 0.0);
+							AnchorPane.setLeftAnchor(testView, 0.0);
+							AnchorPane.setRightAnchor(testView, 0.0);
+							AnchorPane.setBottomAnchor(testView, 0.0);
+							testController.setExercise(compileService.getExercise());
+							testController.setMainSection(mainSection);
+							mainSection.getChildren().clear();
+							mainSection.getChildren().add(testView);
+						} catch (IOException ex) {
+							ex.printStackTrace();
+						}
+				    });
+					System.out.println("You are out");
+					running = false;
+				}
+				Platform.runLater(() ->{
+					timeLabel.setText(Long.toString(currentTime));
+			    });
+				
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+					System.out.println("Error while measuring time");
+				}
+				
+			}
+			
+			
+		});
+		t.start();
 	}
 
 	/**
