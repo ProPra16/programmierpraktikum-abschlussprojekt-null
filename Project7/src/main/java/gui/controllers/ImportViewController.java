@@ -33,6 +33,7 @@ public class ImportViewController implements Initializable {
 	
 	/**
 	 * Drag over action
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -48,6 +49,7 @@ public class ImportViewController implements Initializable {
 	
 	/**
 	 * Drag exited action
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -58,6 +60,7 @@ public class ImportViewController implements Initializable {
 	
 	/**
 	 * Drag dropped action
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -68,20 +71,31 @@ public class ImportViewController implements Initializable {
         event.consume();
 	}
 	
+	/**
+	 * Sets the mainController - needed for showExerciseView
+	 * 
+	 * @param mainController
+	 */
 	public void setMainController(MainViewController mainController) {
 		this.mainController = mainController;
-		/* TODO not possible, because blank file is created automatically... 
+		 
+		// Try to load current workspace
 		try {
-			// Try to load last exercise
 			ModelStorageController.getInstance().loadModel();
-			// Last session is restored, load exercise view
-			mainController.showExercisesView();
+			
+			// If exercises are imported, show exercise view
+			if(ModelStorageController.getInstance().getCatalog().getExercises().size() != 0)
+				mainController.showExercisesView();
 		} catch (SAXException | IOException | ParserConfigurationException | ParserException e) {
 			// Do nothing - import view is already there
 		}
-		*/
 	}
 	
+	/**
+	 * Imports config file to workspace 
+	 * 
+	 * @param file
+	 */
 	private void loadConfig(File file) {
 		try {
 			ModelStorageController.getInstance().importModel(file.getAbsolutePath());
