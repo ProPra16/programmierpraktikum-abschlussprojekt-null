@@ -38,6 +38,7 @@ public class RedViewController implements Initializable {
 	TrackingSession trackingSession;
 	TrackingData trackingData;
 	long currentTime = 0;
+	boolean checkForFinishedTask = false;
 
 	@FXML
 	AnchorPane rootPane;
@@ -145,6 +146,7 @@ public class RedViewController implements Initializable {
 			}
 		} else {
 			// Really valid, so simply switch to green
+			checkForFinishedTask = true;
 			switchToGreen();
 		}
 	}
@@ -181,6 +183,9 @@ public class RedViewController implements Initializable {
 			Date dateStart = new Date();
 			
 			while(running){
+				if(checkForFinishedTask == true){
+					running = false;
+				}
 				Date dateNext = new Date();
 				if(currentTime < maxTime) currentTime = (dateNext.getTime() - dateStart.getTime())/1000;
 				else {
