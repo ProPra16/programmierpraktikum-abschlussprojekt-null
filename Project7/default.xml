@@ -19,7 +19,7 @@ public class RomanNumberConverterTest {
 			</test>
 		</tests>
 		<config>
-			<babysteps value="False" />
+			<babysteps value="True">9999999</babysteps>
 			<timetracking value="False" />
 		</config>
 	</exercise>
@@ -56,7 +56,7 @@ public class LoremIpsumTestTwo {
 			</test>
 		</tests>
 		<config>
-			<babysteps value="True" time="2:00" />
+			<babysteps value="True">9999999</babysteps>
 			<timetracking value="False" />
 		</config>
 	</exercise>
@@ -80,7 +80,7 @@ public class RomanNumberConverterTest {
 			</test>
 		</tests>
 		<config>
-			<babysteps value="True" time="2:00" />
+			<babysteps value="True">9999999</babysteps>
 			<timetracking value="False" />
 		</config>
 	</exercise>
@@ -117,7 +117,7 @@ public class LoremIpsumTestTwo {
 			</test>
 		</tests>
 		<config>
-			<babysteps value="True" time="2:00" />
+			<babysteps value="True">9999999</babysteps>
 			<timetracking value="False" />
 		</config>
 	</exercise>
@@ -154,7 +154,7 @@ public class LoremIpsumTestTwo {
 			</test>
 		</tests>
 		<config>
-			<babysteps value="True" time="2:00" />
+			<babysteps value="True">9999999</babysteps>
 			<timetracking value="False" />
 		</config>
 	</exercise>
