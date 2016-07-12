@@ -185,6 +185,7 @@ public class RedViewController implements Initializable {
 			while(running){
 				if(checkForFinishedTask == true){
 					running = false;
+					return;
 				}
 				Date dateNext = new Date();
 				if(currentTime < maxTime) currentTime = (dateNext.getTime() - dateStart.getTime())/1000;
