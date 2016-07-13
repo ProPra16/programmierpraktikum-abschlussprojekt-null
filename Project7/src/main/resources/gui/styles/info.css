@@ -1,0 +1,13 @@
+.rootPane {
+	-fx-padding: 20px;
+}
+
+.container {
+	-fx-background-color: #fff;
+	-fx-padding: 20px;
+}
+
+.header {
+	-fx-font-size: 20px;
+	-fx-font-weight: bold;
+}
