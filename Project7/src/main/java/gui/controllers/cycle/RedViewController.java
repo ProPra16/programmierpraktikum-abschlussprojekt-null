@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import gui.views.cycle.JavaCodeArea;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -20,11 +21,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import models.Exercise;
 import models.TrackingData;
 import models.TrackingSession;
+import services.BabystepsService;
 import services.CompileService;
 import services.TrackingService;
 import vk.core.api.CompileError;
@@ -33,8 +36,11 @@ import vk.core.api.TestResult;
 public class RedViewController implements Initializable {
 	Pane mainSection;
 	CompileService compileService;
+	BabystepsService babystepsService;
 	TrackingSession trackingSession;
 	TrackingData trackingData;
+	long currentTime = 0;
+	boolean checkForFinishedTask = false;
 
 	@FXML
 	AnchorPane rootPane;
@@ -44,6 +50,8 @@ public class RedViewController implements Initializable {
 	Node backButton;
 	@FXML
 	Node confirmButton;
+	@FXML
+	Label timeLabel;
 
 	Thread compileThread;
 	ObservableList<CompileError> compileErrors;
@@ -85,6 +93,7 @@ public class RedViewController implements Initializable {
 		});*/
 
 	}
+
 
 	/**
 	 * FXML-Action for back button
@@ -139,7 +148,9 @@ public class RedViewController implements Initializable {
 			}
 		} else {
 			// Really valid, so simply switch to green
+			checkForFinishedTask = true;
 			switchToGreen();
+			
 		}
 	}
 
@@ -158,6 +169,10 @@ public class RedViewController implements Initializable {
 		// Start tracking-session
 		trackingSession = TrackingService.shared().startSession(exercise.getName(), new Date());
 		createTrackingPoint();
+		if(compileService.getExercise().getConfig().isBabySteps()){
+			babystepsService = new BabystepsService(compileService.getExercise(), timeLabel, sourceTextField.getText(), sourceTextField);
+			babystepsService.start();
+		}
 	}
 
 	/**
@@ -194,6 +209,9 @@ public class RedViewController implements Initializable {
 	 * Switches to green
 	 */
 	private void switchToGreen() {
+		if(babystepsService != null)
+			babystepsService.stop();
+		
 		// End tracking
 		endTracking();
 		
