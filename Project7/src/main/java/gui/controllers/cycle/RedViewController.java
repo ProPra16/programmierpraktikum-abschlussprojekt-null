@@ -2,18 +2,11 @@ package gui.controllers.cycle;
 
 import java.io.IOException;
 import java.net.URL;
-import java.security.spec.EncodedKeySpec;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Observable;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import gui.views.cycle.JavaCodeArea;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -30,7 +23,6 @@ import models.TrackingSession;
 import services.BabystepsService;
 import services.CompileService;
 import services.TrackingService;
-import vk.core.api.CompileError;
 import vk.core.api.TestResult;
 
 public class RedViewController implements Initializable {
@@ -39,22 +31,17 @@ public class RedViewController implements Initializable {
 	BabystepsService babystepsService;
 	TrackingSession trackingSession;
 	TrackingData trackingData;
-	long currentTime = 0;
-	boolean checkForFinishedTask = false;
 
 	@FXML
 	AnchorPane rootPane;
 	@FXML
-	JavaCodeArea sourceTextField;
+	JavaCodeArea codeArea;
 	@FXML
 	Node backButton;
 	@FXML
 	Node confirmButton;
 	@FXML
 	Label timeLabel;
-
-	Thread compileThread;
-	ObservableList<CompileError> compileErrors;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -66,32 +53,6 @@ public class RedViewController implements Initializable {
 			rootPane.getStyleClass().remove("green");
 		}
 		rootPane.getStyleClass().add("red");
-
-		/* TODO autocompile - Not working until yet... 
-		// Initialize observable list
-		compileErrors = FXCollections.observableArrayList();
-		// Mark compile errors, if they changed
-		compileErrors.addListener(new ListChangeListener<CompileError>() {
-			@Override
-			public void onChanged(Change<? extends CompileError> change) {
-				sourceTextField.markErrors(compileErrors);
-			}
-		});
-		
-		// Auto compile on change 
-		sourceTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-			// Check if possible previous compile is finished (thread terminated) 
-			if(compileThread == null || compileThread.getState() == Thread.State.TERMINATED) {
-				// Then compile and change errors  
-				compileThread = new Thread(() -> {
-					compileService.compileAndRunTests();
-					compileErrors.clear();
-					compileErrors.addAll(compileService.getCompileErrors());
-				});
-				compileThread.start();
-			}
-		});*/
-
 	}
 
 
@@ -109,7 +70,7 @@ public class RedViewController implements Initializable {
 	@FXML
 	public void confirmAction() {
 
-		compileService.getExercise().getTests().get(0).setContent(sourceTextField.getText());
+		compileService.getExercise().getTests().get(0).setContent(codeArea.getText());
 		compileService.compileAndRunTests();
 
 		// Check if tests are valid
@@ -133,7 +94,7 @@ public class RedViewController implements Initializable {
 			// There are compile errors
 
 			// Mark errors in text field
-			sourceTextField.markErrors(compileService.getCompileErrors());
+			codeArea.markErrors(compileService.getCompileErrors());
 
 			// Ask for them
 			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -148,9 +109,7 @@ public class RedViewController implements Initializable {
 			}
 		} else {
 			// Really valid, so simply switch to green
-			checkForFinishedTask = true;
 			switchToGreen();
-			
 		}
 	}
 
@@ -161,16 +120,18 @@ public class RedViewController implements Initializable {
 	 */
 	public void setExercise(Exercise exercise) {
 		// Create compile service
-		compileService = new CompileService(exercise);
+		compileService = new CompileService(exercise, codeArea);
 		compileService.setMode(CompileService.Mode.RED);
 		// Update source code
-		sourceTextField.replaceText(exercise.getTests().get(0).getContent());
+		codeArea.replaceText(exercise.getTests().get(0).getContent());
 		
 		// Start tracking-session
 		trackingSession = TrackingService.shared().startSession(exercise.getName(), new Date());
 		createTrackingPoint();
+		
+		// Start babysteps
 		if(compileService.getExercise().getConfig().isBabySteps()){
-			babystepsService = new BabystepsService(compileService.getExercise(), timeLabel, sourceTextField.getText(), sourceTextField);
+			babystepsService = new BabystepsService(compileService.getExercise(), timeLabel, codeArea.getText(), codeArea);
 			babystepsService.start();
 		}
 	}
@@ -183,7 +144,14 @@ public class RedViewController implements Initializable {
 	public void setCompileService(CompileService compileService) {
 		this.compileService = compileService;
 		compileService.setMode(CompileService.Mode.RED);
-		sourceTextField.replaceText(compileService.getExercise().getTests().get(0).getContent());
+		compileService.setCodeArea(codeArea);
+		codeArea.replaceText(compileService.getExercise().getTests().get(0).getContent());
+		
+		// Start babysteps
+		if(compileService.getExercise().getConfig().isBabySteps()){
+			babystepsService = new BabystepsService(compileService.getExercise(), timeLabel, codeArea.getText(), codeArea);
+			babystepsService.start();
+		}
 	}
 	
 	/**
