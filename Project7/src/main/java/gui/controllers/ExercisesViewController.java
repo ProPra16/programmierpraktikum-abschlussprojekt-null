@@ -9,7 +9,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import gui.views.exercises.ExercisesGrid;
-import javafx.fxml.*;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
 import services.StorageService;
 import xmlParser.ParserException;

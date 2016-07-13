@@ -42,4 +42,10 @@ public class XmlList extends XmlValue {
 		list.add(parsable.objectToXMLObject());
 	}
 
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return list.isEmpty();
+	}
+
 }

@@ -1,7 +1,6 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -16,7 +15,6 @@ import xmlParser.XmlAtribute;
 import xmlParser.XmlList;
 import xmlParser.XmlNode;
 import xmlParser.XmlString;
-import xmlParser.XmlValue;
 
 /**
  * Represents the XML tag "exercise", implements {@link Parsable}

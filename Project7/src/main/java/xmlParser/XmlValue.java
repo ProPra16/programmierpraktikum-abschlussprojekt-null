@@ -21,4 +21,6 @@ public abstract class XmlValue {
 	public boolean printName() {
 		return false;
 	}
+
+	public abstract boolean isEmpty();
 }

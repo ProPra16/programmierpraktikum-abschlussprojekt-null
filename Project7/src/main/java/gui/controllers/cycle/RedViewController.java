@@ -2,17 +2,11 @@ package gui.controllers.cycle;
 
 import java.io.IOException;
 import java.net.URL;
-import java.security.spec.EncodedKeySpec;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Observable;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import gui.views.cycle.JavaCodeArea;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +21,6 @@ import javafx.scene.layout.Pane;
 import models.Exercise;
 import models.TrackingData;
 import models.TrackingSession;
-import models.TrackingSessionCatalog;
 import services.BabystepsService;
 import services.CompileService;
 import services.StorageService;

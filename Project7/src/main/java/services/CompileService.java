@@ -5,9 +5,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import models.Class;
 import models.Exercise;
 import models.Test;
-import models.Class;
 import vk.core.api.CompilationUnit;
 import vk.core.api.CompileError;
 import vk.core.api.CompilerFactory;

@@ -25,4 +25,10 @@ public class XmlString extends XmlValue {
 		return true;
 	}
 
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return valueString.isEmpty();
+	}
+
 }

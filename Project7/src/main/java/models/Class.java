@@ -9,7 +9,6 @@ import xmlParser.ParserException;
 import xmlParser.XmlAtribute;
 import xmlParser.XmlNode;
 import xmlParser.XmlString;
-import xmlParser.XmlValue;
 
 /**
  * Represents the XML tag "class", implements {@link Parsable}.

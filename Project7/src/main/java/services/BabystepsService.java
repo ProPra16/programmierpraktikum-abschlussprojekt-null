@@ -1,17 +1,12 @@
 package services;
 
-import java.io.IOException;
 import java.util.Date;
 
 import org.fxmisc.richtext.CodeArea;
 
-import gui.controllers.cycle.RedViewController;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import models.Exercise;
 
 public class BabystepsService {

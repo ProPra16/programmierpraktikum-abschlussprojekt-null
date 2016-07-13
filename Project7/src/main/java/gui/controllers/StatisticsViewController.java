@@ -10,7 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import models.TrackingSession;
-import models.TrackingSessionCatalog;
 import services.StorageService;
 
 public class StatisticsViewController implements Initializable {

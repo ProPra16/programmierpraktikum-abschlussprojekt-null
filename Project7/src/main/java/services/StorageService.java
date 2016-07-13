@@ -9,9 +9,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import models.Exercise;
 import models.ExerciseCatalog;
 import models.TrackingSessionCatalog;
-import models.Exercise;
 import xmlParser.Parser;
 import xmlParser.ParserException;
 

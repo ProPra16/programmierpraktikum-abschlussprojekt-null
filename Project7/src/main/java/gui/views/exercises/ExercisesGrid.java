@@ -2,11 +2,9 @@ package gui.views.exercises;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
@@ -91,6 +89,7 @@ public class ExercisesGrid extends GridPane {
 		}
 	}
 
+	
 	/**
 	 * Shows the detail view of selected {@link ExerciseTile}
 	 * 

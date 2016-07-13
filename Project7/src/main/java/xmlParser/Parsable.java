@@ -1,7 +1,5 @@
 package xmlParser;
 
-import java.util.Observer;
-
 import org.w3c.dom.Element;
 
 /**

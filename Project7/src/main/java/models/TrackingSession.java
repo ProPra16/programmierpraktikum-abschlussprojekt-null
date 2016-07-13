@@ -1,68 +1,77 @@
 package models;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Observable;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import xmlParser.Parsable;
 import xmlParser.ParserException;
+import xmlParser.XmlAtribute;
+import xmlParser.XmlList;
 import xmlParser.XmlNode;
 
-import java.util.ArrayList;
-
-public class TrackingSession implements Parsable {
+public class TrackingSession extends Observable implements Parsable {
 	/**
 	 * Start date of tracking session
 	 */
-	private final Date startDate;
-	
+	private Date startDate;
+
 	/**
 	 * Exercise name of tracking session
 	 */
-	private final String exerciseName;
-	
+	private String exerciseName;
+
 	/**
 	 * All tracking points
 	 */
-	private final List<TrackingData> data;
-	
+	private List<TrackingData> data;
+
 	/**
-	 * Constructs a tracking session with name start date 
+	 * Constructs a tracking session with name start date
 	 * 
 	 * @param exerciseName
 	 * @param startDate
 	 */
 	public TrackingSession(String exerciseName, Date startDate) {
 		data = new ArrayList<TrackingData>();
-		
+
 		this.exerciseName = exerciseName;
 		this.startDate = startDate;
 	}
-	
+
+	public TrackingSession() {
+	}
+
 	/**
 	 * @return start date of session
 	 */
 	public Date getStartDate() {
 		return this.startDate;
 	}
-	
+
 	/**
 	 * @return exercise name of session
 	 */
 	public String getExerciseName() {
 		return exerciseName;
 	}
-	
+
 	/**
 	 * @return tracking points
 	 */
 	public List<TrackingData> getData() {
 		return data;
 	}
-	
+
 	/**
-	 * Adds all durations  
+	 * Adds all durations
 	 * 
 	 * @return sums of duration (red, green, blue)
 	 */
@@ -70,9 +79,9 @@ public class TrackingSession implements Parsable {
 		long redDuration = 0;
 		long greenDuration = 0;
 		long blueDuration = 0;
-		
-		for(TrackingData trackingData : data) {
-			switch(trackingData.getMode()) {
+
+		for (TrackingData trackingData : data) {
+			switch (trackingData.getMode()) {
 			case RED:
 				redDuration += trackingData.getDuration() / 100.0;
 				break;
@@ -84,19 +93,66 @@ public class TrackingSession implements Parsable {
 				break;
 			}
 		}
-		
+
 		return new long[] { redDuration, greenDuration, blueDuration };
 	}
 
 	@Override
 	public Parsable loadfromXML(Element element) throws ParserException {
-		// TODO Auto-generated method stub
+		// ExerciseName
+		this.exerciseName = element.getAttribute("erciseName");
+		// StartDate
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+		try {
+			format.parse(element.getAttribute("startDate"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+			throw new ParserException(
+					"The contents of the Attribute \"startDate\" could not be parsed.\n Check if the Attribute is missing or not of the following format\n:"
+							+ format.toPattern());
+		}
+		// Data
+		NodeList trackingDataListList = element.getElementsByTagName("TrackingDataList");
+
+		Element trackingDataContent = (Element) trackingDataListList.item(0);
+		NodeList trackingDataList = trackingDataContent.getElementsByTagName("TrackingData");
+		data.clear();
+
+		for (int i = 0; i < trackingDataList.getLength(); i++) {
+
+			Node node = trackingDataList.item(i);
+			Element nodeElement = (Element) node;
+			TrackingData mTrackingData = (TrackingData) new TrackingData().loadfromXML(nodeElement);
+			this.addData(mTrackingData);
+		}
 		return this;
+	}
+
+	private void addData(TrackingData mTrackingData) {
+		this.data.add(mTrackingData);
 	}
 
 	@Override
 	public XmlNode objectToXMLObject() {
-		// TODO Auto-generated method stub
-		return null;
+
+		XmlList mList = new XmlList();
+		XmlList tDataList = new XmlList();
+
+		for (TrackingData tdata : data) {
+			if (tdata.getEnd()!=null)
+			{
+			tDataList.add(tdata);
+			}
+		}
+
+		mList.add(new XmlNode("TrackingDataList", tDataList));
+		XmlNode tSessionNode = new XmlNode("TrackingSession", mList);
+
+		tSessionNode.addAtribute(new XmlAtribute("erciseName", this.exerciseName));
+
+		SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+		tSessionNode.addAtribute(new XmlAtribute("startDate", formater.format(startDate)));
+
+		return tSessionNode;
 	}
 }
