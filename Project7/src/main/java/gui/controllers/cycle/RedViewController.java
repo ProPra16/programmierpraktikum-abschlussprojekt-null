@@ -39,8 +39,6 @@ public class RedViewController implements Initializable {
 	BabystepsService babystepsService;
 	TrackingSession trackingSession;
 	TrackingData trackingData;
-	long currentTime = 0;
-	boolean checkForFinishedTask = false;
 
 	@FXML
 	AnchorPane rootPane;
@@ -148,7 +146,6 @@ public class RedViewController implements Initializable {
 			}
 		} else {
 			// Really valid, so simply switch to green
-			checkForFinishedTask = true;
 			switchToGreen();
 			
 		}
