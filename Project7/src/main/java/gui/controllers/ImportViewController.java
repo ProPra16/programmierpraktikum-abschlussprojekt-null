@@ -15,7 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import xmlParser.ModelStorageController;
+import services.StorageService;
 import xmlParser.ParserException;
 
 public class ImportViewController implements Initializable {
@@ -90,9 +90,9 @@ public class ImportViewController implements Initializable {
 	 */
 	private void loadConfig(File file) {
 		try {
-			ModelStorageController.getInstance().importModel(file.getAbsolutePath());
+			StorageService.getInstance().importModel(file.getAbsolutePath());
 			// TODO override old config
-			ModelStorageController.getInstance().loadModel();
+			StorageService.getInstance().loadModel();
 		} catch (SAXException | IOException | ParserConfigurationException | ParserException e) {
 			// TODO Handle Error appropriately
 			e.printStackTrace();

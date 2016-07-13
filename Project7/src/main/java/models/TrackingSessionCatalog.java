@@ -1,17 +1,16 @@
-package services;
+package models;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-import models.TrackingSession;
+import org.w3c.dom.Element;
 
-public class TrackingService {
-	
-	/**
-	 * Shared TrackingService instance
-	 */
-	private static TrackingService instance;
+import xmlParser.Parsable;
+import xmlParser.ParserException;
+import xmlParser.XmlNode;
+
+public class TrackingSessionCatalog implements Parsable {
 	
 	/**
 	 * All tracking results
@@ -21,21 +20,10 @@ public class TrackingService {
 	/**
 	 * Constructs a tracking service for private purposes
 	 */
-	private TrackingService() {
+	public TrackingSessionCatalog() {
 		trackingResults = new ArrayList<TrackingSession>();
 	}
 	
-	/**
-	 * Gets the shared TrackingService instance
-	 * 
-	 * @return The shared TrackingService instance
-	 */
-	public synchronized static TrackingService shared() {
-		if(instance == null) {
-			instance = new TrackingService();
-		}
-		return instance;
-	}
 	
 	/**
 	 * Gets the list of tracking results
@@ -47,7 +35,7 @@ public class TrackingService {
 	}
 	
 	/**
-	 * Starts a new tracking session 
+	 * Adds a new tracking session 
 	 * 
 	 * @param exerciseName name of exercise
 	 * @param startDate start date
@@ -57,6 +45,20 @@ public class TrackingService {
 		TrackingSession trackingResult = new TrackingSession(exerciseName, startDate); 
 		trackingResults.add(trackingResult);
 		return trackingResult;
+	}
+
+
+	@Override
+	public Parsable loadfromXML(Element element) throws ParserException {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+
+	@Override
+	public XmlNode objectToXMLObject() {
+		// TODO Auto-generated method stub
+		return null;
 	}	
 
 }

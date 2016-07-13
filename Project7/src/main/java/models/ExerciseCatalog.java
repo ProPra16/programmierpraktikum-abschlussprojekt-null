@@ -21,11 +21,11 @@ import xmlParser.XmlValue;
  * Represents the XML tag "exercises", implements {@link Parsable}.
  *
  */
-public class Catalog extends Observable implements Parsable, Observer {
+public class ExerciseCatalog extends Observable implements Parsable, Observer {
 
 	private ArrayList<Exercise> exercises;
 
-	public Catalog() {
+	public ExerciseCatalog() {
 		exercises = new ArrayList<Exercise>();
 	}
 

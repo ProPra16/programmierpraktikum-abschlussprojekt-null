@@ -1,4 +1,4 @@
-package xmlParser;
+package services;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,24 +9,30 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import models.Catalog;
+import models.ExerciseCatalog;
+import models.TrackingSessionCatalog;
 import models.Exercise;
+import xmlParser.Parser;
+import xmlParser.ParserException;
 
-public class ModelStorageController extends Observable implements Observer {
-	private static ModelStorageController instance;
+public class StorageService extends Observable implements Observer {
+	private static StorageService instance;
 	public static final String defaultPath = ".tddt/";
 	public static final String defaultFileName = "Catalog.xml";
-	private Catalog catalog;
+	private ExerciseCatalog exerciseCatalog = new ExerciseCatalog();
+	private TrackingSessionCatalog tSessionCatalog= new TrackingSessionCatalog();
 
-	private ModelStorageController() {
+	
+
+	private StorageService() {
 	}
 
-	public synchronized static ModelStorageController getInstance() {
+	public synchronized static StorageService getInstance() {
 
 		if (instance == null) {
-			instance = new ModelStorageController();
-			instance.catalog = new Catalog();
-			instance.catalog.addObserver(instance);
+			instance = new StorageService();
+			instance.exerciseCatalog.addObserver(instance);
+			
 			createStorage();
 		}
 
@@ -41,32 +47,37 @@ public class ModelStorageController extends Observable implements Observer {
 	public synchronized void importModel(String path)
 			throws SAXException, IOException, ParserConfigurationException, ParserException {
 		Parser parser = new Parser();
-		Catalog tempCatalog=parser.deserailize(path);
+		
+		ExerciseCatalog tempCatalog=parser.deserailize(path);
 		for (Exercise exercise:tempCatalog.getExercises())
 		{
-			this.catalog.addExercise(exercise);
+			this.exerciseCatalog.addExercise(exercise);
 		}
 		
 	}
 
-	public synchronized Catalog loadModel()
+	public synchronized ExerciseCatalog loadModel()
 			throws SAXException, IOException, ParserConfigurationException, ParserException {
 		Parser parser = new Parser();
-		this.catalog = parser.deserailize(getDefaultRelativeFilePath());
-		this.catalog.addObserver(this);
-		return this.catalog;
+		this.exerciseCatalog = parser.deserailize(getDefaultRelativeFilePath());
+		this.exerciseCatalog.addObserver(this);
+		return this.exerciseCatalog;
 	}
 
 	public void saveModel() throws IOException {
 		Parser parser = new Parser();
-		parser.serialize(getDefaultRelativeFilePath(), this.catalog);
+		parser.serialize(getDefaultRelativeFilePath(), this.exerciseCatalog);
 
 	}
 
-	public Catalog getCatalog() {
-		return this.catalog;
+	public ExerciseCatalog getExerciseCatalog() {
+		return this.exerciseCatalog;
 	}
-
+	
+	public TrackingSessionCatalog gettSessionCatalog() {
+		return tSessionCatalog;
+	}
+	
 	private static void createStorage() {
 		File file = new File(getDefaultRelativeFilePath());
 		if (!file.exists()) {

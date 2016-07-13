@@ -2,9 +2,16 @@ package models;
 
 import java.util.Date;
 import java.util.List;
+
+import org.w3c.dom.Element;
+
+import xmlParser.Parsable;
+import xmlParser.ParserException;
+import xmlParser.XmlNode;
+
 import java.util.ArrayList;
 
-public class TrackingSession {
+public class TrackingSession implements Parsable {
 	/**
 	 * Start date of tracking session
 	 */
@@ -79,5 +86,17 @@ public class TrackingSession {
 		}
 		
 		return new long[] { redDuration, greenDuration, blueDuration };
+	}
+
+	@Override
+	public Parsable loadfromXML(Element element) throws ParserException {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+	@Override
+	public XmlNode objectToXMLObject() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

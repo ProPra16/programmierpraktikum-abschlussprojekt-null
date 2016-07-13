@@ -16,10 +16,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import models.Catalog;
+import models.ExerciseCatalog;
 
 /**
- * Contains methods to serialize or deserialize a {@link Catalog}-Object from
+ * Contains methods to serialize or deserialize a {@link ExerciseCatalog}-Object from
  * and to a XML representation.
  *
  *
@@ -27,17 +27,17 @@ import models.Catalog;
 public class Parser {
 
 	/**
-	 * Parses the XML file to a {@link Catalog}-Object
+	 * Parses the XML file to a {@link ExerciseCatalog}-Object
 	 * 
 	 * @param url
 	 *            Take the Path or URL to the XML file as {@link String}.
-	 * @return A {@link Catalog} object, representing the data in the XML-File.
+	 * @return A {@link ExerciseCatalog} object, representing the data in the XML-File.
 	 * @throws SAXException
 	 * @throws IOException
 	 * @throws ParserConfigurationException
 	 * @throws ParserException
 	 */
-	public Catalog deserailize(String url)
+	public ExerciseCatalog deserailize(String url)
 			throws SAXException, IOException, ParserConfigurationException, ParserException {
 
 		File file = new File(url);
@@ -48,11 +48,11 @@ public class Parser {
 		NodeList excercisesList = document.getElementsByTagName("exercises");
 		Element element = (Element) excercisesList.item(0);
 
-		return (Catalog) new Catalog().loadfromXML(element);
+		return (ExerciseCatalog) new ExerciseCatalog().loadfromXML(element);
 
 	}
 
-	public void serialize(String path, Catalog catalog) throws IOException {
+	public void serialize(String path, ExerciseCatalog catalog) throws IOException {
 		XmlNode obj = catalog.objectToXMLObject();
 		String json = obj.toXmlString();
 		Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), "utf-8"));

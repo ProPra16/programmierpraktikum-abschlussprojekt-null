@@ -2,7 +2,13 @@ package models;
 
 import java.util.Date;
 
-public class TrackingData {
+import org.w3c.dom.Element;
+
+import xmlParser.Parsable;
+import xmlParser.ParserException;
+import xmlParser.XmlNode;
+
+public class TrackingData implements Parsable{
 	
 	/**
 	 * Cycle mode representation - red, green, blue
@@ -94,6 +100,19 @@ public class TrackingData {
 	 */
 	public long getDuration() {
 		return duration;
+	}
+
+	@Override
+	public Parsable loadfromXML(Element element) throws ParserException {
+		// TODO Auto-generated method stub
+		
+		return this;
+	}
+
+	@Override
+	public XmlNode objectToXMLObject() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

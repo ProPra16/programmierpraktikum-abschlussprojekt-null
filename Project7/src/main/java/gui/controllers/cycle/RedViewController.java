@@ -27,9 +27,10 @@ import javafx.scene.layout.Pane;
 import models.Exercise;
 import models.TrackingData;
 import models.TrackingSession;
+import models.TrackingSessionCatalog;
 import services.BabystepsService;
 import services.CompileService;
-import services.TrackingService;
+import services.StorageService;
 import vk.core.api.CompileError;
 import vk.core.api.TestResult;
 
@@ -167,7 +168,7 @@ public class RedViewController implements Initializable {
 		sourceTextField.replaceText(exercise.getTests().get(0).getContent());
 		
 		// Start tracking-session
-		trackingSession = TrackingService.shared().startSession(exercise.getName(), new Date());
+		trackingSession = StorageService.getInstance().gettSessionCatalog().startSession(exercise.getName(), new Date());
 		createTrackingPoint();
 		if(compileService.getExercise().getConfig().isBabySteps()){
 			babystepsService = new BabystepsService(compileService.getExercise(), timeLabel, sourceTextField.getText(), sourceTextField);

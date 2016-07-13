@@ -10,7 +10,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import models.TrackingSession;
-import services.TrackingService;
+import models.TrackingSessionCatalog;
+import services.StorageService;
 
 public class StatisticsViewController implements Initializable {
 	
@@ -26,7 +27,7 @@ public class StatisticsViewController implements Initializable {
 	 * Updates the shown statistics
 	 */
 	public void updateStatistics() {
-		Collection<TrackingSession> trackingResults = TrackingService.shared().getTrackingResults();
+		Collection<TrackingSession> trackingResults = StorageService.getInstance().gettSessionCatalog().getTrackingResults();
 		
 		statisticsContainer.getChildren().clear();
 		

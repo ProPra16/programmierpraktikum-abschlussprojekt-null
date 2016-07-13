@@ -23,7 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import models.Exercise;
-import xmlParser.ModelStorageController;
+import services.StorageService;
 
 public class MenuViewController implements Initializable {
 
@@ -66,7 +66,7 @@ public class MenuViewController implements Initializable {
 		menuItems.add(importMenuItem);
 
 		
-		if(ModelStorageController.getInstance().getCatalog().getExercises().size() != 0) {
+		if(StorageService.getInstance().getExerciseCatalog().getExercises().size() != 0) {
 			// If exercises are loaded show exercises overview - autoselected while creating
 			createExerciseOverviewMenuItem();
 		} else {
