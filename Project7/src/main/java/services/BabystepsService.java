@@ -72,15 +72,17 @@ public class BabystepsService {
 						start();
 				    });
 					running = false;
+				} else {
+					Platform.runLater(() -> {
+						timeLabel.setText(dateFormatted);
+				    });
 				}
-				
-				Platform.runLater(() -> {
-					timeLabel.setText(dateFormatted);
-			    });
+			
 				try {
-					Thread.sleep(100);
+					Thread.sleep(50);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
+					System.out.println("Error while measuring time");
 				}
 			}
 		});
