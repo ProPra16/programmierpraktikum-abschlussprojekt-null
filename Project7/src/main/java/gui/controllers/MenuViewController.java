@@ -23,7 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import models.Exercise;
-import xmlModelParser.ModelStorageController;
+import xmlParser.ModelStorageController;
 
 public class MenuViewController implements Initializable {
 

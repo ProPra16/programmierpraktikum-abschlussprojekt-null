@@ -4,12 +4,12 @@ import java.util.Observable;
 
 import org.w3c.dom.Element;
 
-import xmlModelParser.Parsable;
-import xmlModelParser.ParserException;
-import xmlModelParser.XmlAtribute;
-import xmlModelParser.XmlNode;
-import xmlModelParser.XmlString;
-import xmlModelParser.XmlValue;
+import xmlParser.Parsable;
+import xmlParser.ParserException;
+import xmlParser.XmlAtribute;
+import xmlParser.XmlNode;
+import xmlParser.XmlString;
+import xmlParser.XmlValue;
 
 /**
  * Represents the XML tag "class", implements {@link Parsable}.

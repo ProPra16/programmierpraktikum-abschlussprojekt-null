@@ -10,13 +10,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import xmlModelParser.Parsable;
-import xmlModelParser.ParserException;
-import xmlModelParser.XmlAtribute;
-import xmlModelParser.XmlList;
-import xmlModelParser.XmlNode;
-import xmlModelParser.XmlString;
-import xmlModelParser.XmlValue;
+import xmlParser.Parsable;
+import xmlParser.ParserException;
+import xmlParser.XmlAtribute;
+import xmlParser.XmlList;
+import xmlParser.XmlNode;
+import xmlParser.XmlString;
+import xmlParser.XmlValue;
 
 /**
  * Represents the XML tag "exercise", implements {@link Parsable}

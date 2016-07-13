@@ -14,8 +14,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
-import xmlModelParser.ModelStorageController;
-import xmlModelParser.ParserException;
+import xmlParser.ModelStorageController;
+import xmlParser.ParserException;
 
 public class MainViewController implements Initializable {
 

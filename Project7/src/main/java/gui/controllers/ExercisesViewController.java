@@ -11,8 +11,8 @@ import org.xml.sax.SAXException;
 import gui.views.exercises.ExercisesGrid;
 import javafx.fxml.*;
 import javafx.scene.control.ScrollPane;
-import xmlModelParser.ModelStorageController;
-import xmlModelParser.ParserException;
+import xmlParser.ModelStorageController;
+import xmlParser.ParserException;
 
 public class ExercisesViewController implements Initializable {
 

@@ -15,8 +15,8 @@ import javafx.scene.Node;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import xmlModelParser.ModelStorageController;
-import xmlModelParser.ParserException;
+import xmlParser.ModelStorageController;
+import xmlParser.ParserException;
 
 public class ImportViewController implements Initializable {
 	

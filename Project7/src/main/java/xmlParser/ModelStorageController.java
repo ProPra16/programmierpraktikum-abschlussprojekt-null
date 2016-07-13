@@ -1,4 +1,4 @@
-package xmlModelParser;
+package xmlParser;
 
 import java.io.File;
 import java.io.IOException;
