@@ -100,15 +100,14 @@ public class MenuViewController implements Initializable {
 				RedViewController testController = new RedViewController();
 				loader.setController(testController);
 				Parent testView = loader.load();
-				AnchorPane.setTopAnchor(testView, 0.0);
-				AnchorPane.setLeftAnchor(testView, 0.0);
-				AnchorPane.setRightAnchor(testView, 0.0);
-				AnchorPane.setBottomAnchor(testView, 0.0);
+				MainViewController.setAllAnchorsNull(testView);
 				testController.setExercise(exercise);
-				testController.setMainSection(mainSection);;
-
+				AnchorPane cycleContainer = new AnchorPane(testView);
+				MainViewController.setAllAnchorsNull(cycleContainer);
+				testController.setMainSection(cycleContainer);
+				
 				ExerciseMenuItem exerciseMenuItem = new ExerciseMenuItem(exercise);
-				exerciseMenuItem.setMainView(testView);
+				exerciseMenuItem.setMainView(cycleContainer);
 				EventHandler<MouseEvent> menuItemClickEventHandler = new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
