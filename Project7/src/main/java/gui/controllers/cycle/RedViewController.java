@@ -27,6 +27,7 @@ import javafx.scene.layout.Pane;
 import models.Exercise;
 import models.TrackingData;
 import models.TrackingSession;
+import services.BabystepsService;
 import services.CompileService;
 import services.TrackingService;
 import vk.core.api.CompileError;
@@ -35,6 +36,7 @@ import vk.core.api.TestResult;
 public class RedViewController implements Initializable {
 	Pane mainSection;
 	CompileService compileService;
+	BabystepsService babystepsService;
 	TrackingSession trackingSession;
 	TrackingData trackingData;
 	long currentTime = 0;
@@ -148,6 +150,7 @@ public class RedViewController implements Initializable {
 			// Really valid, so simply switch to green
 			checkForFinishedTask = true;
 			switchToGreen();
+			
 		}
 	}
 
@@ -167,71 +170,9 @@ public class RedViewController implements Initializable {
 		trackingSession = TrackingService.shared().startSession(exercise.getName(), new Date());
 		createTrackingPoint();
 		if(compileService.getExercise().getConfig().isBabySteps()){
-			startBabysteps();
+			babystepsService = new BabystepsService(compileService.getExercise(), timeLabel, sourceTextField.getText(), sourceTextField);
+			babystepsService.start();
 		}
-	}
-	
-	/**
-	 * executes Babysteps;
-	 */
-	private void startBabysteps() {
-		
-		Thread t = new Thread(() ->{
-			boolean running = true;
-			long maxTime = compileService.getExercise().getConfig().getTimeLimit();
-			
-			Date dateStart = new Date();
-			
-			while(running){
-				if(checkForFinishedTask == true){
-					running = false;
-					return;
-				}
-				Date dateNext = new Date();
-				if(currentTime < maxTime) currentTime = (dateNext.getTime() - dateStart.getTime())/1000;
-				else {
-					Platform.runLater(() ->{
-						Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-						alert.setTitle("Babysteps");
-						alert.setHeaderText("Out of time");
-						alert.setContentText("You did not finish in time!");
-						alert.showAndWait();
-						try{
-							FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/CycleView.fxml"));
-							RedViewController testController = new RedViewController();
-							loader.setController(testController);
-							Parent testView = loader.load();
-							AnchorPane.setTopAnchor(testView, 0.0);
-							AnchorPane.setLeftAnchor(testView, 0.0);
-							AnchorPane.setRightAnchor(testView, 0.0);
-							AnchorPane.setBottomAnchor(testView, 0.0);
-							testController.setExercise(compileService.getExercise());
-							testController.setMainSection(mainSection);
-							mainSection.getChildren().clear();
-							mainSection.getChildren().add(testView);
-						} catch (IOException ex) {
-							ex.printStackTrace();
-						}
-				    });
-					System.out.println("You are out");
-					running = false;
-				}
-				Platform.runLater(() ->{
-					timeLabel.setText(Long.toString(currentTime));
-			    });
-				
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-					System.out.println("Error while measuring time");
-				}
-				
-			}
-			
-			
-		});
-		t.start();
 	}
 
 	/**
@@ -268,6 +209,9 @@ public class RedViewController implements Initializable {
 	 * Switches to green
 	 */
 	private void switchToGreen() {
+		if(babystepsService != null)
+			babystepsService.stop();
+		
 		// End tracking
 		endTracking();
 		

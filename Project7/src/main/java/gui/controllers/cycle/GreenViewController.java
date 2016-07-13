@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import gui.views.cycle.JavaCodeArea;
+import services.BabystepsService;
 import services.CompileService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -25,6 +26,7 @@ import javafx.scene.control.Label;
 public class GreenViewController implements Initializable {
 	Pane mainSection;
 	CompileService compileService;
+	BabystepsService babystepsService;
 	TrackingSession trackingSession;
 	TrackingData trackingData;
 	long currentTime = 0;
@@ -111,72 +113,11 @@ public class GreenViewController implements Initializable {
 		this.compileService = compileService;
 		compileService.setMode(CompileService.Mode.GREEN);
 		sourceTextField.replaceText(compileService.getExercise().getClasses().get(0).getContent());
-		//starting Babysteps
-		if(compileService.getExercise().getConfig().isBabySteps()){
-			startBabysteps();
+		// starting Babysteps
+		if(compileService.getExercise().getConfig().isBabySteps()) {
+			babystepsService = new BabystepsService(compileService.getExercise(), timeLabel, sourceTextField.getText(), sourceTextField);
+			babystepsService.start();
 		}
-	}
-	
-	/**
-	 * executes Babysteps;
-	 */
-	private void startBabysteps() {
-		Thread t = new Thread(() ->{
-			boolean running = true;
-			long maxTime = compileService.getExercise().getConfig().getTimeLimit();
-			
-			Date dateStart = new Date();
-			
-			while(running){
-				if(checkForFinishedTask == true){
-					running = false;
-					return;
-				}
-				Date dateNext = new Date();
-				if(currentTime < maxTime) currentTime = (dateNext.getTime() - dateStart.getTime())/1000;
-				else {
-					Platform.runLater(() ->{
-						Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-						alert.setTitle("Babysteps");
-						alert.setHeaderText("Out of time");
-						alert.setContentText("You did not finish in time!");
-						alert.showAndWait();
-						try{
-							FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/CycleView.fxml"));
-							GreenViewController greenController = new GreenViewController();
-							loader.setController(greenController);
-							Parent cycleView = loader.load();
-							AnchorPane.setTopAnchor(cycleView, 0.0);
-							AnchorPane.setLeftAnchor(cycleView, 0.0);
-							AnchorPane.setRightAnchor(cycleView, 0.0);
-							AnchorPane.setBottomAnchor(cycleView, 0.0);
-							greenController.setCompileService(compileService);
-							greenController.setTrackingSession(trackingSession);
-							greenController.setMainSection(mainSection);
-							mainSection.getChildren().clear();
-							mainSection.getChildren().add(cycleView);
-						} catch (IOException ex) {
-							ex.printStackTrace();
-						}
-				    });
-					running = false;
-				}
-				Platform.runLater(() ->{
-					timeLabel.setText(Long.toString(currentTime));
-			    });
-				
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-					System.out.println("Error while measuring time");
-				}
-				
-			}
-			
-			
-		});
-		t.start();
 	}
 
 	/**
@@ -202,6 +143,9 @@ public class GreenViewController implements Initializable {
 	 * Switches to blue
 	 */
 	private void switchToBlue() {
+		if(babystepsService != null)
+			babystepsService.stop();
+		
 		endTracking();
 		
 		try {
@@ -227,6 +171,9 @@ public class GreenViewController implements Initializable {
 	 * Switches back to red
 	 */
 	private void switchToRed() {
+		if(babystepsService != null)
+			babystepsService.stop();
+		
 		endTracking();
 		
 		try {
