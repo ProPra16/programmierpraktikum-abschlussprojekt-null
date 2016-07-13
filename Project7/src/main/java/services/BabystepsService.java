@@ -56,8 +56,8 @@ public class BabystepsService {
 				long currentTime = (maxTime - (dateNext.getTime() - dateStart.getTime()));
 				Date finalTime = new Date(currentTime);
 				
-				DateFormat formatter = new SimpleDateFormat("mm:ss:SSS");
-				String dateFormatted = formatter.format(finalTime);
+				DateFormat formatter = new SimpleDateFormat("mm:ss:SS");
+				String dateFormatted = formatter.format(finalTime);				
 				
 				if(currentTime <= 0) {
 					Platform.runLater(() -> {
@@ -77,6 +77,11 @@ public class BabystepsService {
 				Platform.runLater(() -> {
 					timeLabel.setText(dateFormatted);
 			    });
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		
