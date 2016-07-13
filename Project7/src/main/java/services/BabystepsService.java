@@ -1,6 +1,8 @@
 package services;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.fxmisc.richtext.CodeArea;
@@ -41,7 +43,7 @@ public class BabystepsService {
 	public void start() {
 		Thread t = new Thread(() -> {
 			boolean running = true;
-			long maxTime = exercise.getConfig().getTimeLimit();
+			long maxTime = exercise.getConfig().getTimeLimit()*1000;
 			
 			Date dateStart = new Date();
 			
@@ -51,7 +53,11 @@ public class BabystepsService {
 					break;
 				}
 				Date dateNext = new Date();
-				long currentTime = (maxTime - (dateNext.getTime() - dateStart.getTime())/1000);
+				long currentTime = (maxTime - (dateNext.getTime() - dateStart.getTime()));
+				Date finalTime = new Date(currentTime);
+				
+				DateFormat formatter = new SimpleDateFormat("mm:ss:SS");
+				String dateFormatted = formatter.format(finalTime);				
 				
 				if(currentTime <= 0) {
 					Platform.runLater(() -> {
@@ -66,19 +72,18 @@ public class BabystepsService {
 						start();
 				    });
 					running = false;
+				} else {
+					Platform.runLater(() -> {
+						timeLabel.setText(dateFormatted);
+				    });
 				}
-				
-				Platform.runLater(() -> {
-					timeLabel.setText(Long.toString(currentTime));
-			    });
-				
+			
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(50);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 					System.out.println("Error while measuring time");
 				}
-				
 			}
 		});
 		
