@@ -1,7 +1,7 @@
 package models;
 
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.ArrayList;
 
 public class TrackingSession {
@@ -18,7 +18,7 @@ public class TrackingSession {
 	/**
 	 * All tracking points
 	 */
-	private final Collection<TrackingData> data;
+	private final List<TrackingData> data;
 	
 	/**
 	 * Constructs a tracking session with name start date 
@@ -50,7 +50,34 @@ public class TrackingSession {
 	/**
 	 * @return tracking points
 	 */
-	public Collection<TrackingData> getData() {
+	public List<TrackingData> getData() {
 		return data;
+	}
+	
+	/**
+	 * Adds all durations  
+	 * 
+	 * @return sums of duration (red, green, blue)
+	 */
+	public long[] getDuration() {
+		long redDuration = 0;
+		long greenDuration = 0;
+		long blueDuration = 0;
+		
+		for(TrackingData trackingData : data) {
+			switch(trackingData.getMode()) {
+			case RED:
+				redDuration += trackingData.getDuration() / 100.0;
+				break;
+			case GREEN:
+				greenDuration += trackingData.getDuration() / 100.0;
+				break;
+			case BLUE:
+				blueDuration += trackingData.getDuration() / 100.0;
+				break;
+			}
+		}
+		
+		return new long[] { redDuration, greenDuration, blueDuration };
 	}
 }
