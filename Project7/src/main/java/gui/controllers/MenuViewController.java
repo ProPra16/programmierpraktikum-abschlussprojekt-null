@@ -40,63 +40,7 @@ public class MenuViewController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		menuItems = new ArrayList<MenuItem>();		
 		
-		// Create import menu item
-		MenuItem importMenuItem = new ImportMenuItem();
-		
-		// Load ImportView and add connect it to the menu item
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/ImportView.fxml"));
-			Parent importView = loader.load();
-			MainViewController.setAllAnchorsNull(importView);
-			ImportViewController importController = loader.getController();
-			importController.setMenuController(this);
-			importMenuItem.setMainView(importView);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		// Select menu item on click
-		importMenuItem.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				selectMenuItem(importMenuItem);
-			}
-		});
-		menuItems.add(importMenuItem);
-
-		
-		if(ModelStorageController.getInstance().getCatalog().getExercises().size() != 0) {
-			// If exercises are loaded show exercises overview - autoselected while creating
-			createExerciseOverviewMenuItem();
-		} else {
-			// Preselect menu item - loaded in main view controller
-			importMenuItem.select();
-		}
-		
-		// Create statistics menu item 
-		MenuItem statisticsMenuItem = new StatisticsMenuItem();
-		// Load StatisticsView and add connect it to the menu item
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/StatisticsView.fxml"));
-			Parent statisticsView = loader.load();
-			MainViewController.setAllAnchorsNull(statisticsView);
-			statisticsMenuItem.setMainView(statisticsView);
-			StatisticsViewController statisticsController = loader.getController();
-			
-			// Select menu item on click and update statistics
-			statisticsMenuItem.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
-				@Override
-				public void handle(MouseEvent event) {
-					statisticsController.updateStatistics();
-					selectMenuItem(statisticsMenuItem);
-				}
-			});
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		menuItems.add(statisticsMenuItem);
+		createDefaultMenuItems();
 		
 		menu.getChildren().clear();
 		menu.getChildren().addAll(menuItems);
@@ -161,14 +105,14 @@ public class MenuViewController implements Initializable {
 				AnchorPane.setRightAnchor(testView, 0.0);
 				AnchorPane.setBottomAnchor(testView, 0.0);
 				testController.setExercise(exercise);
-				testController.setMainSection(mainSection);
+				testController.setMainSection(mainSection);;
 
 				ExerciseMenuItem exerciseMenuItem = new ExerciseMenuItem(exercise);
 				exerciseMenuItem.setMainView(testView);
 				EventHandler<MouseEvent> menuItemClickEventHandler = new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						selectExercise(exercise);
+						selectMenuItem(exerciseMenuItem);
 					}
 				};
 
@@ -288,5 +232,68 @@ public class MenuViewController implements Initializable {
 
 		menuItems.remove(menuItem);
 		menu.getChildren().remove(menuItem);
+	}
+	
+	/**
+	 * Creates the default menu items and adds them to menuItems
+	 */
+	private void createDefaultMenuItems() {
+		// Create import menu item
+				MenuItem importMenuItem = new ImportMenuItem();
+				
+				// Load ImportView and add connect it to the menu item
+				try {
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/ImportView.fxml"));
+					Parent importView = loader.load();
+					MainViewController.setAllAnchorsNull(importView);
+					ImportViewController importController = loader.getController();
+					importController.setMenuController(this);
+					importMenuItem.setMainView(importView);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				// Select menu item on click
+				importMenuItem.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent event) {
+						selectMenuItem(importMenuItem);
+					}
+				});
+				menuItems.add(importMenuItem);
+
+				
+				if(ModelStorageController.getInstance().getCatalog().getExercises().size() != 0) {
+					// If exercises are loaded show exercises overview - autoselected while creating
+					createExerciseOverviewMenuItem();
+				} else {
+					// Preselect menu item - loaded in main view controller
+					importMenuItem.select();
+				}
+				
+				// Create statistics menu item 
+				MenuItem statisticsMenuItem = new StatisticsMenuItem();
+				// Load StatisticsView and add connect it to the menu item
+				try {
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/StatisticsView.fxml"));
+					Parent statisticsView = loader.load();
+					MainViewController.setAllAnchorsNull(statisticsView);
+					statisticsMenuItem.setMainView(statisticsView);
+					StatisticsViewController statisticsController = loader.getController();
+					
+					// Select menu item on click and update statistics
+					statisticsMenuItem.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+						@Override
+						public void handle(MouseEvent event) {
+							statisticsController.updateStatistics();
+							selectMenuItem(statisticsMenuItem);
+						}
+					});
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				menuItems.add(statisticsMenuItem);
 	}
 }
