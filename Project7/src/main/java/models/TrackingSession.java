@@ -1,7 +1,7 @@
 package models;
 
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.ArrayList;
 
 public class TrackingSession {
@@ -18,7 +18,7 @@ public class TrackingSession {
 	/**
 	 * All tracking points
 	 */
-	private final Collection<TrackingData> data;
+	private final List<TrackingData> data;
 	
 	/**
 	 * Constructs a tracking session with name start date 
@@ -50,7 +50,7 @@ public class TrackingSession {
 	/**
 	 * @return tracking points
 	 */
-	public Collection<TrackingData> getData() {
+	public List<TrackingData> getData() {
 		return data;
 	}
 	

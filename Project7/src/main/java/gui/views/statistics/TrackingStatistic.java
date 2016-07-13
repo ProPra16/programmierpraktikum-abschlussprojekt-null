@@ -3,6 +3,7 @@ package gui.views.statistics;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.Chart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
@@ -48,33 +49,54 @@ public class TrackingStatistic extends VBox {
 	 * 
 	 * @return {@link LineChart}
 	 */
-	private Node createLineChart() {
-		CategoryAxis modeAxis = new CategoryAxis();
+	private LineChart<Number, Number> createLineChart() {
+		NumberAxis modeAxis = new NumberAxis();
 		modeAxis.setLabel("Mode");
 		NumberAxis timeAxis = new NumberAxis();
 		timeAxis.setLabel("Time");
 		
-		LineChart<String, Number> chart = new LineChart<String, Number>(modeAxis, timeAxis);
+		LineChart<Number, Number> chart = new LineChart<Number, Number>(modeAxis, timeAxis);
 		chart.setMinHeight(chartHeight);
 		chart.setTitle("History");
 		chart.setLegendVisible(false);
 		chart.getStyleClass().add("statistic-chart");
 		chart.getStyleClass().add("statistic-chart-line");
 		
-		XYChart.Series<String, Number> trackingSeries = new XYChart.Series<String, Number>();
-		for(TrackingData trackingData : trackingSession.getData()) {
-			XYChart.Data<String, Number> data = new XYChart.Data<String, Number>(trackingData.getModeString(), trackingData.getDuration()/1000.0);
-			trackingSeries.getData().add(data);
+		
+		XYChart.Series<Number, Number> trackingSeriesRed = new XYChart.Series<Number, Number>();
+		XYChart.Series<Number, Number> trackingSeriesGreen = new XYChart.Series<Number, Number>();
+		XYChart.Series<Number, Number> trackingSeriesBlue = new XYChart.Series<Number, Number>();
+		
+		for(int i = 0; i < trackingSession.getData().size(); i++) {
+			TrackingData trackingData = trackingSession.getData().get(i); 
+			XYChart.Data<Number, Number> data = new XYChart.Data<Number, Number>(i+1, trackingData.getDuration()/1000.0);
+			
+			switch(trackingData.getMode()) {
+			case RED:
+				trackingSeriesRed.getData().add(data);
+				break;
+			case GREEN:
+				trackingSeriesGreen.getData().add(data);
+				break;
+			case BLUE:
+				trackingSeriesBlue.getData().add(data);
+				break;
+			}
 		}
-		chart.getData().add(trackingSeries);
+		
+		chart.getData().add(trackingSeriesRed);
+		chart.getData().add(trackingSeriesGreen);
+		chart.getData().add(trackingSeriesBlue);
 		
 		return chart;
 	}
 	
 	/** 
 	 * Creates a pie chart
+	 * 
+	 * @return {@link PieChart}
 	 */
-	private Node createPieChart() {
+	private PieChart createPieChart() {
 		PieChart chart = new PieChart();
 		chart.setMinHeight(chartHeight);
 		chart.setTitle("Time needed in mode");
@@ -83,18 +105,15 @@ public class TrackingStatistic extends VBox {
 		chart.getStyleClass().add("statistic-chart-pie");
 		
 		long[] durations = trackingSession.getDuration();
-			
+		
 		PieChart.Data redData = new PieChart.Data("RED", durations[0]/1000.0);
 		PieChart.Data greenData = new PieChart.Data("GREEN", durations[1]/1000.0);
 		PieChart.Data blueData = new PieChart.Data("BLUE", durations[2]/1000.0);
 		
-		chart.getData().addAll(redData, greenData, blueData);
+		if(durations[0] != 0) {
+			chart.getData().addAll(redData, greenData, blueData);
+		}
 		
-		/* Not needed - already overrode the default colors
-		redData.getNode().getStyleClass().add("red");
-		greenData.getNode().getStyleClass().add("green");
-		blueData.getNode().getStyleClass().add("blue");
-		*/
 		return chart;
 	}
 

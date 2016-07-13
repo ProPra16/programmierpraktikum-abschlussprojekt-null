@@ -1,5 +1,6 @@
 .statistics {
 	-fx-padding: 20px;
+	-fx-spacing: 20px;
 }
 
 .statistics .error {
@@ -23,19 +24,21 @@
 }
 
 /* 
-.statistic-chart .red {
-	-fx-background-color: #e74c3c;
+.red {
+	-fx-stroke: #e74c3c; 
 }
 
-.statistic-chart .green {
-	-fx-background-color: #2ecc71;
+.green {
+	-fx-stroke: #2ecc71;
 }
 
-.statistic-chart .blue {
-	-fx-background-color: #3498db;
+.blue {
+	-fx-stroke: #3498db;
+	
 }*/
 
 /* Set RED, GREEN, BLUE for line chart */
+/* Lines */
 .default-color0.chart-series-line { 
 	-fx-stroke: #e74c3c;
 }
@@ -44,6 +47,19 @@
 }
 .default-color2.chart-series-line { 
 	-fx-stroke: #3498db;
+}
+
+/* Symbols */
+.default-color0.chart-line-symbol {
+	-fx-background-color: #e74c3c, #fff;
+}
+
+.default-color1.chart-line-symbol {
+	-fx-background-color: #2ecc71, #fff;
+}
+
+.default-color2.chart-line-symbol {
+	-fx-background-color: #3498db, #fff;
 }
 
 /* Set RED, GREEN, BLUE for pie chart */

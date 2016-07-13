@@ -30,7 +30,8 @@ public class StatisticsViewController implements Initializable {
 		
 		statisticsContainer.getChildren().clear();
 		
-		if(trackingResults.size() == 0) {
+		// Fulfill at least one cycle 
+		if(trackingResults.size() <= 3) {
 			Label errorLabel = new Label("Currently, there are no statistics available");
 			errorLabel.getStyleClass().add("error");
 			statisticsContainer.getChildren().add(errorLabel);
