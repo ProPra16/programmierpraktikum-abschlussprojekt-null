@@ -9,6 +9,6 @@
 <?import javafx.scene.text.*?>
 <?import java.net.*?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ExercisesViewController" stylesheets="@../styles/exercises.css" fx:id="mainPane">
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ExercisesViewController" stylesheets="@../styles/exercises.css" fx:id="mainPane">
 
 </ScrollPane>

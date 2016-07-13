@@ -19,7 +19,7 @@ public class RomanNumberConverterTest {
 			</test>
 		</tests>
 		<config>
-			<babysteps value="True">90</babysteps>
+			<babysteps value="True">99999</babysteps>
 			<timetracking value="False" />
 		</config>
 	</exercise>

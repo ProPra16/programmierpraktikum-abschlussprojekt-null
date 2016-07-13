@@ -1,0 +1,74 @@
+.statistics {
+	-fx-padding: 20px;
+	-fx-spacing: 20px;
+}
+
+.statistics .error {
+	-fx-text-fill: rgba(0, 0, 0, 0.3);
+	-fx-font-size: 20px;
+	-fx-font-weight: bold;
+}
+
+.statistic {
+	-fx-padding: 20px;
+	-fx-background-color: #fff;
+}
+
+.statistic-header {
+	-fx-font-weight: bold;
+	-fx-font-size: 20px;
+}
+
+.statistic-date {
+	-fx-font-size: 16px;
+}
+
+/* 
+.red {
+	-fx-stroke: #e74c3c; 
+}
+
+.green {
+	-fx-stroke: #2ecc71;
+}
+
+.blue {
+	-fx-stroke: #3498db;
+	
+}*/
+
+/* Set RED, GREEN, BLUE for line chart */
+/* Lines */
+.default-color0.chart-series-line { 
+	-fx-stroke: #e74c3c;
+}
+.default-color1.chart-series-line { 
+	-fx-stroke: #2ecc71;
+}
+.default-color2.chart-series-line { 
+	-fx-stroke: #3498db;
+}
+
+/* Symbols */
+.default-color0.chart-line-symbol {
+	-fx-background-color: #e74c3c, #fff;
+}
+
+.default-color1.chart-line-symbol {
+	-fx-background-color: #2ecc71, #fff;
+}
+
+.default-color2.chart-line-symbol {
+	-fx-background-color: #3498db, #fff;
+}
+
+/* Set RED, GREEN, BLUE for pie chart */
+.default-color0.chart-pie { 
+	-fx-pie-color: #e74c3c;
+}
+.default-color1.chart-pie { 
+	-fx-pie-color: #2ecc71;
+}
+.default-color2.chart-pie { 
+	-fx-pie-color: #3498db;
+}
