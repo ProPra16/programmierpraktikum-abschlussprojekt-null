@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.Region?>
 <?import gui.views.cycle.JavaCodeArea?>
 
-<AnchorPane fx:id="rootPane" prefHeight="377.0" prefWidth="602.0" stylesheets="@../styles/cycle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="377.0" prefWidth="602.0" stylesheets="@../styles/cycle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <JavaCodeArea fx:id="sourceTextField" prefHeight="292.0" prefWidth="562.0" stylesheets="@../styles/java-keywords.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
+      <JavaCodeArea fx:id="codeArea" prefHeight="292.0" prefWidth="562.0" stylesheets="@../styles/java-keywords.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
       <AnchorPane prefHeight="40.0" prefWidth="602.0" styleClass="header" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <HBox alignment="CENTER" prefHeight="40.0" prefWidth="602.0" styleClass="header" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>

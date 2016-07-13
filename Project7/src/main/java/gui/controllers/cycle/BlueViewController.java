@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import models.TrackingData;
@@ -27,16 +28,21 @@ public class BlueViewController implements Initializable {
 	@FXML
 	AnchorPane rootPane;
 	@FXML
-	JavaCodeArea sourceTextField;
+	JavaCodeArea codeArea;
 	@FXML
 	Node backButton;
 	@FXML
 	Node confirmButton;
+	@FXML
+	Label timeLabel;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// Disable back button - don't edit red 
 		backButton.setVisible(false);
+		// Hide time label - no time limit here
+		timeLabel.setVisible(false);
+		
 		// Set css class for styling
 		if (rootPane.getStyleClass().contains("green")) {
 			rootPane.getStyleClass().remove("green");
@@ -57,13 +63,13 @@ public class BlueViewController implements Initializable {
 	 */
 	@FXML
 	public void confirmAction() {
-		compileService.getExercise().getClasses().get(0).setContent(sourceTextField.getText());
+		compileService.getExercise().getClasses().get(0).setContent(codeArea.getText());
 		compileService.compileAndRunTests();
 
 		// Check if there are compile errors
 		if (!compileService.isValid() && compileService.getCompilerResult().hasCompileErrors()) {
 			// Mark compile errors
-			sourceTextField.markErrors(compileService.getCompileErrors());
+			codeArea.markErrors(compileService.getCompileErrors());
 
 			// Show alert
 			Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -73,8 +79,7 @@ public class BlueViewController implements Initializable {
 			alert.showAndWait();
 		}
 		// Check if all tests are passed
-		else if (!compileService.getCompilerResult().hasCompileErrors()
-				&& compileService.getTestResult().getNumberOfFailedTests() != 0) {
+		else if (!compileService.getCompilerResult().hasCompileErrors() && compileService.getTestResult().getNumberOfFailedTests() != 0) {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("TDDT");
 			alert.setHeaderText("Tests failed");
@@ -94,7 +99,8 @@ public class BlueViewController implements Initializable {
 	public void setCompileService(CompileService compileService) {
 		this.compileService = compileService;
 		compileService.setMode(CompileService.Mode.GREEN);
-		sourceTextField.replaceText(compileService.getExercise().getClasses().get(0).getContent());
+		compileService.setCodeArea(codeArea);
+		codeArea.replaceText(compileService.getExercise().getClasses().get(0).getContent());
 	}
 	
 	/**

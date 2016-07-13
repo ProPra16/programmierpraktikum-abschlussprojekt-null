@@ -2,9 +2,13 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
+import gui.views.cycle.JavaCodeArea;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import models.Exercise;
 import models.Test;
 import models.Class;
@@ -18,23 +22,28 @@ import vk.core.api.TestResult;
 public class CompileService {
 
 	public enum Mode {
-		RED, GREEN, REFACTOR
+		RED, GREEN, BLUE
 	}
 
 	Exercise exercise;
+	JavaCodeArea codeArea;
 	JavaStringCompiler compiler;
 	CompilerResult compilerResult;
 	Mode mode;
-	boolean ignoreMethodErrors;
+	
+	Thread compileThread;
+	ObservableList<CompileError> compileErrors;
 
 	/**
 	 * Initializes a compile service with an exercise
 	 * 
 	 * @param exercise
 	 */
-	public CompileService(Exercise exercise) {
+	public CompileService(Exercise exercise, JavaCodeArea codeArea) {
 		this.exercise = exercise;
-		ignoreMethodErrors = true;
+		this.codeArea = codeArea;
+		
+		addAutocompile();
 	}
 
 	/**
@@ -54,6 +63,16 @@ public class CompileService {
 	public void setMode(Mode mode) {
 		this.mode = mode;
 	}
+	
+	/**
+	 * Sets the code area 
+	 * 
+	 * @param codeArea
+	 */
+	public void setCodeArea(JavaCodeArea codeArea) {
+		this.codeArea = codeArea;
+		addAutocompile();
+	}
 
 	/**
 	 * Gets the last compiler errors for mode
@@ -71,43 +90,7 @@ public class CompileService {
 			}
 			break;
 		case GREEN:
-		case REFACTOR:
-			for (Class exerciseClass : exercise.getClasses()) {
-				CompilationUnit testUnit = compiler.getCompilationUnitByName(exerciseClass.getName());
-				compileErrors.addAll(compilerResult.getCompilerErrorsForCompilationUnit(testUnit));
-			}
-		}
-
-		return compileErrors;
-	}
-
-	/**
-	 * Gets the last filtered compiler errors for mode
-	 * 
-	 * @return
-	 */
-	public Collection<CompileError> getFilteredCompileErrors() {
-		Collection<CompileError> compileErrors = new ArrayList<CompileError>();
-		switch (mode) {
-		case RED:
-			for (int i = 0; i < exercise.getTests().size(); i++) {
-				Test exerciseTest = exercise.getTests().get(i);
-				CompilationUnit testUnit = compiler.getCompilationUnitByName(exerciseTest.getName());
-				compileErrors.addAll(compilerResult.getCompilerErrorsForCompilationUnit(testUnit));
-				// Check if any compile error is caused by an not implemented
-				// method, then remove them
-				for (Iterator<CompileError> iterator = compileErrors.iterator(); iterator.hasNext();) {
-					// Debug: System.out.println(error.getMessage());
-					CompileError error = iterator.next();
-					if (ignoreMethodErrors && error.getMessage().contains("method")
-							&& error.getMessage().contains("type " + exercise.getClasses().get(i).getName())
-							&& !error.getMessage().contains(exerciseTest.getName()))
-						iterator.remove(); // Filter "valid" errors
-				}
-			}
-			break;
-		case GREEN:
-		case REFACTOR:
+		case BLUE:
 			for (Class exerciseClass : exercise.getClasses()) {
 				CompilationUnit testUnit = compiler.getCompilationUnitByName(exerciseClass.getName());
 				compileErrors.addAll(compilerResult.getCompilerErrorsForCompilationUnit(testUnit));
@@ -161,25 +144,11 @@ public class CompileService {
 			return isValidRed();
 		case GREEN:
 			return isValidGreen();
-		case REFACTOR:
-			return isValidRefactor();
+		case BLUE:
+			return isValidBlue();
 		default:
 			return false;
 		}
-	}
-
-	/**
-	 * Checks for missing assertEquals
-	 * 
-	 * @return
-	 */
-	public boolean missingAssertEquals() {
-		for (Test exerciseTest : exercise.getTests()) {
-			if (!exerciseTest.getContent().contains("assertEquals")) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**
@@ -188,35 +157,8 @@ public class CompileService {
 	 * @return
 	 */
 	private boolean isValidRed() {
-		for (int i = 0; i < exercise.getTests().size(); i++) {
-			Test exerciseTest = exercise.getTests().get(i);
-
-			CompilationUnit testUnit = compiler.getCompilationUnitByName(exerciseTest.getName());
-			Collection<CompileError> compilerErrors = new ArrayList<CompileError>(
-					compilerResult.getCompilerErrorsForCompilationUnit(testUnit));
-
-			// Check if it's very first compile and every possible compile error
-			// is caused by an not implemented method, otherwise return false
-			for (Iterator<CompileError> iterator = compilerErrors.iterator(); iterator.hasNext();) {
-				// Debug: System.out.println(error.getMessage());
-				CompileError error = iterator.next();
-				if (!ignoreMethodErrors || !error.getMessage().contains("method")
-						|| !error.getMessage().contains("type " + exercise.getClasses().get(i).getName())
-						|| error.getMessage().contains(exerciseTest.getName()))
-					return false;
-				else
-					iterator.remove(); // Filter "valid" errors
-			}
-
-			// Missing assert equals?
-			if (!exerciseTest.getContent().contains("assertEquals")) {
-				return false;
-			}
-		}
-
-		if (!compilerResult.hasCompileErrors() && compiler.getTestResult().getNumberOfFailedTests() != 1) {
+		if (compilerResult.hasCompileErrors() || compiler.getTestResult().getNumberOfFailedTests() != 1)
 			return false;
-		}
 
 		return true;
 	}
@@ -234,12 +176,55 @@ public class CompileService {
 	}
 
 	/**
-	 * Checks if code is valid for refactor mode
+	 * Checks if code is valid for blue mode
 	 * 
 	 * @return
 	 */
-	private boolean isValidRefactor() {
-		return isValidGreen();
+	private boolean isValidBlue() {
+		return isValidGreen(); // no difference in validation
+	}
+	
+	/**
+	 * Auto compile on change 
+	 */
+	private void addAutocompile() {
+		// Initialize observable list
+		compileErrors = FXCollections.observableArrayList();
+		// Mark compile errors, if they changed
+		compileErrors.addListener(new ListChangeListener<CompileError>() {
+			@Override
+			public void onChanged(Change<? extends CompileError> change) {
+				codeArea.markErrors(compileErrors);
+			}
+		});
+		
+		// Auto compile on change 
+		codeArea.textProperty().addListener((observable, oldValue, newValue) -> {
+			// Check if possible previous compile is finished (thread terminated) 
+			if(compileThread == null || compileThread.getState() == Thread.State.TERMINATED) {
+				// Then compile and change errors  
+				compileThread = new Thread(() -> {
+					Platform.runLater(() -> {
+						
+						switch(mode) {
+						case RED:
+							exercise.getTests().get(0).setContent(codeArea.getText());
+							break;
+						case GREEN:
+						case BLUE:
+							exercise.getClasses().get(0).setContent(codeArea.getText());
+							break;
+						}
+						
+						compileAndRunTests();
+						compileErrors.clear();
+						compileErrors.addAll(getCompileErrors());
+					});
+				});
+				compileThread.start();
+			}
+		});
+		
 	}
 
 }
