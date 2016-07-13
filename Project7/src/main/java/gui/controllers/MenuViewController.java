@@ -263,7 +263,9 @@ public class MenuViewController implements Initializable {
 				menuItems.add(importMenuItem);
 
 				
+
 				if(StorageService.getInstance().getExerciseCatalog().getExercises().size() != 0) {
+
 					// If exercises are loaded show exercises overview - autoselected while creating
 					createExerciseOverviewMenuItem();
 				} else {

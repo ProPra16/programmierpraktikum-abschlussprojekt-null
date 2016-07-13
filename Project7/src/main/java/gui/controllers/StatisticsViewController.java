@@ -48,7 +48,9 @@ public class StatisticsViewController implements Initializable {
 	 * @return true, if any session has fulfilled at least one cycle
 	 */
 	private boolean anyCompleteSession() {
+
 		Collection<TrackingSession> trackingResults = StorageService.getInstance().gettSessionCatalog().getTrackingResults();
+
 		
 		for(TrackingSession trackingSession : trackingResults) {
 			if(trackingSession.getData().size() >= 3) {

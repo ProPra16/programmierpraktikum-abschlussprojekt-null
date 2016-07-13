@@ -3,8 +3,6 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-
 import models.Class;
 import gui.views.cycle.JavaCodeArea;
 import javafx.application.Platform;
