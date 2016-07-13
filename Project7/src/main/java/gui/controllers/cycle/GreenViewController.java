@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import gui.views.cycle.JavaCodeArea;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,13 +29,11 @@ public class GreenViewController implements Initializable {
 	BabystepsService babystepsService;
 	TrackingSession trackingSession;
 	TrackingData trackingData;
-	long currentTime = 0;
-	boolean checkForFinishedTask = false;
 
 	@FXML
 	AnchorPane rootPane;
 	@FXML
-	JavaCodeArea sourceTextField;
+	JavaCodeArea codeArea;
 	@FXML
 	Node backButton;
 	@FXML
@@ -74,13 +73,13 @@ public class GreenViewController implements Initializable {
 	 */
 	@FXML
 	public void confirmAction() {
-		compileService.getExercise().getClasses().get(0).setContent(sourceTextField.getText());
+		compileService.getExercise().getClasses().get(0).setContent(codeArea.getText());
 		compileService.compileAndRunTests();
 
 		// Check if there are compile errors
 		if (!compileService.isValid() && compileService.getCompilerResult().hasCompileErrors()) {
 			// Mark compile errors
-			sourceTextField.markErrors(compileService.getCompileErrors());
+			codeArea.markErrors(compileService.getCompileErrors());
 
 			// Show alert
 			Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -90,15 +89,13 @@ public class GreenViewController implements Initializable {
 			alert.showAndWait();
 		}
 		// Check if all tests are passed
-		else if (!compileService.getCompilerResult().hasCompileErrors()
-				&& compileService.getTestResult().getNumberOfFailedTests() != 0) {
+		else if (!compileService.getCompilerResult().hasCompileErrors() && compileService.getTestResult().getNumberOfFailedTests() != 0) {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("TDDT");
 			alert.setHeaderText("Tests failed");
 			alert.setContentText("Your code have not passed all tests.");
 			alert.showAndWait();
 		} else if (compileService.isValid()) {
-			checkForFinishedTask = true;
 			switchToBlue();
 		}
 	}
@@ -111,10 +108,12 @@ public class GreenViewController implements Initializable {
 	public void setCompileService(CompileService compileService) {
 		this.compileService = compileService;
 		compileService.setMode(CompileService.Mode.GREEN);
-		sourceTextField.replaceText(compileService.getExercise().getClasses().get(0).getContent());
+		compileService.setCodeArea(codeArea);
+		codeArea.replaceText(compileService.getExercise().getClasses().get(0).getContent());
+		
 		// starting Babysteps
 		if(compileService.getExercise().getConfig().isBabySteps()) {
-			babystepsService = new BabystepsService(compileService.getExercise(), timeLabel, sourceTextField.getText(), sourceTextField);
+			babystepsService = new BabystepsService(compileService.getExercise(), timeLabel, codeArea.getText(), codeArea);
 			babystepsService.start();
 		}
 	}
