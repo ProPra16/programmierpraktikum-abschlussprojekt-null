@@ -34,6 +34,29 @@ public class TrackingData {
 	private long duration;
 	
 	/**
+	 * @return the mode
+	 */
+	public Mode getMode() {
+		return mode;
+	}
+	
+	/**
+	 * @return the mode string
+	 */
+	public String getModeString() {
+		switch(mode) {
+		case RED:
+			return "RED";
+		case GREEN:
+			return "GREEN";
+		case BLUE:
+			return "BLUE";
+		default:
+			return "";
+		}
+	}
+
+	/**
 	 * Constructs a tracking data with a start date
 	 * @param start
 	 */

@@ -6,15 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
 import gui.controllers.cycle.RedViewController;
 import gui.views.menu.ExerciseMenuItem;
 import gui.views.menu.ImportMenuItem;
 import gui.views.menu.MenuItem;
 import gui.views.menu.OverviewMenuItem;
+import gui.views.menu.StatisticsMenuItem;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +24,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import models.Exercise;
 import xmlModelParser.ModelStorageController;
-import xmlModelParser.ParserException;
 
 public class MenuViewController implements Initializable {
 
@@ -71,12 +67,36 @@ public class MenuViewController implements Initializable {
 
 		
 		if(ModelStorageController.getInstance().getCatalog().getExercises().size() != 0) {
-			// If exercises are loaded show exercises overview
+			// If exercises are loaded show exercises overview - autoselected while creating
 			createExerciseOverviewMenuItem();
 		} else {
 			// Preselect menu item - loaded in main view controller
 			importMenuItem.select();
 		}
+		
+		// Create statistics menu item 
+		MenuItem statisticsMenuItem = new StatisticsMenuItem();
+		// Load StatisticsView and add connect it to the menu item
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/StatisticsView.fxml"));
+			Parent statisticsView = loader.load();
+			MainViewController.setAllAnchorsNull(statisticsView);
+			statisticsMenuItem.setMainView(statisticsView);
+			StatisticsViewController statisticsController = loader.getController();
+			
+			// Select menu item on click and update statistics
+			statisticsMenuItem.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					statisticsController.updateStatistics();
+					selectMenuItem(statisticsMenuItem);
+				}
+			});
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		menuItems.add(statisticsMenuItem);
 		
 		menu.getChildren().clear();
 		menu.getChildren().addAll(menuItems);

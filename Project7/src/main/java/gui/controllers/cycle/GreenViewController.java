@@ -7,7 +7,9 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import gui.views.cycle.JavaCodeArea;
+import services.BabystepsService;
 import services.CompileService;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,12 +21,16 @@ import models.TrackingData;
 import models.TrackingSession;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 
 public class GreenViewController implements Initializable {
 	Pane mainSection;
 	CompileService compileService;
+	BabystepsService babystepsService;
 	TrackingSession trackingSession;
 	TrackingData trackingData;
+	long currentTime = 0;
+	boolean checkForFinishedTask = false;
 
 	@FXML
 	AnchorPane rootPane;
@@ -34,6 +40,8 @@ public class GreenViewController implements Initializable {
 	Node backButton;
 	@FXML
 	Node confirmButton;
+	@FXML
+	Label timeLabel;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -91,6 +99,7 @@ public class GreenViewController implements Initializable {
 			alert.setContentText("Your code have not passed all tests.");
 			alert.showAndWait();
 		} else if (compileService.isValid()) {
+			checkForFinishedTask = true;
 			switchToBlue();
 		}
 	}
@@ -104,8 +113,13 @@ public class GreenViewController implements Initializable {
 		this.compileService = compileService;
 		compileService.setMode(CompileService.Mode.GREEN);
 		sourceTextField.replaceText(compileService.getExercise().getClasses().get(0).getContent());
+		// starting Babysteps
+		if(compileService.getExercise().getConfig().isBabySteps()) {
+			babystepsService = new BabystepsService(compileService.getExercise(), timeLabel, sourceTextField.getText(), sourceTextField);
+			babystepsService.start();
+		}
 	}
-	
+
 	/**
 	 * Sets the tracking session
 	 * 
@@ -129,6 +143,9 @@ public class GreenViewController implements Initializable {
 	 * Switches to blue
 	 */
 	private void switchToBlue() {
+		if(babystepsService != null)
+			babystepsService.stop();
+		
 		endTracking();
 		
 		try {
@@ -154,6 +171,9 @@ public class GreenViewController implements Initializable {
 	 * Switches back to red
 	 */
 	private void switchToRed() {
+		if(babystepsService != null)
+			babystepsService.stop();
+		
 		endTracking();
 		
 		try {
