@@ -66,7 +66,7 @@ public class Config extends Observable implements Parsable {
 	}
 
 	@Override
-	public Parsable loadfromXML(Element element) throws ParserException {
+	public Parsable loadfromXML(Element element) throws Exception {
 
 		// Gets the content of every "timetraking" tag from the XML file and
 		// sets the variable timeTracking to the boolean representation of its

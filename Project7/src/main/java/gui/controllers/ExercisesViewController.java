@@ -38,7 +38,7 @@ public class ExercisesViewController implements Initializable {
 				});
 				mainPane.setContent(exercisesGrid);
 			}
-		} catch (SAXException | IOException | ParserConfigurationException | ParserException e) {
+		} catch (Exception e) {
 			// Do nothing - import view is already there
 		}
 

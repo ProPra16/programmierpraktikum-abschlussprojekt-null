@@ -9,7 +9,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import xmlParser.Parsable;
-import xmlParser.ParserException;
 import xmlParser.XmlList;
 import xmlParser.XmlNode;
 
@@ -49,7 +48,7 @@ public class ExerciseCatalog extends Observable implements Parsable, Observer {
 
 	}
 
-	public Parsable loadfromXML(Element element) throws ParserException {
+	public Parsable loadfromXML(Element element) throws Exception {
 
 		// Gets all exercise items form the variable exerciselist
 		// and passes each to a Exercise object as well as adding
@@ -74,6 +73,7 @@ public class ExerciseCatalog extends Observable implements Parsable, Observer {
 		}
 
 		XmlNode XmlObj = new XmlNode("exercises", XmlExercises);
+		XmlObj.setRoot(true);
 		return XmlObj;
 	}
 

@@ -37,7 +37,7 @@ public class Parser {
 	 * @throws ParserConfigurationException
 	 * @throws ParserException
 	 */
-	public ExerciseCatalog deserailize(String url)
+	public Element deserailize(String url,String tagName)
 			throws SAXException, IOException, ParserConfigurationException, ParserException {
 
 		File file = new File(url);
@@ -45,18 +45,18 @@ public class Parser {
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		Document document = documentBuilder.parse(file);
 
-		NodeList excercisesList = document.getElementsByTagName("exercises");
+		NodeList excercisesList = document.getElementsByTagName("TDDT");
 		Element element = (Element) excercisesList.item(0);
+		
 
-		return (ExerciseCatalog) new ExerciseCatalog().loadfromXML(element);
+		return (Element) element.getElementsByTagName(tagName).item(0);
 
 	}
 
-	public void serialize(String path, ExerciseCatalog catalog) throws IOException {
-		XmlNode obj = catalog.objectToXMLObject();
-		String json = obj.toXmlString();
+	public void serialize(String path, XmlValue serializableValue) throws IOException {
+		String xml = serializableValue.toXmlString();
 		Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), "utf-8"));
-		writer.write(json);
+		writer.write(xml);
 		writer.close();
 	}
 }

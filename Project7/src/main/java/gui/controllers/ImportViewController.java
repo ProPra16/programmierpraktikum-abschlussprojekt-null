@@ -67,7 +67,12 @@ public class ImportViewController implements Initializable {
 	 */
 	@FXML
 	public void dragDropped(DragEvent event) {		
-    	loadConfig(event.getDragboard().getFiles().get(0));
+    	try {
+			loadConfig(event.getDragboard().getFiles().get(0));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return;
+		}
        
 		menuController.selectExerciseOverview();
     	event.setDropCompleted(true);
@@ -88,15 +93,11 @@ public class ImportViewController implements Initializable {
 	 * 
 	 * @param file
 	 */
-	private void loadConfig(File file) {
-		try {
-			StorageService.getInstance().importModel(file.getAbsolutePath());
+	private void loadConfig(File file) throws Exception{
+		
+			StorageService.getInstance().importModel(file.getAbsolutePath(),false);
 			// TODO override old config
-			StorageService.getInstance().loadModel();
-		} catch (SAXException | IOException | ParserConfigurationException | ParserException e) {
-			// TODO Handle Error appropriately
-			e.printStackTrace();
-		}
+		
 	}
 	
 	

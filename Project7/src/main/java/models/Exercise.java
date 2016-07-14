@@ -10,7 +10,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import xmlParser.Parsable;
-import xmlParser.ParserException;
 import xmlParser.XmlAtribute;
 import xmlParser.XmlList;
 import xmlParser.XmlNode;
@@ -110,7 +109,7 @@ public class Exercise extends Observable implements Parsable, Observer {
 		return config;
 	}
 
-	public Parsable loadfromXML(Element element) throws ParserException {
+	public Parsable loadfromXML(Element element) throws Exception {
 		// TODO implement method
 
 		// Gets the content of the "description" tag from the XML file and sets

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -17,7 +18,7 @@ import xmlParser.XmlAtribute;
 import xmlParser.XmlList;
 import xmlParser.XmlNode;
 
-public class TrackingSession extends Observable implements Parsable {
+public class TrackingSession extends Observable implements Parsable, Observer {
 	/**
 	 * Start date of tracking session
 	 */
@@ -40,13 +41,14 @@ public class TrackingSession extends Observable implements Parsable {
 	 * @param startDate
 	 */
 	public TrackingSession(String exerciseName, Date startDate) {
-		data = new ArrayList<TrackingData>();
+		
 
 		this.exerciseName = exerciseName;
 		this.startDate = startDate;
 	}
 
 	public TrackingSession() {
+		data = new ArrayList<TrackingData>();
 	}
 
 	/**
@@ -98,13 +100,13 @@ public class TrackingSession extends Observable implements Parsable {
 	}
 
 	@Override
-	public Parsable loadfromXML(Element element) throws ParserException {
+	public Parsable loadfromXML(Element element) throws Exception {
 		// ExerciseName
-		this.exerciseName = element.getAttribute("erciseName");
+		this.exerciseName = element.getAttribute("exerciseName");
 		// StartDate
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 		try {
-			format.parse(element.getAttribute("startDate"));
+			this.startDate=format.parse(element.getAttribute("startDate"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 			throw new ParserException(
@@ -129,7 +131,10 @@ public class TrackingSession extends Observable implements Parsable {
 	}
 
 	private void addData(TrackingData mTrackingData) {
+		mTrackingData.addObserver(this);
 		this.data.add(mTrackingData);
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	@Override
@@ -148,11 +153,19 @@ public class TrackingSession extends Observable implements Parsable {
 		mList.add(new XmlNode("TrackingDataList", tDataList));
 		XmlNode tSessionNode = new XmlNode("TrackingSession", mList);
 
-		tSessionNode.addAtribute(new XmlAtribute("erciseName", this.exerciseName));
+		tSessionNode.addAtribute(new XmlAtribute("exerciseName", this.exerciseName));
 
-		SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-		tSessionNode.addAtribute(new XmlAtribute("startDate", formater.format(startDate)));
-
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+		tSessionNode.addAtribute(new XmlAtribute("startDate", formatter.format(startDate)));
+		
 		return tSessionNode;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		this.setChanged();
+		this.notifyObservers();
+		
 	}
 }

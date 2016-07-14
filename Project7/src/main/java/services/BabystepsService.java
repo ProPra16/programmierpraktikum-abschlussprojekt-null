@@ -59,6 +59,7 @@ public class BabystepsService {
 						alert.showAndWait();
 						
 						start();
+						
 				    });
 					running = false;
 				}

@@ -31,9 +31,9 @@ public class MainViewController implements Initializable {
 		// Load workspace
 		try {
 			StorageService.getInstance().loadModel();
-		} catch (SAXException | IOException | ParserConfigurationException | ParserException exception) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			exception.printStackTrace();
+			e.printStackTrace();
 		}
 				
 		try {

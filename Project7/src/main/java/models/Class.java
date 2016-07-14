@@ -5,7 +5,6 @@ import java.util.Observable;
 import org.w3c.dom.Element;
 
 import xmlParser.Parsable;
-import xmlParser.ParserException;
 import xmlParser.XmlAtribute;
 import xmlParser.XmlNode;
 import xmlParser.XmlString;
@@ -51,7 +50,7 @@ public class Class extends Observable implements Parsable {
 	}
 
 	@Override
-	public Parsable loadfromXML(Element element) throws ParserException {
+	public Parsable loadfromXML(Element element) throws Exception {
 		name = element.getAttribute("name");
 		content = element.getTextContent();
 		return this;

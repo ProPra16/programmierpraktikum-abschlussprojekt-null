@@ -5,24 +5,18 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
-import models.Exercise;
 import models.ExerciseCatalog;
 import models.TrackingSessionCatalog;
 import xmlParser.Parser;
-import xmlParser.ParserException;
+import xmlParser.XmlList;
+import xmlParser.XmlNode;
 
 public class StorageService extends Observable implements Observer {
 	private static StorageService instance;
 	public static final String defaultPath = ".tddt/";
 	public static final String defaultFileName = "Catalog.xml";
 	private ExerciseCatalog exerciseCatalog = new ExerciseCatalog();
-	private TrackingSessionCatalog tSessionCatalog= new TrackingSessionCatalog();
-
-	
+	private TrackingSessionCatalog tSessionCatalog = new TrackingSessionCatalog();
 
 	private StorageService() {
 	}
@@ -32,7 +26,7 @@ public class StorageService extends Observable implements Observer {
 		if (instance == null) {
 			instance = new StorageService();
 			instance.exerciseCatalog.addObserver(instance);
-			
+
 			createStorage();
 		}
 
@@ -43,41 +37,54 @@ public class StorageService extends Observable implements Observer {
 		return defaultPath + defaultFileName;
 	}
 
-	
-	public synchronized void importModel(String path)
-			throws SAXException, IOException, ParserConfigurationException, ParserException {
+	public synchronized void importModel(String path,boolean acceptEmptyExerciseCatalog) throws Exception {
+
 		Parser parser = new Parser();
-		
-		ExerciseCatalog tempCatalog=parser.deserailize(path);
-		for (Exercise exercise:tempCatalog.getExercises())
+
+		this.exerciseCatalog = (ExerciseCatalog) new ExerciseCatalog()
+				.loadfromXML(parser.deserailize(path, "exercises"));
+		try{
+		this.tSessionCatalog = (TrackingSessionCatalog) new TrackingSessionCatalog()
+				.loadfromXML(parser.deserailize(path, "TrackingSessions"));
+		}
+		catch (NullPointerException e) {
+			this.tSessionCatalog = new TrackingSessionCatalog();
+			e.printStackTrace();
+		}
+		if(this.exerciseCatalog.getExercises().isEmpty()&&!acceptEmptyExerciseCatalog)
 		{
-			this.exerciseCatalog.addExercise(exercise);
+			throw new Exception(".xml file does not contain Exercises");
 		}
 		
+		this.exerciseCatalog.addObserver(this);
+		this.tSessionCatalog.addObserver(this);
+		this.saveModel();
 	}
 
-	public synchronized ExerciseCatalog loadModel()
-			throws SAXException, IOException, ParserConfigurationException, ParserException {
-		Parser parser = new Parser();
-		this.exerciseCatalog = parser.deserailize(getDefaultRelativeFilePath());
-		this.exerciseCatalog.addObserver(this);
-		return this.exerciseCatalog;
+	public synchronized void loadModel() throws Exception {
+		this.importModel(getDefaultRelativeFilePath(),true);
 	}
 
 	public void saveModel() throws IOException {
 		Parser parser = new Parser();
-		parser.serialize(getDefaultRelativeFilePath(), this.exerciseCatalog);
+		XmlList xmlStorage = new XmlList();
+		xmlStorage.add(this.exerciseCatalog.objectToXMLObject());
+		xmlStorage.add(this.tSessionCatalog.objectToXMLObject());
+		XmlNode storageNode =new XmlNode("TDDT",xmlStorage);
+		storageNode.setRoot(true);
+		parser.serialize(getDefaultRelativeFilePath(), storageNode);
+		
 
 	}
 
 	public ExerciseCatalog getExerciseCatalog() {
 		return this.exerciseCatalog;
 	}
-	
+
 	public TrackingSessionCatalog gettSessionCatalog() {
 		return tSessionCatalog;
 	}
-	
+
 	private static void createStorage() {
 		File file = new File(getDefaultRelativeFilePath());
 		if (!file.exists()) {

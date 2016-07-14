@@ -3,6 +3,15 @@ package xmlParser;
 public class XmlNode extends XmlValue {
 	String name;
 	XmlValue value;
+	boolean isRoot;
+
+	public boolean isRoot() {
+		return isRoot;
+	}
+
+	public void setRoot(boolean isRoot) {
+		this.isRoot = isRoot;
+	}
 
 	public void setValue(XmlValue value) {
 		this.value = value;
@@ -14,7 +23,7 @@ public class XmlNode extends XmlValue {
 	}
 
 	public String toXmlString() {
-		if(!value.isEmpty())
+		if(this.isRoot||!value.isEmpty())
 		{
 		return "<" + name + this.AtributestoStringLine()+ ">" + value.toXmlString()+ "</" + name + ">\n";
 		}

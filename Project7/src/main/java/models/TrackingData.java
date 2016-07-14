@@ -92,6 +92,8 @@ public class TrackingData extends Observable implements Parsable{
 	 */
 	public void setEnd(Date end) {
 		this.end = end;
+		this.setChanged();
+		this.notifyObservers();
 		
 	}
 
@@ -106,7 +108,7 @@ public class TrackingData extends Observable implements Parsable{
 	}
 
 	@Override
-	public Parsable loadfromXML(Element element) throws ParserException {
+	public Parsable loadfromXML(Element element) throws Exception {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 		try{
 		this.mode = Mode.valueOf(element.getAttribute("mode").toUpperCase());
