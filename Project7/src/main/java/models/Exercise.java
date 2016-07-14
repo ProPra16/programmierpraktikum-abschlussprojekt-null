@@ -10,7 +10,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import xmlParser.Parsable;
-import xmlParser.XmlAtribute;
+import xmlParser.XmlAttribute;
 import xmlParser.XmlList;
 import xmlParser.XmlNode;
 import xmlParser.XmlString;
@@ -201,7 +201,7 @@ public class Exercise extends Observable implements Parsable, Observer {
 		exerciseParameters.add(this.config);
 
 		XmlNode exercise = new XmlNode("exercise", exerciseParameters);
-		exercise.addAtribute(new XmlAtribute("name", this.name));
+		exercise.addAtribute(new XmlAttribute("name", this.name));
 
 		return exercise;
 	}

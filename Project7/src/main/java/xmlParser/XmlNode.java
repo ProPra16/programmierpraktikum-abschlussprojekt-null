@@ -1,23 +1,42 @@
 package xmlParser;
 
-public class XmlNode extends XmlValue {
+/**
+ * Represents a Node in the XML-file
+ *
+ */
+public class XmlNode extends XmlObject {
 	String name;
-	XmlValue value;
+	XmlObject value;
+	/**
+	 * Indicates weather {@link XmlNode} is a root Node
+	 */
 	boolean isRoot;
-
+	
+	/**
+	 * Returns weather {@link XmlNode} is a root Node
+	 * @return true if {@link XmlNode} is a root Node, otherwise false.
+	 */
 	public boolean isRoot() {
 		return isRoot;
 	}
 
+	/**
+	 * Sets weather the {@link XmlNode} is a root Node or not
+	 * @param isRoot Set true if {@link XmlNode} is a root Node otherwise false
+	 */
 	public void setRoot(boolean isRoot) {
 		this.isRoot = isRoot;
 	}
 
-	public void setValue(XmlValue value) {
+	/**
+	 * Sets the value saved between the two Node tags
+	 * @param value Some {@link XmlObject}
+	 */
+	public void setValue(XmlObject value) {
 		this.value = value;
 	}
 
-	public XmlNode(String name, XmlValue jsonValue) {
+	public XmlNode(String name, XmlObject jsonValue) {
 		this.name = name;
 		value = jsonValue;
 	}
@@ -31,7 +50,11 @@ public class XmlNode extends XmlValue {
 		
 	}
 
-	public void addAtribute(XmlAtribute atribute) {
+	/**
+	 * Adds an {@link XmlAttribute} to the {@link XmlNode}
+	 * @param atribute Some {@link XmlAtribute}
+	 */
+	public void addAtribute(XmlAttribute atribute) {
 		this.atributes.add(atribute);
 	}
 

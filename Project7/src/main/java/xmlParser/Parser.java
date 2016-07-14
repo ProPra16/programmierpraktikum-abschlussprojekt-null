@@ -27,11 +27,14 @@ import models.ExerciseCatalog;
 public class Parser {
 
 	/**
-	 * Parses the XML file to a {@link ExerciseCatalog}-Object
+	 * Parses the XML file to a {@link ExerciseCatalog}-Object.
 	 * 
 	 * @param url
-	 *            Take the Path or URL to the XML file as {@link String}.
+	 *            Takes the Path or URL to the XML file as {@link String}.
+	 * @param tagName The name of the xmlTag (e.g. exercises or TrackingSessions) as {@link String}.           
 	 * @return A {@link ExerciseCatalog} object, representing the data in the XML-File.
+	 * 
+	 * @throws Exception
 	 * @throws SAXException
 	 * @throws IOException
 	 * @throws ParserConfigurationException
@@ -53,7 +56,13 @@ public class Parser {
 
 	}
 
-	public void serialize(String path, XmlValue serializableValue) throws IOException {
+	/**
+	 * Serializes an {@link XmlObject} element to a specific Path.
+	 * @param path Takes the Path or URL to the XML file as {@link String}.
+	 * @param serializableValue The {@link XmlObject} which should be parsed 
+	 * @throws IOException
+	 */
+	public void serialize(String path, XmlObject serializableValue) throws IOException {
 		String xml = serializableValue.toXmlString();
 		Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), "utf-8"));
 		writer.write(xml);
