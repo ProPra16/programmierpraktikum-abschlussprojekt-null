@@ -28,7 +28,7 @@ public class BabystepsService {
 		this.exercise = exercise;
 		this.timeLabel = timeLabel;
 		finishedTask = false;
-		this.cachedContent = cachedContent;
+		this.cachedContent = new String(cachedContent);
 		this.sourceCodeArea = codeArea;
 	}	
 	
@@ -58,13 +58,12 @@ public class BabystepsService {
 					Platform.runLater(() -> {
 						sourceCodeArea.replaceText(cachedContent);
 						
-						Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+						Alert alert = new Alert(Alert.AlertType.ERROR);
 						alert.setTitle("Babysteps");
 						alert.setHeaderText("Out of time");
 						alert.setContentText("You did not finish in time!");
 						alert.showAndWait();
 						start();
-						
 				    });
 					running = false;
 				} else {
