@@ -79,7 +79,29 @@ public class MenuViewController implements Initializable {
 		for (MenuItem menuItem : menuItems) {
 			if (menuItem instanceof OverviewMenuItem) {
 				foundMenuItem = true;
-				exercisesController.loadView();
+				
+				// Full reload exercises view - fixes bug when changed catalog 
+				try {
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/ExercisesView.fxml"));
+					Parent exerciseView = loader.load();
+					MainViewController.setAllAnchorsNull(exerciseView);
+					exercisesController = loader.getController();
+					exercisesController.setMenuController(this);
+
+					// Select menu item on click
+					menuItem.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+						@Override
+						public void handle(MouseEvent event) {
+							exercisesController.loadView();
+							selectMenuItem(menuItem);
+						}
+					});
+					menuItem.setMainView(exerciseView);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}				
+				
 				selectMenuItem(menuItem);
 				break; // Usually only one overview menu item
 			}
@@ -126,6 +148,8 @@ public class MenuViewController implements Initializable {
 						int menuIndex = getMenuIndex(exercise);
 						if (menuIndex != -1) {
 							MenuItem menuItem = menuItems.get(menuIndex);
+							if(testController.getBabystepsService() != null)
+								testController.getBabystepsService().stop();
 							// Remove click event handler, otherwise exercise
 							// will selected and created immediately after
 							// removing
@@ -326,7 +350,7 @@ public class MenuViewController implements Initializable {
 		MenuItem infoMenuItem = new InfoMenuItem();
 		// Load StatisticsView and add connect it to the menu item
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/InformationsView.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/InformationView.fxml"));
 			Parent informationsView = loader.load();
 			MainViewController.setAllAnchorsNull(informationsView);
 			infoMenuItem.setMainView(informationsView);

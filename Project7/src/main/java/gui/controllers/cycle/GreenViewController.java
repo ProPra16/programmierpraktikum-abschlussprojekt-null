@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import gui.controllers.MainViewController;
 import gui.views.cycle.JavaCodeArea;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -118,10 +119,18 @@ public class GreenViewController implements Initializable {
 		compileService.setInformationBox(cycleInformationBox);
 		compileService.setCodeArea(codeArea);
 		codeArea.replaceText(compileService.getExercise().getClasses().get(0).getContent());
-		
-		// starting Babysteps
+	}
+	
+	/**
+	 * Sets the babysteps service
+	 * 
+	 * @param babystepsService
+	 */
+	public void setBabystepsService(BabystepsService babystepsService) {
 		if(compileService.getExercise().getConfig().isBabySteps()) {
-			babystepsService = new BabystepsService(compileService.getExercise(), timeLabel, codeArea.getText(), codeArea);
+			this.babystepsService = babystepsService;
+			babystepsService.setTimeLabel(timeLabel);
+			babystepsService.setCodeArea(codeArea);
 			babystepsService.start();
 		}
 	}
@@ -158,16 +167,14 @@ public class GreenViewController implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/CycleView.fxml"));
 			BlueViewController refactorViewController = new BlueViewController();
 			loader.setController(refactorViewController);
-			Parent testView = loader.load();
-			AnchorPane.setTopAnchor(testView, 0.0);
-			AnchorPane.setLeftAnchor(testView, 0.0);
-			AnchorPane.setRightAnchor(testView, 0.0);
-			AnchorPane.setBottomAnchor(testView, 0.0);
+			Parent refactorView = loader.load();
+			MainViewController.setAllAnchorsNull(refactorView);
 			refactorViewController.setCompileService(compileService);
+			refactorViewController.setBabystepsService(babystepsService);
 			refactorViewController.setTrackingSession(trackingSession);
 			refactorViewController.setMainSection(mainSection);
 			mainSection.getChildren().clear();
-			mainSection.getChildren().add(testView);
+			mainSection.getChildren().add(refactorView);
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
@@ -187,11 +194,9 @@ public class GreenViewController implements Initializable {
 			RedViewController testController = new RedViewController();
 			loader.setController(testController);
 			Parent testView = loader.load();
-			AnchorPane.setTopAnchor(testView, 0.0);
-			AnchorPane.setLeftAnchor(testView, 0.0);
-			AnchorPane.setRightAnchor(testView, 0.0);
-			AnchorPane.setBottomAnchor(testView, 0.0);
+			MainViewController.setAllAnchorsNull(testView);
 			testController.setCompileService(compileService);
+			testController.setBabystepsService(babystepsService);
 			testController.setTrackingSession(trackingSession);
 			testController.setMainSection(mainSection);
 			mainSection.getChildren().clear();

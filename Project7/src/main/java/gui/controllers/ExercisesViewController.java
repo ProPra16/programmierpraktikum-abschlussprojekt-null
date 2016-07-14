@@ -1,12 +1,16 @@
 package gui.controllers;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import gui.views.exercises.ExercisesGrid;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
+import models.Exercise;
 import services.StorageService;
 
 public class ExercisesViewController implements Initializable {
@@ -43,7 +47,7 @@ public class ExercisesViewController implements Initializable {
 				exercisesGrid.addSelectExerciseHandler((exercise) -> {
 					menuController.selectExercise(exercise);
 				});
-				mainPane.setContent(exercisesGrid);
+				mainPane.setContent(exercisesGrid);	
 			}
 		} catch (Exception e) {
 			// Do nothing - import view is already there
