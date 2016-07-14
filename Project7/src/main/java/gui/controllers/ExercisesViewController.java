@@ -1,12 +1,16 @@
 package gui.controllers;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import gui.views.exercises.ExercisesGrid;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
+import models.Exercise;
 import services.StorageService;
 
 public class ExercisesViewController implements Initializable {
@@ -38,13 +42,18 @@ public class ExercisesViewController implements Initializable {
 			
 			// If exercises are imported, show exercises grid
 			if(StorageService.getInstance().getExerciseCatalog().getExercises().size() != 0) {
+				System.out.println(StorageService.getInstance().getExerciseCatalog().getExercises().get(0).getName());
 				// Create exercises grid
-				ExercisesGrid exercisesGrid = new ExercisesGrid(StorageService.getInstance().getExerciseCatalog().getExercises());
+				List<Exercise> exercisesList = new ArrayList<Exercise>();
+				exercisesList.addAll(StorageService.getInstance().getExerciseCatalog().getExercises());
+				ExercisesGrid exercisesGrid = new ExercisesGrid(exercisesList);
 				exercisesGrid.addSelectExerciseHandler((exercise) -> {
 					menuController.selectExercise(exercise);
 				});
 				mainPane.setContent(exercisesGrid);
+				
 			}
+			System.out.println(StorageService.getInstance().getExerciseCatalog().getExercises().get(0).getName());
 		} catch (Exception e) {
 			// Do nothing - import view is already there
 		}
