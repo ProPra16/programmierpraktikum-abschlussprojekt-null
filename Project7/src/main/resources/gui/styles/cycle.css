@@ -15,3 +15,44 @@
 .blue {
 	-fx-background-color: #3498db;
 }
+
+.split-pane-divider {
+	-fx-border-color: #fff;
+  	-fx-background-color: #fff;
+  	-fx-background-insets: 0;
+}
+
+.information-panel {
+	-fx-background-color: rgba(52, 152, 219, 0.05);
+}
+
+.information-box {
+	-fx-background-color: transparent;
+}
+
+.information-box .compile-time {
+	-fx-font-size: 14px;
+	-fx-font-weight: bold;
+}
+
+.information-item {
+	-fx-text-fill: #fff;
+}
+
+.information-item .title {
+	-fx-background-color: #e74c3c;
+	-fx-background-insets: 0;
+	-fx-background-radius: 0;
+}
+
+.information-item .title .arrow-button .arrow {
+	-fx-background-color: #fff;
+}
+
+.information-item:focused .title .arrow-button .arrow {
+	-fx-effect: none;
+}
+
+.information-box .check-icon {
+	-fx-padding: 40px;
+}

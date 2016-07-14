@@ -4,11 +4,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import models.Class;
+import gui.views.cycle.CompileErrorItem;
 import gui.views.cycle.JavaCodeArea;
+import gui.views.cycle.TestFailureItem;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import models.Exercise;
 import models.Test;
 import vk.core.api.CompilationUnit;
@@ -16,6 +24,7 @@ import vk.core.api.CompileError;
 import vk.core.api.CompilerFactory;
 import vk.core.api.CompilerResult;
 import vk.core.api.JavaStringCompiler;
+import vk.core.api.TestFailure;
 import vk.core.api.TestResult;
 
 public class CompileService {
@@ -26,6 +35,7 @@ public class CompileService {
 
 	Exercise exercise;
 	JavaCodeArea codeArea;
+	VBox cycleInformationBox;
 	JavaStringCompiler compiler;
 	CompilerResult compilerResult;
 	Mode mode;
@@ -37,10 +47,13 @@ public class CompileService {
 	 * Initializes a compile service with an exercise
 	 * 
 	 * @param exercise
+	 * @param codeArea
+	 * @param cycleInformationBox
 	 */
-	public CompileService(Exercise exercise, JavaCodeArea codeArea) {
+	public CompileService(Exercise exercise, JavaCodeArea codeArea, VBox cycleInformationBox) {
 		this.exercise = exercise;
 		this.codeArea = codeArea;
+		this.cycleInformationBox = cycleInformationBox;
 		
 		addAutocompile();
 	}
@@ -72,18 +85,26 @@ public class CompileService {
 		this.codeArea = codeArea;
 		addAutocompile();
 	}
+	
+	/**
+	 * Sets the cycle information box
+	 * 
+	 * @param cycleInformationBox
+	 */
+	public void setInformationBox(VBox cycleInformationBox) {
+		this.cycleInformationBox = cycleInformationBox;
+	}
 
 	/**
-	 * Gets the last compiler errors for mode
+	 * Gets the last compiler errors for current mode
 	 * 
-	 * @return
+	 * @return collection of {@link CompileError}
 	 */
 	public Collection<CompileError> getCompileErrors() {
 		Collection<CompileError> compileErrors = new ArrayList<CompileError>();
 		switch (mode) {
 		case RED:
-			for (int i = 0; i < exercise.getTests().size(); i++) {
-				Test exerciseTest = exercise.getTests().get(i);
+			for (Test exerciseTest : exercise.getTests()) {
 				CompilationUnit testUnit = compiler.getCompilationUnitByName(exerciseTest.getName());
 				compileErrors.addAll(compilerResult.getCompilerErrorsForCompilationUnit(testUnit));
 			}
@@ -91,14 +112,53 @@ public class CompileService {
 		case GREEN:
 		case BLUE:
 			for (Class exerciseClass : exercise.getClasses()) {
-				CompilationUnit testUnit = compiler.getCompilationUnitByName(exerciseClass.getName());
-				compileErrors.addAll(compilerResult.getCompilerErrorsForCompilationUnit(testUnit));
+				CompilationUnit classUnit = compiler.getCompilationUnitByName(exerciseClass.getName());
+				compileErrors.addAll(compilerResult.getCompilerErrorsForCompilationUnit(classUnit));
 			}
 		}
 
 		return compileErrors;
 	}
+	
+	/**
+	 * Gets all of the last compile errors
+	 * 
+	 * @return collection of {@link CompileError}
+	 */
+	public Collection<CompileError> getAllCompileErrors() {
+		Collection<CompileError> compileErrors = new ArrayList<CompileError>();
+		
+		for (Test exerciseTest : exercise.getTests()) {
+			CompilationUnit testUnit = compiler.getCompilationUnitByName(exerciseTest.getName());
+			compileErrors.addAll(compilerResult.getCompilerErrorsForCompilationUnit(testUnit));
+		}
 
+		for (Class exerciseClass : exercise.getClasses()) {
+			CompilationUnit classUnit = compiler.getCompilationUnitByName(exerciseClass.getName());
+			compileErrors.addAll(compilerResult.getCompilerErrorsForCompilationUnit(classUnit));
+		}
+
+		return compileErrors;
+	}
+
+	/**
+	 * Gets the last test result
+	 * 
+	 * @return {@link TestResult}
+	 */
+	public TestResult getTestResult() {
+		return compiler.getTestResult();
+	}
+
+	/**
+	 * Gets the last compiler result
+	 * 
+	 * @return {@link CompilerResult}
+	 */
+	public CompilerResult getCompilerResult() {
+		return compilerResult;
+	}
+	
 	/**
 	 * Compiles and runs tests
 	 */
@@ -114,22 +174,6 @@ public class CompileService {
 		compiler = CompilerFactory.getCompiler(compilationUnits.toArray(new CompilationUnit[0]));
 		compiler.compileAndRunTests();
 		compilerResult = compiler.getCompilerResult();
-	}
-
-	/**
-	 * Gets the last test result
-	 * 
-	 * @return
-	 */
-	public TestResult getTestResult() {
-		return compiler.getTestResult();
-	}
-
-	/**
-	 * Gets the last compiler result
-	 */
-	public CompilerResult getCompilerResult() {
-		return compilerResult;
 	}
 
 	/**
@@ -218,11 +262,68 @@ public class CompileService {
 						compileAndRunTests();
 						compileErrors.clear();
 						compileErrors.addAll(getCompileErrors());
+						showInformations();
 					});
+					
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+						System.out.println("Error while measuring time");
+					}
 				});
+				
 				compileThread.start();
 			}
 		});
+		
+	}
+	
+	/**
+	 * Shows informations in cycleInformationPane
+	 */
+	private void showInformations() {
+		
+		cycleInformationBox.getChildren().clear();
+		cycleInformationBox.setAlignment(Pos.TOP_LEFT);
+		
+		/*Label compileDurationLabel = new Label("Compile time: " + compilerResult.getCompileDuration().toMillis() + "ms");
+		VBox.setMargin(compileDurationLabel, new Insets(0, 0, 20, 0));
+		compileDurationLabel.getStyleClass().add("compile-time");
+		cycleInformationBox.getChildren().add(compileDurationLabel);*/
+		
+		if(compiler.getCompilerResult().hasCompileErrors()) {
+			for (Test exerciseTest : exercise.getTests()) {
+				CompilationUnit testUnit = compiler.getCompilationUnitByName(exerciseTest.getName());
+				
+				for(CompileError compileError : compilerResult.getCompilerErrorsForCompilationUnit(testUnit))
+					cycleInformationBox.getChildren().add(new CompileErrorItem(compileError, exerciseTest.getName()));
+			}
+
+			for (Class exerciseClass : exercise.getClasses()) {
+				CompilationUnit classUnit = compiler.getCompilationUnitByName(exerciseClass.getName());
+				
+				for(CompileError compileError : compilerResult.getCompilerErrorsForCompilationUnit(classUnit))
+					cycleInformationBox.getChildren().add(new CompileErrorItem(compileError, exerciseClass.getName()));
+			}
+		} else {
+			/*int numberOfTests = compiler.getTestResult().getNumberOfFailedTests() + compiler.getTestResult().getNumberOfIgnoredTests() + compiler.getTestResult().getNumberOfSuccessfulTests();  
+			Label testsCompleted = new Label(compiler.getTestResult().getNumberOfSuccessfulTests() + "/" + numberOfTests);
+			cycleInformationBox.getChildren().add(testsCompleted);*/
+			
+			for(TestFailure testFailure : compiler.getTestResult().getTestFailures()) {
+				cycleInformationBox.getChildren().add(new TestFailureItem(testFailure));
+			}
+			
+			if(compiler.getTestResult().getTestFailures().size() == 0) {
+				ImageView checkImageView = new ImageView(new Image("/gui/images/icons/check.png"));
+				checkImageView.setFitWidth(cycleInformationBox.getWidth() - 40);
+				checkImageView.setPreserveRatio(true);
+				checkImageView.getStyleClass().add("check-icon");
+				cycleInformationBox.setAlignment(Pos.CENTER);
+				cycleInformationBox.getChildren().add(checkImageView);
+			}
+		}
 		
 	}
 
