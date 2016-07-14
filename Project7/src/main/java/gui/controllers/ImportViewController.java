@@ -71,6 +71,7 @@ public class ImportViewController implements Initializable {
 			loadConfig(event.getDragboard().getFiles().get(0));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return;
 		}
        
