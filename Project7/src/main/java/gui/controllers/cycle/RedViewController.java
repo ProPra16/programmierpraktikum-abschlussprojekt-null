@@ -50,9 +50,6 @@ public class RedViewController implements Initializable {
 		backButton.setVisible(false);
 
 		// Set css class for styling
-		if (rootPane.getStyleClass().contains("green")) {
-			rootPane.getStyleClass().remove("green");
-		}
 		rootPane.getStyleClass().add("red");
 	}
 
@@ -205,17 +202,20 @@ public class RedViewController implements Initializable {
 	}
 	
 	/**
-	 * Creates tracking point
+	 * Creates tracking point if tracking is activated
 	 */
 	private void createTrackingPoint() {
-		trackingData = new TrackingData(TrackingData.Mode.RED, new Date());
+		if(compileService.getExercise().getConfig().isTimeTracking())
+			trackingData = new TrackingData(TrackingData.Mode.RED, new Date());
 	}
 	
 	/**
 	 * Lets tracking end and adds tracking point to tracking session
 	 */
 	private void endTracking() {
-		trackingData.setEnd(new Date());
-		trackingSession.getData().add(trackingData);
+		if(compileService.getExercise().getConfig().isTimeTracking()) {
+			trackingData.setEnd(new Date());
+			trackingSession.getData().add(trackingData);
+		}
 	}
 }
