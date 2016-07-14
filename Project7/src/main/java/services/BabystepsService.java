@@ -8,6 +8,7 @@ import org.fxmisc.richtext.CodeArea;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.stage.Modality;
 import models.Exercise;
 
 public class BabystepsService {
@@ -78,8 +79,10 @@ public class BabystepsService {
 						Alert alert = new Alert(Alert.AlertType.ERROR);
 						alert.setTitle("Babysteps");
 						alert.setHeaderText("Out of time");
-						alert.setContentText("You did not finish in time!");
+						alert.setContentText("Unfortunately, you did not finish in time :(\nThe code you've written in this coding stage will now be reset!");
+						alert.initModality(Modality.WINDOW_MODAL);
 						alert.showAndWait();
+					
 						start();
 				    });
 					running = false;
