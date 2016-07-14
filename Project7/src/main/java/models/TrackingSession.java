@@ -41,7 +41,7 @@ public class TrackingSession extends Observable implements Parsable, Observer {
 	 * @param startDate
 	 */
 	public TrackingSession(String exerciseName, Date startDate) {
-		
+		data = new ArrayList<TrackingData>();
 
 		this.exerciseName = exerciseName;
 		this.startDate = startDate;
@@ -144,7 +144,7 @@ public class TrackingSession extends Observable implements Parsable, Observer {
 		XmlList tDataList = new XmlList();
 
 		for (TrackingData tdata : data) {
-			if (tdata.getEnd()!=null)
+			if (tdata.getEnd()!=null&&tdata!=null)
 			{
 			tDataList.add(tdata);
 			}
