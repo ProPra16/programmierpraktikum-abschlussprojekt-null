@@ -55,4 +55,5 @@
 
 .information-box .check-icon {
 	-fx-padding: 40px;
+	-fx-opacity: 0.5;
 }

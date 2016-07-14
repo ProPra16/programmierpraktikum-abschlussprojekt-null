@@ -307,22 +307,22 @@ public class CompileService {
 					cycleInformationBox.getChildren().add(new CompileErrorItem(compileError, exerciseClass.getName()));
 			}
 		} else {
-			/*int numberOfTests = compiler.getTestResult().getNumberOfFailedTests() + compiler.getTestResult().getNumberOfIgnoredTests() + compiler.getTestResult().getNumberOfSuccessfulTests();  
-			Label testsCompleted = new Label(compiler.getTestResult().getNumberOfSuccessfulTests() + "/" + numberOfTests);
-			cycleInformationBox.getChildren().add(testsCompleted);*/
 			
-			for(TestFailure testFailure : compiler.getTestResult().getTestFailures()) {
-				cycleInformationBox.getChildren().add(new TestFailureItem(testFailure));
-			}
 			
-			if(compiler.getTestResult().getTestFailures().size() == 0) {
+			// Show check icon if mode is solved
+			if(isValid()) {
 				ImageView checkImageView = new ImageView(new Image("/gui/images/icons/check.png"));
 				checkImageView.setFitWidth(cycleInformationBox.getWidth() - 40);
 				checkImageView.setPreserveRatio(true);
 				checkImageView.getStyleClass().add("check-icon");
 				cycleInformationBox.setAlignment(Pos.CENTER);
 				cycleInformationBox.getChildren().add(checkImageView);
+			} else {
+				for(TestFailure testFailure : compiler.getTestResult().getTestFailures()) {
+					cycleInformationBox.getChildren().add(new TestFailureItem(testFailure));
+				}
 			}
+			
 		}
 		
 	}

@@ -18,7 +18,20 @@ public class ExercisesViewController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		loadView();
+	}
+
+	/**
+	 * Sets the menu controller
+	 */
+	public void setMenuController(MenuViewController menuController) {
+		this.menuController = menuController;
+	}
 	
+	/**
+	 * Refreshes the catalog and loads the view
+	 */
+	public void loadView() {
 		// Try to load current workspace
 		try {
 			StorageService.getInstance().loadModel();
@@ -35,14 +48,6 @@ public class ExercisesViewController implements Initializable {
 		} catch (Exception e) {
 			// Do nothing - import view is already there
 		}
-
-	}
-
-	/**
-	 * Sets the menu controller
-	 */
-	public void setMenuController(MenuViewController menuController) {
-		this.menuController = menuController;
 	}
 
 }
