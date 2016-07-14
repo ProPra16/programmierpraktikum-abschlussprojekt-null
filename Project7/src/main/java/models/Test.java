@@ -5,7 +5,7 @@ import java.util.Observable;
 import org.w3c.dom.Element;
 
 import xmlParser.Parsable;
-import xmlParser.XmlAtribute;
+import xmlParser.XmlAttribute;
 import xmlParser.XmlNode;
 import xmlParser.XmlString;
 
@@ -54,7 +54,7 @@ public class Test extends Observable implements Parsable {
 	@Override
 	public XmlNode objectToXMLObject() {
 		XmlNode xmlObj = new XmlNode("test", new XmlString(this.content));
-		xmlObj.addAtribute(new XmlAtribute("name", this.name));
+		xmlObj.addAtribute(new XmlAttribute("name", this.name));
 		return xmlObj;
 	}
 

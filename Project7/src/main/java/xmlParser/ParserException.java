@@ -1,5 +1,9 @@
 package xmlParser;
 
+/**
+ * Represents Exceptions thrown by a {@link Parser}-Object
+ *
+ */
 public class ParserException extends Exception {
 
 	/**

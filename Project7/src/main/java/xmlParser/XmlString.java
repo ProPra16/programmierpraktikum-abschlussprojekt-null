@@ -1,12 +1,23 @@
 package xmlParser;
 
-public class XmlString extends XmlValue {
+/**
+ * Represents a value of a {@link XmlNode} as {@link String}
+ *
+ */
+public class XmlString extends XmlObject {
+	/**
+	 * Represents the Value of this {@link XmlString} as {@link String}
+	 */
 	String valueString;
-
+	
 	public XmlString(String string) {
 		valueString = string;
 	}
-
+	
+	/**
+	 * Sets the Value of the {@link XmlString} as {@link String}
+	 * @param valueString
+	 */
 	public void setValueString(String valueString) {
 		this.valueString = valueString;
 	}

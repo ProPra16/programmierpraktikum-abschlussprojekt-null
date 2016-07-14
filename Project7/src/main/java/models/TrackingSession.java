@@ -14,7 +14,7 @@ import org.w3c.dom.NodeList;
 
 import xmlParser.Parsable;
 import xmlParser.ParserException;
-import xmlParser.XmlAtribute;
+import xmlParser.XmlAttribute;
 import xmlParser.XmlList;
 import xmlParser.XmlNode;
 
@@ -153,10 +153,10 @@ public class TrackingSession extends Observable implements Parsable, Observer {
 		mList.add(new XmlNode("TrackingDataList", tDataList));
 		XmlNode tSessionNode = new XmlNode("TrackingSession", mList);
 
-		tSessionNode.addAtribute(new XmlAtribute("exerciseName", this.exerciseName));
+		tSessionNode.addAtribute(new XmlAttribute("exerciseName", this.exerciseName));
 
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-		tSessionNode.addAtribute(new XmlAtribute("startDate", formatter.format(startDate)));
+		tSessionNode.addAtribute(new XmlAttribute("startDate", formatter.format(startDate)));
 		
 		return tSessionNode;
 	}

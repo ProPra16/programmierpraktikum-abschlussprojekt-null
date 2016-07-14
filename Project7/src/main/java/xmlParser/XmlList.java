@@ -2,7 +2,15 @@ package xmlParser;
 
 import java.util.ArrayList;
 
-public class XmlList extends XmlValue {
+/**
+ * Represents a List of XML-Nodes a.k.a. {@link XmlNodes}
+ *
+ */
+public class XmlList extends XmlObject {
+	
+	/**
+	 * List of {@link XmlNode}-Objects
+	 */
 	ArrayList<XmlNode> list = new ArrayList<XmlNode>();
 
 	public XmlList() {
@@ -14,6 +22,7 @@ public class XmlList extends XmlValue {
 		}
 	}
 
+	
 	public String toXmlString() {
 		String xml = "\n";
 
@@ -24,6 +33,7 @@ public class XmlList extends XmlValue {
 		return xml.substring(0, length) + "";
 	}
 
+	
 	public String objectToString() {
 		String string = "";
 
@@ -34,10 +44,18 @@ public class XmlList extends XmlValue {
 		return string.substring(0, length) + "\n";
 	}
 
-	public void add(XmlNode obj) {
-		list.add(obj);
+	/**
+	 * Adds an {@link XmlNode} to the {@link XmlList}
+	 * @param node Some {@link XmlObject}
+	 */
+	public void add(XmlNode node) {
+		list.add(node);
 	}
 
+	/**
+	 * Adds an Object implementing {@link Parsable} to the {@link XmlList}
+	 * @param parsable Some {@link Parsable}
+	 */
 	public void add(Parsable parsable) {
 		list.add(parsable.objectToXMLObject());
 	}
