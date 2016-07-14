@@ -148,6 +148,7 @@ public class MenuViewController implements Initializable {
 						int menuIndex = getMenuIndex(exercise);
 						if (menuIndex != -1) {
 							MenuItem menuItem = menuItems.get(menuIndex);
+							testController.getBabystepsService().stop();
 							// Remove click event handler, otherwise exercise
 							// will selected and created immediately after
 							// removing

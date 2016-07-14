@@ -42,16 +42,13 @@ public class ExercisesViewController implements Initializable {
 			
 			// If exercises are imported, show exercises grid
 			if(StorageService.getInstance().getExerciseCatalog().getExercises().size() != 0) {
-				System.out.println(StorageService.getInstance().getExerciseCatalog().getExercises().get(0).getName());
 				// Create exercises grid
 				ExercisesGrid exercisesGrid = new ExercisesGrid(StorageService.getInstance().getExerciseCatalog().getExercises());
 				exercisesGrid.addSelectExerciseHandler((exercise) -> {
 					menuController.selectExercise(exercise);
 				});
-				mainPane.setContent(exercisesGrid);
-				
+				mainPane.setContent(exercisesGrid);	
 			}
-			System.out.println(StorageService.getInstance().getExerciseCatalog().getExercises().get(0).getName());
 		} catch (Exception e) {
 			// Do nothing - import view is already there
 		}

@@ -24,19 +24,36 @@ public class BabystepsService {
 	 * 
 	 * @param counterLabel
 	 */
-	public BabystepsService(Exercise exercise, Label timeLabel, String cachedContent, CodeArea codeArea) {
+	public BabystepsService(Exercise exercise, Label timeLabel, CodeArea codeArea) {
 		this.exercise = exercise;
 		this.timeLabel = timeLabel;
 		finishedTask = false;
-		this.cachedContent = new String(cachedContent);
+		this.cachedContent = new String(codeArea.getText());
 		this.sourceCodeArea = codeArea;
-	}	
+	}
 	
+	/**
+	 * @param timeLabel the timeLabel to set
+	 */
+	public void setTimeLabel(Label timeLabel) {
+		this.timeLabel = timeLabel;
+	}
+
+	/**
+	 * @param sourceCodeArea the sourceCodeArea to set
+	 */
+	public void setCodeArea(CodeArea sourceCodeArea) {
+		this.sourceCodeArea = sourceCodeArea;
+		this.cachedContent = new String(sourceCodeArea.getText());
+	}
+
 	/**
 	 * Starts the timer
 	 */
 	public void start() {
-		Thread t= new Thread(() -> {
+		finishedTask = false;
+		
+		Thread t = new Thread(() -> {
 			boolean running = true;
 			long maxTime = exercise.getConfig().getTimeLimit();
 			
@@ -45,12 +62,12 @@ public class BabystepsService {
 			while(running) {
 				if(finishedTask == true) {
 					running = false;
-					break;
+					return;
 				}
 				Date dateNext = new Date();
 				long currentTime = (maxTime - (dateNext.getTime() - dateStart.getTime()));
 				
-				long formatTime=currentTime/1000;
+				long formatTime = currentTime / 1000;
 				String dateFormatted = String.format("%02d:%02d:%02d", formatTime/3600, (formatTime % 3600) / 60, (formatTime % 60));
 				
 				
