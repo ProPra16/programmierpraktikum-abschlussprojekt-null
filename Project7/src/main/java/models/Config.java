@@ -96,7 +96,6 @@ public class Config extends Observable implements Parsable {
 				String[] bsFields = babyStepsContent.getAttribute("time").split(":");
 				Duration duration=Duration.parse(String.format("PT%sH%sM%sS", bsFields[0], bsFields[1],bsFields[2]));
 				this.bStepsTimeLimit=duration.abs().toMillis();
-				System.out.println(this.bStepsTimeLimit);
 				//this.bStepsTimeLimit = Long.parseLong(babyStepsContent.getTextContent());
 			} catch (Exception e) {
 
