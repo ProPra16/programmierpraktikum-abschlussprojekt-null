@@ -1,21 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.text.TextFlow?>
 
-<ScrollPane fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="rootPane" stylesheets="@../styles/info.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.StatisticsViewController">
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="500.0" prefWidth="850.0" styleClass="rootPane" stylesheets="@../styles/info.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.StatisticsViewController">
    <content>
-      <AnchorPane prefHeight="293.0" prefWidth="534.0" styleClass="container">
+      <AnchorPane minWidth="650.0" prefHeight="293.0" prefWidth="534.0" styleClass="container">
          <children>
-            <Label layoutX="14.0" layoutY="14.0" styleClass="header" text="Informations" />
-            <TextFlow layoutX="12.0" layoutY="53.0" prefHeight="200.0" prefWidth="500.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Test Driven Development Trainer by Team NULL (C) 2016" wrappingWidth="296.92431640625" />
+                  <ImageView fitHeight="200.0" fitWidth="302.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/logo/team.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets bottom="30.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Test Driven Development Trainer by Team NULL © 2016" textAlignment="CENTER" wrappingWidth="268.92431640625">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="30.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="© 2016 by Pascal Fischer, Christian Karamann, Marvin Krause, Patrick Remy, Elmedin Turic" />
                </children>
-            </TextFlow>
+            </VBox>
          </children>
       </AnchorPane>
    </content>
