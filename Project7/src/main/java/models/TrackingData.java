@@ -9,7 +9,7 @@ import org.w3c.dom.Element;
 
 import xmlParser.Parsable;
 import xmlParser.ParserException;
-import xmlParser.XmlAtribute;
+import xmlParser.XmlAttribute;
 import xmlParser.XmlNode;
 import xmlParser.XmlString;
 
@@ -132,9 +132,9 @@ public class TrackingData extends Observable implements Parsable{
 	public XmlNode objectToXMLObject() {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 		XmlNode node = new XmlNode("TrackingData",new XmlString(""));
-		node.addAtribute(new XmlAtribute("mode", this.getModeString()));
-		node.addAtribute(new XmlAtribute("start", formatter.format(getStart())));
-		node.addAtribute(new XmlAtribute("end", formatter.format(getEnd())));
+		node.addAtribute(new XmlAttribute("mode", this.getModeString()));
+		node.addAtribute(new XmlAttribute("start", formatter.format(getStart())));
+		node.addAtribute(new XmlAttribute("end", formatter.format(getEnd())));
 		return node;
 	}
 	

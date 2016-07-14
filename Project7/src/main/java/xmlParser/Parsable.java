@@ -15,7 +15,7 @@ public interface Parsable {
 	 *            Takes a {@link org.w3c.dom.Element} and loads the provided
 	 *            XML-Parameters into the class.
 	 * @return A {@link Parsable}-Object representation of the DOM.
-	 * @throws Exception TODO
+	 * @throws Exception
 	 */
 	public Parsable loadfromXML(Element element) throws Exception;
 

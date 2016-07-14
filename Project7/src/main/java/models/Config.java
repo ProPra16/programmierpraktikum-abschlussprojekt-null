@@ -13,7 +13,7 @@ import org.w3c.dom.NodeList;
 
 import xmlParser.Parsable;
 import xmlParser.ParserException;
-import xmlParser.XmlAtribute;
+import xmlParser.XmlAttribute;
 import xmlParser.XmlList;
 import xmlParser.XmlNode;
 import xmlParser.XmlString;
@@ -96,7 +96,6 @@ public class Config extends Observable implements Parsable {
 				String[] bsFields = babyStepsContent.getAttribute("time").split(":");
 				Duration duration=Duration.parse(String.format("PT%sH%sM%sS", bsFields[0], bsFields[1],bsFields[2]));
 				this.bStepsTimeLimit=duration.abs().toMillis();
-				System.out.println(this.bStepsTimeLimit);
 				//this.bStepsTimeLimit = Long.parseLong(babyStepsContent.getTextContent());
 			} catch (Exception e) {
 
@@ -114,20 +113,20 @@ public class Config extends Observable implements Parsable {
 	public XmlNode objectToXMLObject() {
 		// BabySteps
 		XmlNode xmlBabySteps = new XmlNode("babysteps", new XmlString(""));
-		xmlBabySteps.addAtribute(new XmlAtribute("value", String.valueOf(this.babySteps)));
+		xmlBabySteps.addAtribute(new XmlAttribute("value", String.valueOf(this.babySteps)));
 		if (this.babySteps) {
 			
 			Date date =new Date();
 			date.setTime(bStepsTimeLimit);
 			long bsTimeLimitSec= Duration.ofMillis(this.bStepsTimeLimit).getSeconds();
 			String bStepsTimeString = String.format("%02d:%02d:%02d", bsTimeLimitSec/3600, (bsTimeLimitSec % 3600) / 60, (bsTimeLimitSec % 60));
-			xmlBabySteps.addAtribute(new XmlAtribute("time", bStepsTimeString));
+			xmlBabySteps.addAtribute(new XmlAttribute("time", bStepsTimeString));
 			
 		}
 
 		// TimeTracking
 		XmlNode xmlTimeTracking = new XmlNode("timetracking", new XmlString(""));
-		xmlTimeTracking.addAtribute(new XmlAtribute("value", String.valueOf(this.timeTracking)));
+		xmlTimeTracking.addAtribute(new XmlAttribute("value", String.valueOf(this.timeTracking)));
 		
 		XmlList xmlConfigParameters = new XmlList();
 		xmlConfigParameters.add(xmlBabySteps);
