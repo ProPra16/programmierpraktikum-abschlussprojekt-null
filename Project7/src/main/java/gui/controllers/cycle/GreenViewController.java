@@ -17,6 +17,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import models.TrackingData;
 import models.TrackingSession;
 import services.BabystepsService;
@@ -39,6 +40,8 @@ public class GreenViewController implements Initializable {
 	Node confirmButton;
 	@FXML
 	Label timeLabel;
+	@FXML
+	VBox cycleInformationBox;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -112,6 +115,7 @@ public class GreenViewController implements Initializable {
 	public void setCompileService(CompileService compileService) {
 		this.compileService = compileService;
 		compileService.setMode(CompileService.Mode.GREEN);
+		compileService.setInformationBox(cycleInformationBox);
 		compileService.setCodeArea(codeArea);
 		codeArea.replaceText(compileService.getExercise().getClasses().get(0).getContent());
 		

@@ -17,6 +17,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import models.Exercise;
 import models.TrackingData;
 import models.TrackingSession;
@@ -42,6 +43,8 @@ public class RedViewController implements Initializable {
 	Node confirmButton;
 	@FXML
 	Label timeLabel;
+	@FXML
+	VBox cycleInformationBox;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -124,7 +127,7 @@ public class RedViewController implements Initializable {
 	 */
 	public void setExercise(Exercise exercise) {
 		// Create compile service
-		compileService = new CompileService(exercise, codeArea);
+		compileService = new CompileService(exercise, codeArea, cycleInformationBox);
 		compileService.setMode(CompileService.Mode.RED);
 		// Update source code
 		codeArea.replaceText(exercise.getTests().get(0).getContent());

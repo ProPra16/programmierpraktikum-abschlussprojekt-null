@@ -20,7 +20,7 @@ public class Main extends Application {
 		try {
 			URL url = getClass().getResource("/gui/views/MainView.fxml");
 			Parent root = FXMLLoader.load(url);
-			Scene scene = new Scene(root, 900, 600);
+			Scene scene = new Scene(root, 1000, 700);
 			primaryStage.setScene(scene);
 		} catch (IOException e) {
 			// TODO Handle exception
