@@ -27,6 +27,14 @@
             <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
             <Label fx:id="timeLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="100.0" text="Counter" />
             <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <ImageView fx:id="shareButton" fitHeight="25.0" onMouseReleased="#shareAction" pickOnBounds="true" preserveRatio="true" styleClass="share-button" visible="false">
+               <image>
+                  <Image url="@../images/icons/share.png" />
+               </image>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </ImageView>
             <ImageView fx:id="confirmButton" fitHeight="25.0" onMouseReleased="#confirmAction" pickOnBounds="true" preserveRatio="true" styleClass="confirm-button">
                <image>
                   <Image url="@../images/icons/angle-right.png" />
