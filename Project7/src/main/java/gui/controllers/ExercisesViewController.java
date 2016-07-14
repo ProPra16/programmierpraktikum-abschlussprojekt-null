@@ -44,9 +44,7 @@ public class ExercisesViewController implements Initializable {
 			if(StorageService.getInstance().getExerciseCatalog().getExercises().size() != 0) {
 				System.out.println(StorageService.getInstance().getExerciseCatalog().getExercises().get(0).getName());
 				// Create exercises grid
-				List<Exercise> exercisesList = new ArrayList<Exercise>();
-				exercisesList.addAll(StorageService.getInstance().getExerciseCatalog().getExercises());
-				ExercisesGrid exercisesGrid = new ExercisesGrid(exercisesList);
+				ExercisesGrid exercisesGrid = new ExercisesGrid(StorageService.getInstance().getExerciseCatalog().getExercises());
 				exercisesGrid.addSelectExerciseHandler((exercise) -> {
 					menuController.selectExercise(exercise);
 				});
