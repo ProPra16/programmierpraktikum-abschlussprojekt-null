@@ -6,7 +6,9 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import gui.controllers.MainViewController;
 import gui.views.cycle.JavaCodeArea;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -137,8 +139,8 @@ public class RedViewController implements Initializable {
 		createTrackingPoint();
 		
 		// Start babysteps
-		if(compileService.getExercise().getConfig().isBabySteps()){
-			babystepsService = new BabystepsService(compileService.getExercise(), timeLabel, codeArea.getText(), codeArea);
+		if(compileService.getExercise().getConfig().isBabySteps() && babystepsService == null) {
+			babystepsService = new BabystepsService(compileService.getExercise(), timeLabel, codeArea);
 			babystepsService.start();
 		}
 	}
@@ -154,10 +156,30 @@ public class RedViewController implements Initializable {
 		compileService.setInformationBox(cycleInformationBox);
 		compileService.setCodeArea(codeArea);
 		codeArea.replaceText(compileService.getExercise().getTests().get(0).getContent());
-		
-		// Start babysteps
-		if(compileService.getExercise().getConfig().isBabySteps()){
-			babystepsService = new BabystepsService(compileService.getExercise(), timeLabel, codeArea.getText(), codeArea);
+	}
+	
+	/**
+	 * Gets the babysteps service
+	 * 
+	 * @return
+	 */
+	public BabystepsService getBabystepsService() {
+		return babystepsService;
+	}
+	
+	/**
+	 * Sets the babysteps service
+	 * 
+	 * @param babystepsService
+	 */
+	public void setBabystepsService(BabystepsService babystepsService) {
+		if(this.babystepsService != null) {
+			babystepsService.stop();
+		}
+		if(compileService.getExercise().getConfig().isBabySteps()) {
+			this.babystepsService = babystepsService;
+			babystepsService.setTimeLabel(timeLabel);
+			babystepsService.setCodeArea(codeArea);
 			babystepsService.start();
 		}
 	}
@@ -197,11 +219,9 @@ public class RedViewController implements Initializable {
 			GreenViewController greenController = new GreenViewController();
 			loader.setController(greenController);
 			Parent cycleView = loader.load();
-			AnchorPane.setTopAnchor(cycleView, 0.0);
-			AnchorPane.setLeftAnchor(cycleView, 0.0);
-			AnchorPane.setRightAnchor(cycleView, 0.0);
-			AnchorPane.setBottomAnchor(cycleView, 0.0);
+			MainViewController.setAllAnchorsNull(cycleView);
 			greenController.setCompileService(compileService);
+			greenController.setBabystepsService(babystepsService);
 			greenController.setTrackingSession(trackingSession);
 			greenController.setMainSection(mainSection);
 			mainSection.getChildren().clear();

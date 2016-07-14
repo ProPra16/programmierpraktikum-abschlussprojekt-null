@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+import gui.controllers.MainViewController;
 import gui.views.cycle.JavaCodeArea;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,12 +19,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import models.TrackingData;
 import models.TrackingSession;
+import services.BabystepsService;
 import services.CompileService;
 import services.ExportService;
 
 public class BlueViewController implements Initializable {
 	Pane mainSection;
 	CompileService compileService;
+	BabystepsService babystepsService;
 	TrackingSession trackingSession;
 	TrackingData trackingData;
 
@@ -117,6 +120,20 @@ public class BlueViewController implements Initializable {
 	}
 	
 	/**
+	 * Sets the babysteps service
+	 * 
+	 * @param babystepsService
+	 */
+	public void setBabystepsService(BabystepsService babystepsService) {
+		if(compileService.getExercise().getConfig().isBabySteps()) {
+			this.babystepsService = babystepsService;
+			babystepsService.setTimeLabel(timeLabel);
+			babystepsService.setCodeArea(codeArea);
+			babystepsService.start();
+		}
+	}
+	
+	/**
 	 * Sets the tracking session
 	 * 
 	 * @param trackingSession the actual tracking result
@@ -139,6 +156,9 @@ public class BlueViewController implements Initializable {
 	 * Switches to red
 	 */
 	private void switchToRed() {
+		if(babystepsService != null)
+			babystepsService.stop();
+			
 		endTracking();
 		
 		try {
@@ -146,11 +166,9 @@ public class BlueViewController implements Initializable {
 			RedViewController testController = new RedViewController();
 			loader.setController(testController);
 			Parent testView = loader.load();
-			AnchorPane.setTopAnchor(testView, 0.0);
-			AnchorPane.setLeftAnchor(testView, 0.0);
-			AnchorPane.setRightAnchor(testView, 0.0);
-			AnchorPane.setBottomAnchor(testView, 0.0);
+			MainViewController.setAllAnchorsNull(testView);
 			testController.setCompileService(compileService);
+			testController.setBabystepsService(babystepsService);
 			testController.setTrackingSession(trackingSession);
 			testController.setMainSection(mainSection);
 			mainSection.getChildren().clear();
