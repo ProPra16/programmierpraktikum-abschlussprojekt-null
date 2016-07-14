@@ -7,7 +7,7 @@
 <?import javafx.scene.text.TextFlow?>
 
 
-<ScrollPane fitToWidth="true" prefHeight="400.0" prefWidth="600.0" styleClass="rootPane" stylesheets="@../styles/info.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.StatisticsViewController">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" fitToWidth="true" prefHeight="400.0" prefWidth="600.0" styleClass="rootPane" stylesheets="@../styles/info.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.StatisticsViewController">
    <content>
       <AnchorPane prefHeight="293.0" prefWidth="534.0" styleClass="container">
          <children>

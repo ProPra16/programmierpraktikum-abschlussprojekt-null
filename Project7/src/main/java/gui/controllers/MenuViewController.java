@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import gui.controllers.cycle.RedViewController;
 import gui.views.menu.ExerciseMenuItem;
 import gui.views.menu.ImportMenuItem;
+import gui.views.menu.InfoMenuItem;
 import gui.views.menu.MenuItem;
 import gui.views.menu.OverviewMenuItem;
 import gui.views.menu.StatisticsMenuItem;
@@ -237,64 +238,110 @@ public class MenuViewController implements Initializable {
 	 * Creates the default menu items and adds them to menuItems
 	 */
 	private void createDefaultMenuItems() {
+		createInfoMenuItem();
+		
+		MenuItem importMenuItem = createImportMenuItem();
+		
+		if(StorageService.getInstance().getExerciseCatalog().getExercises().size() != 0) {
+			// If exercises are loaded show exercises overview - autoselected while creating
+			createExerciseOverviewMenuItem();
+		} else {
+			// Preselect menu item - loaded in main view controller
+			importMenuItem.select();
+		}
+		
+		createStatisticsMenuItem();
+	}
+	
+	/**
+	 * Creates import menu item
+	 */
+	private MenuItem createImportMenuItem() {
 		// Create import menu item
-				MenuItem importMenuItem = new ImportMenuItem();
-				
-				// Load ImportView and add connect it to the menu item
-				try {
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/ImportView.fxml"));
-					Parent importView = loader.load();
-					MainViewController.setAllAnchorsNull(importView);
-					ImportViewController importController = loader.getController();
-					importController.setMenuController(this);
-					importMenuItem.setMainView(importView);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+		MenuItem importMenuItem = new ImportMenuItem();
+		
+		// Load ImportView and add connect it to the menu item
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/ImportView.fxml"));
+			Parent importView = loader.load();
+			MainViewController.setAllAnchorsNull(importView);
+			ImportViewController importController = loader.getController();
+			importController.setMenuController(this);
+			importMenuItem.setMainView(importView);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// Select menu item on click
+		importMenuItem.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				selectMenuItem(importMenuItem);
+			}
+		});
+		menuItems.add(importMenuItem);
+		
+		return importMenuItem;
+	}
+	
+	/**
+	 * Creates statistics menu item
+	 */
+	private MenuItem createStatisticsMenuItem() {
+		// Create statistics menu item 
+		MenuItem statisticsMenuItem = new StatisticsMenuItem();
+		// Load StatisticsView and add connect it to the menu item
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/StatisticsView.fxml"));
+			Parent statisticsView = loader.load();
+			MainViewController.setAllAnchorsNull(statisticsView);
+			statisticsMenuItem.setMainView(statisticsView);
+			StatisticsViewController statisticsController = loader.getController();
+			
+			// Select menu item on click and update statistics
+			statisticsMenuItem.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					statisticsController.updateStatistics();
+					selectMenuItem(statisticsMenuItem);
 				}
-				
-				// Select menu item on click
-				importMenuItem.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent event) {
-						selectMenuItem(importMenuItem);
-					}
-				});
-				menuItems.add(importMenuItem);
-
-				
-
-				if(StorageService.getInstance().getExerciseCatalog().getExercises().size() != 0) {
-
-					// If exercises are loaded show exercises overview - autoselected while creating
-					createExerciseOverviewMenuItem();
-				} else {
-					// Preselect menu item - loaded in main view controller
-					importMenuItem.select();
+			});
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		menuItems.add(statisticsMenuItem);
+		
+		return statisticsMenuItem;
+	}
+	
+	/**
+	 * Creates info menu item
+	 */
+	private MenuItem createInfoMenuItem() {
+		// Create statistics menu item 
+		MenuItem infoMenuItem = new InfoMenuItem();
+		// Load StatisticsView and add connect it to the menu item
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/InformationsView.fxml"));
+			Parent informationsView = loader.load();
+			MainViewController.setAllAnchorsNull(informationsView);
+			infoMenuItem.setMainView(informationsView);
+			
+			// Select menu item on click and update statistics
+			infoMenuItem.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					selectMenuItem(infoMenuItem);
 				}
-				
-				// Create statistics menu item 
-				MenuItem statisticsMenuItem = new StatisticsMenuItem();
-				// Load StatisticsView and add connect it to the menu item
-				try {
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/StatisticsView.fxml"));
-					Parent statisticsView = loader.load();
-					MainViewController.setAllAnchorsNull(statisticsView);
-					statisticsMenuItem.setMainView(statisticsView);
-					StatisticsViewController statisticsController = loader.getController();
-					
-					// Select menu item on click and update statistics
-					statisticsMenuItem.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
-						@Override
-						public void handle(MouseEvent event) {
-							statisticsController.updateStatistics();
-							selectMenuItem(statisticsMenuItem);
-						}
-					});
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				menuItems.add(statisticsMenuItem);
+			});
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		menuItems.add(infoMenuItem);
+		
+		return infoMenuItem;
 	}
 }
