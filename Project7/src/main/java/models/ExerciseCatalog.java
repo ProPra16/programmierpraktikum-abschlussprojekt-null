@@ -1,8 +1,6 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -10,22 +8,19 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import xmlModelParser.Parsable;
-import xmlModelParser.ParserException;
-import xmlModelParser.XmlAtribute;
-import xmlModelParser.XmlList;
-import xmlModelParser.XmlNode;
-import xmlModelParser.XmlValue;
+import xmlParser.Parsable;
+import xmlParser.XmlList;
+import xmlParser.XmlNode;
 
 /**
  * Represents the XML tag "exercises", implements {@link Parsable}.
  *
  */
-public class Catalog extends Observable implements Parsable, Observer {
+public class ExerciseCatalog extends Observable implements Parsable, Observer {
 
 	private ArrayList<Exercise> exercises;
 
-	public Catalog() {
+	public ExerciseCatalog() {
 		exercises = new ArrayList<Exercise>();
 	}
 
@@ -53,7 +48,7 @@ public class Catalog extends Observable implements Parsable, Observer {
 
 	}
 
-	public Parsable loadfromXML(Element element) throws ParserException {
+	public Parsable loadfromXML(Element element) throws Exception {
 
 		// Gets all exercise items form the variable exerciselist
 		// and passes each to a Exercise object as well as adding
@@ -78,6 +73,7 @@ public class Catalog extends Observable implements Parsable, Observer {
 		}
 
 		XmlNode XmlObj = new XmlNode("exercises", XmlExercises);
+		XmlObj.setRoot(true);
 		return XmlObj;
 	}
 

@@ -14,8 +14,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
-import xmlModelParser.ModelStorageController;
-import xmlModelParser.ParserException;
+import services.StorageService;
+import xmlParser.ParserException;
 
 public class MainViewController implements Initializable {
 
@@ -30,10 +30,10 @@ public class MainViewController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		// Load workspace
 		try {
-			ModelStorageController.getInstance().loadModel();
-		} catch (SAXException | IOException | ParserConfigurationException | ParserException exception) {
+			StorageService.getInstance().loadModel();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			exception.printStackTrace();
+			e.printStackTrace();
 		}
 				
 		try {
@@ -45,7 +45,7 @@ public class MainViewController implements Initializable {
 			menuController = loader.getController();
 			menuController.setMainSection(mainSection);	
 			
-			if(ModelStorageController.getInstance().getCatalog().getExercises().size() == 0) {
+			if(StorageService.getInstance().getExerciseCatalog().getExercises().size() == 0) {
 				// Load import view in main section
 				loader = new FXMLLoader(getClass().getResource("/gui/views/ImportView.fxml"));
 				Parent importView = loader.load();

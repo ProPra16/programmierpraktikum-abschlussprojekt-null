@@ -5,12 +5,12 @@ import java.util.Observable;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import xmlModelParser.Parsable;
-import xmlModelParser.ParserException;
-import xmlModelParser.XmlAtribute;
-import xmlModelParser.XmlList;
-import xmlModelParser.XmlNode;
-import xmlModelParser.XmlString;
+import xmlParser.Parsable;
+import xmlParser.ParserException;
+import xmlParser.XmlAtribute;
+import xmlParser.XmlList;
+import xmlParser.XmlNode;
+import xmlParser.XmlString;
 
 /**
  * Represents the XML tag "config", implements {@link Parsable}.
@@ -66,8 +66,7 @@ public class Config extends Observable implements Parsable {
 	}
 
 	@Override
-	public Parsable loadfromXML(Element element) throws ParserException {
-		// TODO: Discuss, how to implement this class! -->Class Variables
+	public Parsable loadfromXML(Element element) throws Exception {
 
 		// Gets the content of every "timetraking" tag from the XML file and
 		// sets the variable timeTracking to the boolean representation of its

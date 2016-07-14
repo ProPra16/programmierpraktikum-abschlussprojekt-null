@@ -1,4 +1,4 @@
-package xmlModelParser;
+package xmlParser;
 
 import java.util.ArrayList;
 
@@ -21,4 +21,6 @@ public abstract class XmlValue {
 	public boolean printName() {
 		return false;
 	}
+
+	public abstract boolean isEmpty();
 }

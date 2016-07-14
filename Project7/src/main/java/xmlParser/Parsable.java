@@ -1,6 +1,4 @@
-package xmlModelParser;
-
-import java.util.Observer;
+package xmlParser;
 
 import org.w3c.dom.Element;
 
@@ -17,9 +15,9 @@ public interface Parsable {
 	 *            Takes a {@link org.w3c.dom.Element} and loads the provided
 	 *            XML-Parameters into the class.
 	 * @return A {@link Parsable}-Object representation of the DOM.
-	 * @throws ParserException
+	 * @throws Exception TODO
 	 */
-	public Parsable loadfromXML(Element element) throws ParserException;
+	public Parsable loadfromXML(Element element) throws Exception;
 
 	/**
 	 * Returns an XMLObject of the class

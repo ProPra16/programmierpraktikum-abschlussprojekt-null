@@ -1,7 +1,6 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -10,13 +9,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import xmlModelParser.Parsable;
-import xmlModelParser.ParserException;
-import xmlModelParser.XmlAtribute;
-import xmlModelParser.XmlList;
-import xmlModelParser.XmlNode;
-import xmlModelParser.XmlString;
-import xmlModelParser.XmlValue;
+import xmlParser.Parsable;
+import xmlParser.XmlAtribute;
+import xmlParser.XmlList;
+import xmlParser.XmlNode;
+import xmlParser.XmlString;
 
 /**
  * Represents the XML tag "exercise", implements {@link Parsable}
@@ -112,7 +109,7 @@ public class Exercise extends Observable implements Parsable, Observer {
 		return config;
 	}
 
-	public Parsable loadfromXML(Element element) throws ParserException {
+	public Parsable loadfromXML(Element element) throws Exception {
 		// TODO implement method
 
 		// Gets the content of the "description" tag from the XML file and sets
