@@ -151,6 +151,7 @@ public class RedViewController implements Initializable {
 	public void setCompileService(CompileService compileService) {
 		this.compileService = compileService;
 		compileService.setMode(CompileService.Mode.RED);
+		compileService.setInformationBox(cycleInformationBox);
 		compileService.setCodeArea(codeArea);
 		codeArea.replaceText(compileService.getExercise().getTests().get(0).getContent());
 		
