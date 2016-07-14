@@ -4,6 +4,7 @@ package services;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Date;
 
 import org.fxmisc.richtext.CodeArea;
@@ -40,7 +41,7 @@ public class BabystepsService {
 	public void start() {
 		Thread t = new Thread(() -> {
 			boolean running = true;
-			long maxTime = exercise.getConfig().getTimeLimit()*1000;
+			long maxTime = exercise.getConfig().getTimeLimit();
 			
 			Date dateStart = new Date();
 			
@@ -53,8 +54,9 @@ public class BabystepsService {
 				long currentTime = (maxTime - (dateNext.getTime() - dateStart.getTime()));
 				Date finalTime = new Date(currentTime);
 				
-				DateFormat formatter = new SimpleDateFormat("mm:ss:SS");
-				String dateFormatted = formatter.format(finalTime);				
+				long formatTime=currentTime/1000;
+				String dateFormatted = String.format("%02d:%02d:%02d", formatTime/3600, (formatTime % 3600) / 60, (formatTime % 60));
+				
 				
 				if(currentTime <= 0) {
 					Platform.runLater(() -> {
@@ -65,7 +67,7 @@ public class BabystepsService {
 						alert.setHeaderText("Out of time");
 						alert.setContentText("You did not finish in time!");
 						alert.showAndWait();
-						
+					
 						start();
 						
 				    });
