@@ -23,7 +23,7 @@
                         <Insets bottom="30.0" />
                      </VBox.margin>
                   </ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Test Driven Development Trainer by Team NULL © 2016" textAlignment="CENTER" wrappingWidth="268.92431640625">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Test Driven Development Trainer by Team NULL @ Heinrich-Heine-University Duesseldorf" textAlignment="CENTER" wrappingWidth="268.92431640625">
                      <font>
                         <Font size="16.0" />
                      </font>
