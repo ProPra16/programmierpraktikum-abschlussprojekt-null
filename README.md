@@ -12,16 +12,7 @@ programmierpraktikum-abschlussprojekt-null created by GitHub Classroom
     Project name: TDDT-NULL
     Names of developers on this project: Pascal Fischer, Christian Karamann, Marvin Krause, Patrick Remy, Elmedin Turic
 
-    Brief description of this project (What problem is this project solving?)
-    Outline of technologies (software, programming language, database etc.)
-
-
-**GENERAL USAGE NOTES**
-
-
-
-**FILE LIST**
-
+    This programm is about teaching Test Driven Development. 
 
 
 **INSTALLING INFORMATION**
@@ -34,12 +25,6 @@ programmierpraktikum-abschlussprojekt-null created by GitHub Classroom
         e.g. Simply double-click the „TDDT-NULL“-icon
 
     *Linux/Unix Users
-
-
-**CONTACT INFORMATION**
-
-    For concrete bug reports and issues use...
-    For other information and support use...
 
 
 **COPYRIGHT AND LICENSING INFORMATION**
