@@ -1,13 +1,8 @@
 package gui.controllers;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +11,6 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import services.StorageService;
-import xmlParser.ParserException;
 
 public class ImportViewController implements Initializable {
 	

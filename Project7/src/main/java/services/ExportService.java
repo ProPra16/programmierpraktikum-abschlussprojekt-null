@@ -9,9 +9,9 @@ import java.nio.file.Paths;
 import javafx.scene.control.Alert;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Window;
+import models.Class;
 import models.Exercise;
 import models.Test;
-import models.Class;
 
 public class ExportService {
 	

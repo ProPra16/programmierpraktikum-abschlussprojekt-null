@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import gui.views.cycle.JavaCodeArea;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
