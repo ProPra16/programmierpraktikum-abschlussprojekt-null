@@ -1,19 +1,13 @@
 package gui.controllers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
 
 import gui.views.exercises.ExercisesGrid;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
 import services.StorageService;
-import xmlParser.ParserException;
 
 public class ExercisesViewController implements Initializable {
 
