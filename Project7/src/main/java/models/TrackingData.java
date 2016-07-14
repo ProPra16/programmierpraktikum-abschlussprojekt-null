@@ -1,8 +1,19 @@
 package models;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Observable;
 
-public class TrackingData {
+import org.w3c.dom.Element;
+
+import xmlParser.Parsable;
+import xmlParser.ParserException;
+import xmlParser.XmlAtribute;
+import xmlParser.XmlNode;
+import xmlParser.XmlString;
+
+public class TrackingData extends Observable implements Parsable{
 	
 	/**
 	 * Cycle mode representation - red, green, blue
@@ -16,22 +27,17 @@ public class TrackingData {
 	/**
 	 * Cycle mode
 	 */
-	private final Mode mode; 
+	private Mode mode; 
 	
 	/**
 	 * Start date
 	 */
-	private final Date start;
+	private Date start;
 	
 	/**
 	 * End date
 	 */
 	private Date end;
-	
-	/**
-	 * Duration needed for a step
-	 */
-	private long duration;
 	
 	/**
 	 * @return the mode
@@ -65,6 +71,8 @@ public class TrackingData {
 		this.start = start;
 	}
 	
+	protected TrackingData() {}
+
 	/**
 	 * @return the start
 	 */
@@ -84,16 +92,50 @@ public class TrackingData {
 	 */
 	public void setEnd(Date end) {
 		this.end = end;
-		if(start != null && end != null) {
-			duration = end.getTime() - start.getTime();
-		}
+		this.setChanged();
+		this.notifyObservers();
+		
 	}
 
 	/**
 	 * @return The duration needed for a step
 	 */
 	public long getDuration() {
-		return duration;
+		if(start != null && end != null) {
+			return end.getTime() - start.getTime();
+		}
+		return 0;
+	}
+
+	@Override
+	public Parsable loadfromXML(Element element) throws Exception {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+		try{
+		this.mode = Mode.valueOf(element.getAttribute("mode").toUpperCase());
+		this.setEnd(formatter.parse(element.getAttribute("start")));
+		this.start = formatter.parse(element.getAttribute("end"));
+		}
+		catch (IllegalArgumentException e)
+		{
+			e.printStackTrace();
+			throw new ParserException("Unable to parse the Atribute \"mode\".\nPlease check your xml-File and the log.");
+		} catch (ParseException e) {
+			
+			e.printStackTrace();
+			throw new ParserException("Unable to parse the Tag \"start\" or \"end\" .\nPlease check your xml-File and the log.");
+		}
+		
+		return this;
+	}
+
+	@Override
+	public XmlNode objectToXMLObject() {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+		XmlNode node = new XmlNode("TrackingData",new XmlString(""));
+		node.addAtribute(new XmlAtribute("mode", this.getModeString()));
+		node.addAtribute(new XmlAtribute("start", formatter.format(getStart())));
+		node.addAtribute(new XmlAtribute("end", formatter.format(getEnd())));
+		return node;
 	}
 	
 }

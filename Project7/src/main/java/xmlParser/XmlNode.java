@@ -1,10 +1,17 @@
-package xmlModelParser;
-
-import java.util.ArrayList;
+package xmlParser;
 
 public class XmlNode extends XmlValue {
 	String name;
 	XmlValue value;
+	boolean isRoot;
+
+	public boolean isRoot() {
+		return isRoot;
+	}
+
+	public void setRoot(boolean isRoot) {
+		this.isRoot = isRoot;
+	}
 
 	public void setValue(XmlValue value) {
 		this.value = value;
@@ -16,7 +23,12 @@ public class XmlNode extends XmlValue {
 	}
 
 	public String toXmlString() {
-		return "<" + name + this.AtributestoStringLine() + ">" + value.toXmlString() + "</" + name + ">\n";
+		if(this.isRoot||!value.isEmpty())
+		{
+		return "<" + name + this.AtributestoStringLine()+ ">" + value.toXmlString()+ "</" + name + ">\n";
+		}
+		return "<" + name + this.AtributestoStringLine()+ "/>\n";
+		
 	}
 
 	public void addAtribute(XmlAtribute atribute) {
@@ -30,6 +42,12 @@ public class XmlNode extends XmlValue {
 			return string + "\n";
 		}
 		return "-----" + name + "-----:\n" + string + "\n";
+	}
+
+	@Override
+	public boolean isEmpty() {
+		
+		return value.isEmpty();
 	}
 
 }

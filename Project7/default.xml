@@ -1,161 +1,195 @@
+<TDDT>
 <exercises>
-	<exercise name="Römische Zahlen">
-		<description>Konvertiert arabische in römische Zahlen.</description>
-		<classes>
-			<class name="RomanNumberConverter">
-public class RomanNumberConverter {
-}
-			</class>
-		</classes>
-		<tests>
-			<test name="RomanNumberConverterTest">
-import static org.junit.Assert.*;
-import org.junit.Test;
-public class RomanNumberConverterTest {
-	@Test
-	public void testSomething() {
-	}
-}
-			</test>
-		</tests>
-		<config>
-			<babysteps value="True">99999</babysteps>
-			<timetracking value="False" />
-		</config>
-	</exercise>
-	<exercise name="Lorem ipsum">
-		<description>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</description>
-		<classes>
-			<class name="LoremIpsum">
-public class LoremIpsum {
-}
-			</class>
-			<class name="LoremIpsumTwo">
-public class LoremIpsumTwo {
-}
-			</class>
-		</classes>
-		<tests>
-			<test name="LoremIpsumTest">
-import static org.junit.Assert.*;
-import org.junit.Test;
-public class LoremIpsumTest {
-	@Test
-	public void testSomething() {
-	}
-}
-			</test>
-			<test name="LoremIpsumTestTwo">
-import static org.junit.Assert.*;
-import org.junit.Test;
-public class LoremIpsumTestTwo {
-	@Test
-	public void testSomething() {
-	}
-}
-			</test>
-		</tests>
-		<config>
-			<babysteps value="True">9999999</babysteps>
-			<timetracking value="False" />
-		</config>
-	</exercise>
-	<exercise name="Römische Zahlen Extended">
-		<description>Konvertiert ganz viele arabische in römische Zahlen.</description>
-		<classes>
-			<class name="RomanNumberConverter">
-public class RomanNumberConverter {
-}
-			</class>
-		</classes>
-		<tests>
-			<test name="RomanNumberConverterTest">
-import static org.junit.Assert.*;
-import org.junit.Test;
-public class RomanNumberConverterTest {
-	@Test
-	public void testSomething() {
-	}
-}
-			</test>
-		</tests>
-		<config>
-			<babysteps value="True">9999999</babysteps>
-			<timetracking value="False" />
-		</config>
-	</exercise>
-	<exercise name="Lorem ipsum">
-		<description>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</description>
-		<classes>
-			<class name="LoremIpsum">
-public class LoremIpsum {
-}
-			</class>
-			<class name="LoremIpsumTwo">
-public class LoremIpsumTwo {
-}
-			</class>
-		</classes>
-		<tests>
-			<test name="LoremIpsumTest">
-import static org.junit.Assert.*;
-import org.junit.Test;
-public class LoremIpsumTest {
-	@Test
-	public void testSomething() {
-	}
-}
-			</test>
-			<test name="LoremIpsumTestTwo">
-import static org.junit.Assert.*;
-import org.junit.Test;
-public class LoremIpsumTestTwo {
-	@Test
-	public void testSomething() {
-	}
-}
-			</test>
-		</tests>
-		<config>
-			<babysteps value="True">9999999</babysteps>
-			<timetracking value="False" />
-		</config>
-	</exercise>
-	<exercise name="Lorem ipsum">
-		<description>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</description>
-		<classes>
-			<class name="LoremIpsum">
-public class LoremIpsum {
-}
-			</class>
-			<class name="LoremIpsumTwo">
-public class LoremIpsumTwo {
-}
-			</class>
-		</classes>
-		<tests>
-			<test name="LoremIpsumTest">
-import static org.junit.Assert.*;
-import org.junit.Test;
-public class LoremIpsumTest {
-	@Test
-	public void testSomething() {
-	}
-}
-			</test>
-			<test name="LoremIpsumTestTwo">
-import static org.junit.Assert.*;
-import org.junit.Test;
-public class LoremIpsumTestTwo {
-	@Test
-	public void testSomething() {
-	}
-}
-			</test>
-		</tests>
-		<config>
-			<babysteps value="True">9999999</babysteps>
-			<timetracking value="False" />
-		</config>
-	</exercise>
+<exercise name="Römische Zahlen">
+<description>Konvertiert arabische in römische Zahlen.</description>
+<classes>
+<class name="RomanNumberConverter">
+                    public class RomanNumberConverter {
+                    }
+                </class>
+</classes>
+<tests>
+<test name="RomanNumberConverterTest">
+                    import static org.junit.Assert.*;
+                    import org.junit.Test;
+                    public class RomanNumberConverterTest {
+                    @Test
+                    public void testSomething() {
+                    }
+                    }
+                </test>
+</tests>
+<config>
+<babysteps value="true" time="00:01:00"/>
+<timetracking value="false"/>
+</config>
+</exercise>
+<exercise name="Lorem ipsum">
+<description>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</description>
+<classes>
+<class name="LoremIpsum">
+                    public class LoremIpsum {
+                    }
+                </class>
+<class name="LoremIpsumTwo">
+                    public class LoremIpsumTwo {
+                    }
+                </class>
+</classes>
+<tests>
+<test name="LoremIpsumTest">
+                    import static org.junit.Assert.*;
+                    import org.junit.Test;
+                    public class LoremIpsumTest {
+                    @Test
+                    public void testSomething() {
+                    }
+                    }
+                </test>
+<test name="LoremIpsumTestTwo">
+                    import static org.junit.Assert.*;
+                    import org.junit.Test;
+                    public class LoremIpsumTestTwo {
+                    @Test
+                    public void testSomething() {
+                    }
+                    }
+                </test>
+</tests>
+<config>
+<babysteps value="true" time="00:01:00"/>
+<timetracking value="false"/>
+</config>
+</exercise>
+<exercise name="Römische Zahlen Extended">
+<description>Konvertiert ganz viele arabische in römische Zahlen.</description>
+<classes>
+<class name="RomanNumberConverter">
+                    public class RomanNumberConverter {
+			
+                    }
+                </class>
+</classes>
+<tests>
+<test name="RomanNumberConverterTest">
+                    import static org.junit.Assert.*;
+                    import org.junit.Test;
+                    public class RomanNumberConverterTest {
+                    @Test
+  	public void EinsErgibtI() {
+    	String berechnet = RomanNumberConverter.roman(1);
+   	 String erwartet = "I";
+   	 assertEquals(erwartet, berechnet);
+  	
+}}
+                </test>
+</tests>
+<config>
+<babysteps value="true" time="00:01:00"/>
+<timetracking value="false"/>
+</config>
+</exercise>
+<exercise name="Lorem ipsum">
+<description>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</description>
+<classes>
+<class name="LoremIpsum">
+                    public class LoremIpsum {
+                    }
+                </class>
+<class name="LoremIpsumTwo">
+                    public class LoremIpsumTwo {
+                    }
+                </class>
+</classes>
+<tests>
+<test name="LoremIpsumTest">
+                    import static org.junit.Assert.*;
+                    import org.junit.Test;
+                    public class LoremIpsumTest {
+                    @Test
+                    public void testSomething() {
+                    }
+                    }
+                </test>
+<test name="LoremIpsumTestTwo">
+                    import static org.junit.Assert.*;
+                    import org.junit.Test;
+                    public class LoremIpsumTestTwo {
+                    @Test
+                    public void testSomething() {
+                    }
+                    }
+                </test>
+</tests>
+<config>
+<babysteps value="true" time="00:01:00"/>
+<timetracking value="false"/>
+</config>
+</exercise>
+<exercise name="Lorem ipsum">
+<description>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</description>
+<classes>
+<class name="LoremIpsum">
+                    public class LoremIpsum {
+                    }
+                </class>
+<class name="LoremIpsumTwo">
+                    public class LoremIpsumTwo {
+                    }
+                </class>
+</classes>
+<tests>
+<test name="LoremIpsumTest">
+                    import static org.junit.Assert.*;
+                    import org.junit.Test;
+                    public class LoremIpsumTest {
+                    @Test
+                    public void testSomething() {
+failed();
+                    }
+                    }
+                </test>
+<test name="LoremIpsumTestTwo">
+                    import static org.junit.Assert.*;
+                    import org.junit.Test;
+                    public class LoremIpsumTestTwo {
+                    @Test
+                    public void testSomething() {
+                    }
+                    }
+                </test>
+</tests>
+<config>
+<babysteps value="true" time="00:01:00"/>
+<timetracking value="false"/>
+</config>
+</exercise>
 </exercises>
+<TrackingSessions>
+<TrackingSession exerciseName="Römische Zahlen Extended" startDate="2016-07-14T01:26:44+0200">
+<TrackingDataList>
+<TrackingData mode="RED" start="2016-07-14T01:26:44+0200" end="2016-07-14T01:27:15+0200"/>
+<TrackingData mode="GREEN" start="2016-07-14T01:27:15+0200" end="2016-07-14T01:27:43+0200"/>
+</TrackingDataList>
+</TrackingSession>
+<TrackingSession exerciseName="Römische Zahlen Extended" startDate="2016-07-14T01:29:49+0200">
+<TrackingDataList>
+<TrackingData mode="RED" start="2016-07-14T01:29:49+0200" end="2016-07-14T01:29:53+0200"/>
+</TrackingDataList>
+</TrackingSession>
+<TrackingSession exerciseName="Römische Zahlen Extended" startDate="2016-07-14T01:29:57+0200">
+<TrackingDataList/>
+</TrackingSession>
+<TrackingSession exerciseName="Lorem ipsum" startDate="2016-07-14T01:30:00+0200">
+<TrackingDataList/>
+</TrackingSession>
+<TrackingSession exerciseName="Lorem ipsum" startDate="2016-07-14T01:30:06+0200">
+<TrackingDataList/>
+</TrackingSession>
+<TrackingSession exerciseName="Lorem ipsum" startDate="2016-07-14T01:30:11+0200">
+<TrackingDataList>
+<TrackingData mode="RED" start="2016-07-14T01:30:11+0200" end="2016-07-14T01:30:22+0200"/>
+</TrackingDataList>
+</TrackingSession>
+</TrackingSessions>
+</TDDT>

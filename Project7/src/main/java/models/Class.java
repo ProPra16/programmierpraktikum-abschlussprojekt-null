@@ -4,12 +4,10 @@ import java.util.Observable;
 
 import org.w3c.dom.Element;
 
-import xmlModelParser.Parsable;
-import xmlModelParser.ParserException;
-import xmlModelParser.XmlAtribute;
-import xmlModelParser.XmlNode;
-import xmlModelParser.XmlString;
-import xmlModelParser.XmlValue;
+import xmlParser.Parsable;
+import xmlParser.XmlAtribute;
+import xmlParser.XmlNode;
+import xmlParser.XmlString;
 
 /**
  * Represents the XML tag "class", implements {@link Parsable}.
@@ -52,7 +50,7 @@ public class Class extends Observable implements Parsable {
 	}
 
 	@Override
-	public Parsable loadfromXML(Element element) throws ParserException {
+	public Parsable loadfromXML(Element element) throws Exception {
 		name = element.getAttribute("name");
 		content = element.getTextContent();
 		return this;

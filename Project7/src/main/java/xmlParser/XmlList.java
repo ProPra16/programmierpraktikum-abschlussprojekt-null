@@ -1,4 +1,4 @@
-package xmlModelParser;
+package xmlParser;
 
 import java.util.ArrayList;
 
@@ -40,6 +40,12 @@ public class XmlList extends XmlValue {
 
 	public void add(Parsable parsable) {
 		list.add(parsable.objectToXMLObject());
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return list.isEmpty();
 	}
 
 }

@@ -3,7 +3,7 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
+import models.Class;
 import gui.views.cycle.JavaCodeArea;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -11,7 +11,6 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import models.Exercise;
 import models.Test;
-import models.Class;
 import vk.core.api.CompilationUnit;
 import vk.core.api.CompileError;
 import vk.core.api.CompilerFactory;

@@ -22,7 +22,8 @@ import models.TrackingData;
 import models.TrackingSession;
 import services.BabystepsService;
 import services.CompileService;
-import services.TrackingService;
+import services.StorageService;
+
 import vk.core.api.TestResult;
 
 public class RedViewController implements Initializable {
@@ -126,7 +127,7 @@ public class RedViewController implements Initializable {
 		codeArea.replaceText(exercise.getTests().get(0).getContent());
 		
 		// Start tracking-session
-		trackingSession = TrackingService.shared().startSession(exercise.getName(), new Date());
+		trackingSession = StorageService.getInstance().gettSessionCatalog().startSession(exercise.getName(), new Date());
 		createTrackingPoint();
 		
 		// Start babysteps

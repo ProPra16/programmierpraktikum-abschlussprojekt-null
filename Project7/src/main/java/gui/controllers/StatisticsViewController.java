@@ -10,7 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import models.TrackingSession;
-import services.TrackingService;
+import services.StorageService;
 
 public class StatisticsViewController implements Initializable {
 	
@@ -19,14 +19,14 @@ public class StatisticsViewController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		updateStatistics();
 	}
 	
 	/**
 	 * Updates the shown statistics
 	 */
 	public void updateStatistics() {
-		Collection<TrackingSession> trackingResults = TrackingService.shared().getTrackingResults();
+		Collection<TrackingSession> trackingResults = StorageService.getInstance().gettSessionCatalog().getTrackingResults();
 		
 		statisticsContainer.getChildren().clear();
 		 
@@ -48,7 +48,9 @@ public class StatisticsViewController implements Initializable {
 	 * @return true, if any session has fulfilled at least one cycle
 	 */
 	private boolean anyCompleteSession() {
-		Collection<TrackingSession> trackingResults = TrackingService.shared().getTrackingResults();
+
+		Collection<TrackingSession> trackingResults = StorageService.getInstance().gettSessionCatalog().getTrackingResults();
+
 		
 		for(TrackingSession trackingSession : trackingResults) {
 			if(trackingSession.getData().size() >= 3) {

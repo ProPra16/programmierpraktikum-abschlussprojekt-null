@@ -1,16 +1,22 @@
 package models;
 
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Observable;
+import java.util.TimeZone;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import xmlModelParser.Parsable;
-import xmlModelParser.ParserException;
-import xmlModelParser.XmlAtribute;
-import xmlModelParser.XmlList;
-import xmlModelParser.XmlNode;
-import xmlModelParser.XmlString;
+import xmlParser.Parsable;
+import xmlParser.ParserException;
+import xmlParser.XmlAtribute;
+import xmlParser.XmlList;
+import xmlParser.XmlNode;
+import xmlParser.XmlString;
 
 /**
  * Represents the XML tag "config", implements {@link Parsable}.
@@ -66,8 +72,7 @@ public class Config extends Observable implements Parsable {
 	}
 
 	@Override
-	public Parsable loadfromXML(Element element) throws ParserException {
-		// TODO: Discuss, how to implement this class! -->Class Variables
+	public Parsable loadfromXML(Element element) throws Exception {
 
 		// Gets the content of every "timetraking" tag from the XML file and
 		// sets the variable timeTracking to the boolean representation of its
@@ -86,13 +91,19 @@ public class Config extends Observable implements Parsable {
 		this.babySteps = Boolean.parseBoolean(babyStepsContent.getAttribute("value"));
 
 		if (this.babySteps) {
+			
 			try {
-				this.bStepsTimeLimit = Long.parseLong(babyStepsContent.getTextContent());
-			} catch (NumberFormatException e) {
+				String[] bsFields = babyStepsContent.getAttribute("time").split(":");
+				Duration duration=Duration.parse(String.format("PT%sH%sM%sS", bsFields[0], bsFields[1],bsFields[2]));
+				this.bStepsTimeLimit=duration.abs().toMillis();
+				System.out.println(this.bStepsTimeLimit);
+				//this.bStepsTimeLimit = Long.parseLong(babyStepsContent.getTextContent());
+			} catch (Exception e) {
 
 				e.printStackTrace();
 				// TODO pass a better error message
-				throw new ParserException("The Content of <babysteps /> cannot be parsed as long:\n"
+				throw new ParserException("The Content of the time-Atribute cannot be parsed as long.\n"
+						+"Please check if the time is correctly formatted as hh:mm:ss. Error:\n"
 						+ babyStepsContent.getTextContent());
 			}
 		}
@@ -105,7 +116,13 @@ public class Config extends Observable implements Parsable {
 		XmlNode xmlBabySteps = new XmlNode("babysteps", new XmlString(""));
 		xmlBabySteps.addAtribute(new XmlAtribute("value", String.valueOf(this.babySteps)));
 		if (this.babySteps) {
-			xmlBabySteps.setValue(new XmlString(String.valueOf(bStepsTimeLimit)));
+			
+			Date date =new Date();
+			date.setTime(bStepsTimeLimit);
+			long bsTimeLimitSec= Duration.ofMillis(this.bStepsTimeLimit).getSeconds();
+			String bStepsTimeString = String.format("%02d:%02d:%02d", bsTimeLimitSec/3600, (bsTimeLimitSec % 3600) / 60, (bsTimeLimitSec % 60));
+			xmlBabySteps.addAtribute(new XmlAtribute("time", bStepsTimeString));
+			
 		}
 
 		// TimeTracking

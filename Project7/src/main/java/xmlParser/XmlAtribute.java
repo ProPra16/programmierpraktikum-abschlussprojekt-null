@@ -1,4 +1,4 @@
-package xmlModelParser;
+package xmlParser;
 
 public class XmlAtribute {
 

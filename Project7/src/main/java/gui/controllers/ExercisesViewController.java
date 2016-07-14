@@ -9,10 +9,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import gui.views.exercises.ExercisesGrid;
-import javafx.fxml.*;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
-import xmlModelParser.ModelStorageController;
-import xmlModelParser.ParserException;
+import services.StorageService;
+import xmlParser.ParserException;
 
 public class ExercisesViewController implements Initializable {
 
@@ -26,18 +27,18 @@ public class ExercisesViewController implements Initializable {
 	
 		// Try to load current workspace
 		try {
-			ModelStorageController.getInstance().loadModel();
+			StorageService.getInstance().loadModel();
 			
 			// If exercises are imported, show exercises grid
-			if(ModelStorageController.getInstance().getCatalog().getExercises().size() != 0) {
+			if(StorageService.getInstance().getExerciseCatalog().getExercises().size() != 0) {
 				// Create exercises grid
-				ExercisesGrid exercisesGrid = new ExercisesGrid(ModelStorageController.getInstance().getCatalog().getExercises());
+				ExercisesGrid exercisesGrid = new ExercisesGrid(StorageService.getInstance().getExerciseCatalog().getExercises());
 				exercisesGrid.addSelectExerciseHandler((exercise) -> {
 					menuController.selectExercise(exercise);
 				});
 				mainPane.setContent(exercisesGrid);
 			}
-		} catch (SAXException | IOException | ParserConfigurationException | ParserException e) {
+		} catch (Exception e) {
 			// Do nothing - import view is already there
 		}
 

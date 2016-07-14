@@ -1,4 +1,4 @@
-package xmlModelParser;
+package xmlParser;
 
 public class XmlString extends XmlValue {
 	String valueString;
@@ -23,6 +23,12 @@ public class XmlString extends XmlValue {
 
 	public boolean printName() {
 		return true;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return valueString.isEmpty();
 	}
 
 }
