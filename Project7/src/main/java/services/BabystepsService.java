@@ -22,6 +22,7 @@ public class BabystepsService {
 	String cachedContent;
 	CodeArea sourceCodeArea;
 	
+	
 	/**
 	 * Counstructs babysteps service with time label
 	 * 
@@ -39,7 +40,7 @@ public class BabystepsService {
 	 * Starts the timer
 	 */
 	public void start() {
-		Thread t = new Thread(() -> {
+		Thread t= new Thread(() -> {
 			boolean running = true;
 			long maxTime = exercise.getConfig().getTimeLimit();
 			
@@ -52,7 +53,6 @@ public class BabystepsService {
 				}
 				Date dateNext = new Date();
 				long currentTime = (maxTime - (dateNext.getTime() - dateStart.getTime()));
-				Date finalTime = new Date(currentTime);
 				
 				long formatTime=currentTime/1000;
 				String dateFormatted = String.format("%02d:%02d:%02d", formatTime/3600, (formatTime % 3600) / 60, (formatTime % 60));
@@ -67,7 +67,6 @@ public class BabystepsService {
 						alert.setHeaderText("Out of time");
 						alert.setContentText("You did not finish in time!");
 						alert.showAndWait();
-					
 						start();
 						
 				    });
@@ -86,7 +85,7 @@ public class BabystepsService {
 				}
 			}
 		});
-		
+		t.setDaemon(true);
 		t.start();
 	}
 	
