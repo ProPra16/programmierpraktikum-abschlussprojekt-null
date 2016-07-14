@@ -7,9 +7,11 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.stage.Modality;
 import services.StorageService;
 
 public class ImportViewController implements Initializable {
@@ -65,6 +67,12 @@ public class ImportViewController implements Initializable {
 			loadConfig(event.getDragboard().getFiles().get(0));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Import");
+			alert.setHeaderText("Loading error");
+			alert.setContentText(e.getMessage());
+			alert.initModality(Modality.WINDOW_MODAL);
+			alert.showAndWait();
 			e.printStackTrace();
 			return;
 		}
