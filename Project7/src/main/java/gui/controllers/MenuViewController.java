@@ -36,6 +36,8 @@ public class MenuViewController implements Initializable {
 	Pane mainSection;
 	Node exerciseView;
 	List<MenuItem> menuItems;
+	
+	ExercisesViewController exercisesController;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -77,6 +79,7 @@ public class MenuViewController implements Initializable {
 		for (MenuItem menuItem : menuItems) {
 			if (menuItem instanceof OverviewMenuItem) {
 				foundMenuItem = true;
+				exercisesController.loadView();
 				selectMenuItem(menuItem);
 				break; // Usually only one overview menu item
 			}
@@ -161,21 +164,22 @@ public class MenuViewController implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/ExercisesView.fxml"));
 			Parent exerciseView = loader.load();
 			MainViewController.setAllAnchorsNull(exerciseView);
-			ExercisesViewController exercisesController = loader.getController();
+			exercisesController = loader.getController();
 			exercisesController.setMenuController(this);
 			overviewMenuItem.setMainView(exerciseView);
+			
+			// Select menu item on click
+			overviewMenuItem.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					exercisesController.loadView();
+					selectMenuItem(overviewMenuItem);
+				}
+			});
 		} catch(IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		// Select menu item on click
-		overviewMenuItem.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				selectMenuItem(overviewMenuItem);
-			}
-		});
 		
 		// Preselect menu item
 		overviewMenuItem.select();
