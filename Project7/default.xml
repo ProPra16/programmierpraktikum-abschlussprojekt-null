@@ -4,8 +4,8 @@
 			<description>Konvertiert arabische in römische Zahlen.</description>
 			<classes>
 				<class name="RomanNumberConverter">
-					public class RomanNumberConverter {
-					}
+public class RomanNumberConverter {
+}
 				</class>
 			</classes>
 			<tests>

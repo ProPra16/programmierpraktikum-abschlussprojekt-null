@@ -64,6 +64,14 @@ public class GreenViewController implements Initializable {
 			switchToRed();
 		}
 	}
+	
+	/**
+	 * FXML-Action for share button
+	 */
+	@FXML
+	public void shareAction() {
+		// No share here
+	}
 
 	/**
 	 * FXML-Action for confirm button

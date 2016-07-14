@@ -12,6 +12,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
+		
 		primaryStage.setTitle("TDDT");
 		primaryStage.setMinWidth(800);
 		primaryStage.setMinHeight(600);

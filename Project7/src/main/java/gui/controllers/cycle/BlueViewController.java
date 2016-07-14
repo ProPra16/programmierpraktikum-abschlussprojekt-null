@@ -18,6 +18,7 @@ import javafx.scene.layout.Pane;
 import models.TrackingData;
 import models.TrackingSession;
 import services.CompileService;
+import services.ExportService;
 
 public class BlueViewController implements Initializable {
 	Pane mainSection;
@@ -32,6 +33,8 @@ public class BlueViewController implements Initializable {
 	@FXML
 	Node backButton;
 	@FXML
+	Node shareButton;
+	@FXML
 	Node confirmButton;
 	@FXML
 	Label timeLabel;
@@ -42,7 +45,8 @@ public class BlueViewController implements Initializable {
 		backButton.setVisible(false);
 		// Hide time label - no time limit here
 		timeLabel.setVisible(false);
-		
+		// Show share button
+		shareButton.setVisible(true);
 		// Set css class for styling
 		rootPane.getStyleClass().add("blue");
 	}
@@ -53,6 +57,14 @@ public class BlueViewController implements Initializable {
 	@FXML
 	public void backAction() {
 		// No back button here
+	}
+	
+	/**
+	 * FXML-Action for share button
+	 */
+	@FXML
+	public void shareAction() {
+		ExportService.export(compileService.getExercise(), backButton.getScene().getWindow());
 	}
 	
 	/**

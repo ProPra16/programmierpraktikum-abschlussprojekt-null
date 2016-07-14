@@ -53,13 +53,20 @@ public class RedViewController implements Initializable {
 		rootPane.getStyleClass().add("red");
 	}
 
-
 	/**
 	 * FXML-Action for back button
 	 */
 	@FXML
 	public void backAction() {
 		// Disabled in RED, so do nothing
+	}
+	
+	/**
+	 * FXML-Action for share button
+	 */
+	@FXML
+	public void shareAction() {
+		// No share here
 	}
 
 	/**

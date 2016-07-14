@@ -239,8 +239,8 @@ public class MenuViewController implements Initializable {
 	 */
 	private void createDefaultMenuItems() {
 		createInfoMenuItem();
-		
 		MenuItem importMenuItem = createImportMenuItem();
+		createStatisticsMenuItem();
 		
 		if(StorageService.getInstance().getExerciseCatalog().getExercises().size() != 0) {
 			// If exercises are loaded show exercises overview - autoselected while creating
@@ -249,8 +249,6 @@ public class MenuViewController implements Initializable {
 			// Preselect menu item - loaded in main view controller
 			importMenuItem.select();
 		}
-		
-		createStatisticsMenuItem();
 	}
 	
 	/**
