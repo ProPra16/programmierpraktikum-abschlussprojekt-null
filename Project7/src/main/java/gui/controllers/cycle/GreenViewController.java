@@ -44,9 +44,6 @@ public class GreenViewController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// Set css class for styling
-		if (rootPane.getStyleClass().contains("red")) {
-			rootPane.getStyleClass().remove("red");
-		}
 		rootPane.getStyleClass().add("green");
 	}
 
@@ -66,6 +63,14 @@ public class GreenViewController implements Initializable {
 			// Go back to RED
 			switchToRed();
 		}
+	}
+	
+	/**
+	 * FXML-Action for share button
+	 */
+	@FXML
+	public void shareAction() {
+		// No share here
 	}
 
 	/**
@@ -194,17 +199,20 @@ public class GreenViewController implements Initializable {
 	}
 	
 	/**
-	 * Creates tracking point
+	 * Creates tracking point if tracking is activated
 	 */
 	private void createTrackingPoint() {
-		trackingData = new TrackingData(TrackingData.Mode.GREEN, new Date());
+		if(compileService.getExercise().getConfig().isTimeTracking())
+			trackingData = new TrackingData(TrackingData.Mode.GREEN, new Date());
 	}
 	
 	/**
 	 * Lets tracking end and adds tracking point to tracking session
 	 */
 	private void endTracking() {
-		trackingData.setEnd(new Date());
-		trackingSession.getData().add(trackingData);
+		if(compileService.getExercise().getConfig().isTimeTracking()) {
+			trackingData.setEnd(new Date());
+			trackingSession.getData().add(trackingData);
+		}
 	}
 }
