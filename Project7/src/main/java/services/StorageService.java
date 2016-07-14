@@ -11,16 +11,39 @@ import xmlParser.Parser;
 import xmlParser.XmlList;
 import xmlParser.XmlNode;
 
+/**
+ * Manages all aspects of Storage as a single instance (Singleton)
+ */
 public class StorageService extends Observable implements Observer {
+	/**
+	 * Global instance (Singleton)
+	 */
 	private static StorageService instance;
+	/**
+	 * The default Path to temporarily store files
+	 */
 	public static final String defaultPath = ".tddt/";
+	/**
+	 * The default Filename to temporarily store files
+	 */
 	public static final String defaultFileName = "Catalog.xml";
+	/**
+	 * The globally stored {@link ExerciseCatalog}
+	 */
 	private ExerciseCatalog exerciseCatalog = new ExerciseCatalog();
+	
+	/**
+	 * The globally stored {@link TrackingSessionCatalog}
+	 */
 	private TrackingSessionCatalog tSessionCatalog = new TrackingSessionCatalog();
 
 	private StorageService() {
 	}
 
+	/**
+	 * Returns or creates the singleton instance
+	 * @return Globally valid StorageService instance
+	 */
 	public synchronized static StorageService getInstance() {
 
 		if (instance == null) {
@@ -33,10 +56,20 @@ public class StorageService extends Observable implements Observer {
 		return instance;
 	}
 
+	/**
+	 * Returns the default relative file path
+	 * @return
+	 */
 	public static String getDefaultRelativeFilePath() {
 		return defaultPath + defaultFileName;
 	}
 
+	/**
+	 * Imports a new Model globally
+	 * @param path Path to the XML-file 
+	 * @param acceptEmptyExerciseCatalog Set weather an empty catalog is acceptable
+	 * @throws Exception
+	 */
 	public synchronized void importModel(String path,boolean acceptEmptyExerciseCatalog) throws Exception {
 
 		Parser parser = new Parser();
@@ -61,6 +94,10 @@ public class StorageService extends Observable implements Observer {
 		this.saveModel();
 	}
 
+	/**
+	 * Loads the default XML-File globally
+	 * @throws Exception
+	 */
 	public synchronized void loadModel() throws Exception {
 		this.importModel(getDefaultRelativeFilePath(),true);
 	}
@@ -77,14 +114,26 @@ public class StorageService extends Observable implements Observer {
 
 	}
 
+	/**
+	 * Returns the global {@link ExerciseCatalog}
+	 * @return {@link ExerciseCatalog}
+	 */
 	public ExerciseCatalog getExerciseCatalog() {
 		return this.exerciseCatalog;
 	}
 
+	/**
+	 * Returns the global {@link TrackinSessionCatalog}
+	 * @return {@link TrackingSessionCatalog}
+	 */
 	public TrackingSessionCatalog gettSessionCatalog() {
 		return tSessionCatalog;
 	}
 
+	/**
+	 * Creates a Path for the Application's default model
+	 * 
+	 */
 	private static void createStorage() {
 		File file = new File(getDefaultRelativeFilePath());
 		if (!file.exists()) {
