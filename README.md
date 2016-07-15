@@ -14,6 +14,13 @@
     2.  Double-click to launch the application.
     3.  Have fun. :-D
 
+##HOW TO BUILD THE PROJECT
+
+    1.  Use the command line or Git-Shell to execute the "gradle shadowJar" command.
+    2.  Navigate to "[your repository directory]/Project7/build/libs/" and expect to see "TDDT-all.jar" as your executable
+    3.  (Optional) Go to "INSTALLATION INFORMATION OF THE APPLICATION" for information on how to install the application.
+    
+
 
 ##License
-Read LICENSE.md 
+[READ LISENCE.md](LICENSE.md) 
