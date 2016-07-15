@@ -31,4 +31,7 @@ programmierpraktikum-abschlussprojekt-null created by GitHub Classroom
 
 **COPYRIGHT AND LICENSING INFORMATION**
 
-    Read LICENSE.md
+##License
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/ProPra16/programmierpraktikum-abschlussprojekt-team-2/blob/master/License.md)
+
+Read LICENSE.md 
