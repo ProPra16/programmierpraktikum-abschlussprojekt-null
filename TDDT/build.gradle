@@ -15,6 +15,7 @@ repositories {
 dependencies {
  compile "de.hhu.stups:virtual-kata-lib:1.0.1"
  compile "org.fxmisc.richtext:richtextfx:0.7-M1"
+ compile group: 'edu.sc.seis.gradle', name: 'macappbundle', version: '2.0.0'
  testCompile "junit:junit:4.12"
 }
 
