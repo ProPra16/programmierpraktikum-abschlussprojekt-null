@@ -31,8 +31,7 @@ jar {
 
 macAppBundle {
     mainClassName = "Main"
-    icon = "AppIcon.icns"
+    icon = "main/resources/AppIcon.icns"
     bundleJRE = true
     javaProperties.put("apple.laf.useScreenMenuBar", "true")
-    //backgroundImage = "AppIcon.png"
 }
