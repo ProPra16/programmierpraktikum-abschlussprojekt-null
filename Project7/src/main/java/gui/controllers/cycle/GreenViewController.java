@@ -127,12 +127,10 @@ public class GreenViewController implements Initializable {
 	 * @param babystepsService
 	 */
 	public void setBabystepsService(BabystepsService babystepsService) {
-		if(compileService.getExercise().getConfig().isBabySteps()) {
-			this.babystepsService = babystepsService;
-			babystepsService.setTimeLabel(timeLabel);
-			babystepsService.setCodeArea(codeArea);
-			babystepsService.start();
-		}
+		this.babystepsService = babystepsService;
+		babystepsService.setTimeLabel(timeLabel);
+		babystepsService.setCodeArea(codeArea);
+		babystepsService.start();
 	}
 
 	/**
@@ -184,8 +182,6 @@ public class GreenViewController implements Initializable {
 	 * Switches back to red
 	 */
 	private void switchToRed() {
-		if(babystepsService != null)
-			babystepsService.stop();
 		
 		endTracking();
 		

@@ -125,12 +125,10 @@ public class BlueViewController implements Initializable {
 	 * @param babystepsService
 	 */
 	public void setBabystepsService(BabystepsService babystepsService) {
-		if(compileService.getExercise().getConfig().isBabySteps()) {
-			this.babystepsService = babystepsService;
-			babystepsService.setTimeLabel(timeLabel);
-			babystepsService.setCodeArea(codeArea);
-			babystepsService.start();
-		}
+		this.babystepsService = babystepsService;
+		babystepsService.setTimeLabel(timeLabel);
+		babystepsService.setCodeArea(codeArea);
+		babystepsService.start();
 	}
 	
 	/**
