@@ -6,6 +6,7 @@ plugins {
 apply plugin: "java"
 apply plugin: "eclipse"
 apply plugin: "com.github.johnrengelman.shadow"
+apply plugin: "edu.sc.seis.macAppBundle"
 
 repositories {
  mavenCentral()
