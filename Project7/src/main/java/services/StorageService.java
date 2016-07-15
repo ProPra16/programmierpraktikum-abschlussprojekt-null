@@ -15,18 +15,22 @@ import xmlParser.XmlNode;
  * Manages all aspects of Storage as a single instance (Singleton)
  */
 public class StorageService extends Observable implements Observer {
+	
 	/**
 	 * Global instance (Singleton)
 	 */
 	private static StorageService instance;
+	
 	/**
 	 * The default Path to temporarily store files
 	 */
-	public static final String defaultPath = ".tddt/";
+	public static final String defaultPath = System.getProperty("user.home") + "/";
+	
 	/**
 	 * The default Filename to temporarily store files
 	 */
-	public static final String defaultFileName = "Catalog.xml";
+	public static final String defaultFileName = ".tddt";
+	
 	/**
 	 * The globally stored {@link ExerciseCatalog}
 	 */
@@ -44,7 +48,7 @@ public class StorageService extends Observable implements Observer {
 	 * Returns or creates the singleton instance
 	 * @return Globally valid StorageService instance
 	 */
-	public synchronized static StorageService getInstance() {
+	public synchronized static StorageService getInstance() {		
 
 		if (instance == null) {
 			instance = new StorageService();
