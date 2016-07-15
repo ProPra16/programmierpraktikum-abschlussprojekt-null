@@ -7,8 +7,8 @@ import org.junit.Test;
 public class StorageServiceTest {
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void CreateStorageTest() {
+		
 	}
 
 }
