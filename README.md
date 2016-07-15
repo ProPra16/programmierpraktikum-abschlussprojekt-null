@@ -1,6 +1,8 @@
 # programmierpraktikum-abschlussprojekt-null
 programmierpraktikum-abschlussprojekt-null created by GitHub Classroom
 
+[![Build Status](https://travis-ci.org/ProPra16/programmierpraktikum-abschlussprojekt-null.svg?branch=master)](https://travis-ci.org/ProPra16/programmierpraktikum-abschlussprojekt-null)
+
 **TDDT-NULL(R) Version 1.0 07/04/2016**
 
     This file contains important information about TDDT-NULL. 
@@ -30,5 +32,3 @@ programmierpraktikum-abschlussprojekt-null created by GitHub Classroom
 **COPYRIGHT AND LICENSING INFORMATION**
 
     Read LICENSE.md
-
-[![Build Status](https://travis-ci.org/ProPra16/programmierpraktikum-abschlussprojekt-null.svg?branch=master)](https://travis-ci.org/ProPra16/programmierpraktikum-abschlussprojekt-null)
