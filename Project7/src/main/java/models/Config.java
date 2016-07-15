@@ -34,6 +34,7 @@ public class Config extends Observable implements Parsable {
 	}
 
 	public Config() {
+		this.bStepsTimeLimit=0;
 
 	}
 

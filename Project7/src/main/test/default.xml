@@ -1,6 +1,6 @@
 <TDDT>
 	<exercises>
-		<exercise name="Römische Zahlen">
+		<exercise name="Römische Zahlen1">
 			<description>Konvertiert arabische in römische Zahlen.</description>
 			<classes>
 				<class name="RomanNumberConverter">
@@ -21,14 +21,14 @@ public class RomanNumberConverterTest {
 				</test>
 			</tests>
 			<config>
-				<babysteps value="true" time="00:02:30" />
+				<babysteps value="true" time="00:00:30" />
 				<timetracking value="true" />
 			</config>
 		</exercise>
-		<exercise name="Lorem ipsum">
+		<exercise name="Lorem ipsum1">
 			<description>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</description>
 			<classes>
-				<class name="LoremIpsum">
+				<class name="LoremIpsum1">
 public class LoremIpsum {
 }
 				</class>
@@ -79,7 +79,7 @@ public class RomanNumberConverterTest {
 				<timetracking value="false" />
 			</config>
 		</exercise>
-		<exercise name="Lorem ipsum">
+		<exercise name="Lorem ipsum2">
 			<description>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</description>
 			<classes>
 				<class name="LoremIpsum">

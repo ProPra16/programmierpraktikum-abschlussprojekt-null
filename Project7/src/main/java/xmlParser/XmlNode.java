@@ -7,6 +7,8 @@ package xmlParser;
 public class XmlNode extends XmlObject {
 	String name;
 	XmlObject value;
+	
+
 	/**
 	 * Indicates weather {@link XmlNode} is a root Node
 	 */
@@ -35,7 +37,13 @@ public class XmlNode extends XmlObject {
 	public void setValue(XmlObject value) {
 		this.value = value;
 	}
-
+	/**
+	 * Gets the value stored between the two Node tags
+	 * @return XmlObject
+	 */
+	public XmlObject getValue() {
+		return value;
+	}
 	public XmlNode(String name, XmlObject jsonValue) {
 		this.name = name;
 		value = jsonValue;
