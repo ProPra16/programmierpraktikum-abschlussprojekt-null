@@ -1,12 +1,12 @@
 plugins {
   id "com.github.johnrengelman.shadow" version "1.2.3" 
-  id "edu.sc.seis.macAppBundle" version "2.1.0"
+
 }
 
 apply plugin: "java"
 apply plugin: "eclipse"
 apply plugin: "com.github.johnrengelman.shadow"
-apply plugin: "edu.sc.seis.macAppBundle"
+
 
 repositories {
  mavenCentral()
@@ -15,7 +15,7 @@ repositories {
 dependencies {
  compile "de.hhu.stups:virtual-kata-lib:1.0.1"
  compile "org.fxmisc.richtext:richtextfx:0.7-M1"
- compile group: 'edu.sc.seis.gradle', name: 'macappbundle', version: '2.0.0'
+
  testCompile "junit:junit:4.12"
 }
 
@@ -31,9 +31,3 @@ jar {
     }
 }
 
-macAppBundle {
-    mainClassName = "Main"
-    icon = "main/resources/AppIcon.icns"
-    bundleJRE = true
-    javaProperties.put("apple.laf.useScreenMenuBar", "true")
-}
