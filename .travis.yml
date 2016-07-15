@@ -1,4 +1,4 @@
-before_install: cd Project7
+before_install: cd TDDT
 language: java
 jdk: oraclejdk8
 notifications:
