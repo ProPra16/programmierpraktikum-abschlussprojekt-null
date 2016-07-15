@@ -27,12 +27,12 @@ import models.ExerciseCatalog;
 public class Parser {
 
 	/**
-	 * Parses the XML file to a {@link ExerciseCatalog}-Object.
+	 * Parses the XML file to an {@link Element}-Object.
 	 * 
 	 * @param url
 	 *            Takes the Path or URL to the XML file as {@link String}.
 	 * @param tagName The name of the xmlTag (e.g. exercises or TrackingSessions) as {@link String}.           
-	 * @return A {@link ExerciseCatalog} object, representing the data in the XML-File.
+	 * @return A {@link Element} object, representing the data in the XML-File.
 	 * 
 	 * @throws Exception
 	 * @throws SAXException

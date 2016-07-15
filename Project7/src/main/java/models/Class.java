@@ -15,10 +15,20 @@ import xmlParser.XmlString;
  */
 public class Class extends Observable implements Parsable {
 
+
 	private String name;
 
-	private String content;
 
+
+	private String content;
+	
+	
+	public Class() {
+		super();
+		this.content="";
+		this.name="";
+	}
+	
 	/**
 	 * Returns the content of the {@code Class}
 	 * 
@@ -48,7 +58,13 @@ public class Class extends Observable implements Parsable {
 	public String getName() {
 		return name;
 	}
-
+	/**
+	 * Sets the name of the {@code Class}
+	 * @param name A {@link String} representation of the Name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 	@Override
 	public Parsable loadfromXML(Element element) throws Exception {
 		name = element.getAttribute("name");

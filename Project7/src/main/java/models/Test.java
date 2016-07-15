@@ -19,6 +19,11 @@ public class Test extends Observable implements Parsable {
 
 	private String content;
 
+	
+	public Test(){
+		this.name="";
+		this.content="";
+	}
 	public String getContent() {
 		return content;
 	}
@@ -42,6 +47,14 @@ public class Test extends Observable implements Parsable {
 	 */
 	public String getName() {
 		return name;
+	}
+	
+	/**
+	 * Sets the Name of the {@code Test}
+	 * @param name A {@link String} representation of the Name
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override

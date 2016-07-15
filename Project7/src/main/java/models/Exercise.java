@@ -35,6 +35,9 @@ public class Exercise extends Observable implements Parsable, Observer {
 	public Exercise() {
 		classes = new ArrayList<Class>();
 		tests = new ArrayList<Test>();
+		this.name="";
+		this.description="";
+		this.config=new Config();
 	}
 
 	/**
@@ -108,7 +111,15 @@ public class Exercise extends Observable implements Parsable, Observer {
 	public Config getConfig() {
 		return config;
 	}
-
+	
+	/**
+	 * Sests the Configuration stored in the {@code Exercise}
+	 * 
+	 * The {@link Config} object stored in the {@code Exercise} object
+	 */
+	public void setConfig(Config mConfig) {
+		this.config=mConfig;
+	}
 	public Parsable loadfromXML(Element element) throws Exception {
 		// TODO implement method
 
@@ -211,5 +222,7 @@ public class Exercise extends Observable implements Parsable, Observer {
 		this.setChanged();
 		this.notifyObservers();
 	}
+
+
 
 }
