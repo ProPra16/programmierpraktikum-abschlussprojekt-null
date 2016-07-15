@@ -18,7 +18,8 @@ public class BabystepsService {
 	boolean finishedTask;
 	String cachedContent;
 	CodeArea sourceCodeArea;
-	
+	Thread t = new Thread();
+	Date dateStart = new Date();
 	
 	/**
 	 * Counstructs babysteps service with time label
@@ -31,6 +32,9 @@ public class BabystepsService {
 		finishedTask = false;
 		this.cachedContent = new String(codeArea.getText());
 		this.sourceCodeArea = codeArea;
+		
+		if(!exercise.getConfig().isBabySteps())
+			timeLabel.setText(exercise.getName());
 	}
 	
 	/**
@@ -38,6 +42,10 @@ public class BabystepsService {
 	 */
 	public void setTimeLabel(Label timeLabel) {
 		this.timeLabel = timeLabel;
+		if(!exercise.getConfig().isBabySteps())
+			timeLabel.setVisible(false);
+		else
+			timeLabel.setVisible(true);
 	}
 
 	/**
@@ -51,14 +59,15 @@ public class BabystepsService {
 	/**
 	 * Starts the timer
 	 */
-	public void start() {
+	public synchronized void start() {
+		dateStart = new Date();
+		if(t.isAlive() || !exercise.getConfig().isBabySteps())
+			return;
 		finishedTask = false;
 		
-		Thread t = new Thread(() -> {
+		t = new Thread(() -> {
 			boolean running = true;
 			long maxTime = exercise.getConfig().getTimeLimit();
-			
-			Date dateStart = new Date();
 			
 			while(running) {
 				if(finishedTask == true) {
@@ -83,9 +92,10 @@ public class BabystepsService {
 						alert.initModality(Modality.WINDOW_MODAL);
 						alert.showAndWait();
 					
-						start();
+						
 				    });
-					running = false;
+					dateStart=new Date();
+					
 				} else {
 					Platform.runLater(() -> {
 						timeLabel.setText(dateFormatted);

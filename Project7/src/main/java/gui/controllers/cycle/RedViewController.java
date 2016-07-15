@@ -139,10 +139,8 @@ public class RedViewController implements Initializable {
 		createTrackingPoint();
 		
 		// Start babysteps
-		if(compileService.getExercise().getConfig().isBabySteps() && babystepsService == null) {
-			babystepsService = new BabystepsService(compileService.getExercise(), timeLabel, codeArea);
-			babystepsService.start();
-		}
+		babystepsService = new BabystepsService(compileService.getExercise(), timeLabel, codeArea);
+		babystepsService.start();
 	}
 
 	/**
@@ -173,15 +171,10 @@ public class RedViewController implements Initializable {
 	 * @param babystepsService
 	 */
 	public void setBabystepsService(BabystepsService babystepsService) {
-		if(this.babystepsService != null) {
-			babystepsService.stop();
-		}
-		if(compileService.getExercise().getConfig().isBabySteps()) {
-			this.babystepsService = babystepsService;
-			babystepsService.setTimeLabel(timeLabel);
-			babystepsService.setCodeArea(codeArea);
-			babystepsService.start();
-		}
+		this.babystepsService = babystepsService;
+		babystepsService.setTimeLabel(timeLabel);
+		babystepsService.setCodeArea(codeArea);
+		babystepsService.start();
 	}
 	
 	/**
@@ -207,8 +200,7 @@ public class RedViewController implements Initializable {
 	 * Switches to green
 	 */
 	private void switchToGreen() {
-		if(babystepsService != null)
-			babystepsService.stop();
+		
 		
 		// End tracking
 		endTracking();
