@@ -1,32 +1,19 @@
-# programmierpraktikum-abschlussprojekt-null
-programmierpraktikum-abschlussprojekt-null created by GitHub Classroom
-
+##README
+##Build Status
 [![Build Status](https://travis-ci.org/ProPra16/programmierpraktikum-abschlussprojekt-null.svg?branch=master)](https://travis-ci.org/ProPra16/programmierpraktikum-abschlussprojekt-null)
-
-**TDDT-NULL(R) Version 1.0 07/04/2016**
-
-    This file contains important information about TDDT-NULL. 
-    Please read this information carefully and follow the instructions.
-
 
 **GENERAL INFORMATION**
 
-    Project name: TDDT-NULL
-    Names of developers on this project: Pascal Fischer, Christian Karamann, Marvin Krause, Patrick Remy, Elmedin Turic
+    Project name: TDDT (Test Driven Development Trainer)
+    © Copyright 2016 Pascal Fischer, Christian Karamann, Marvin Krause, Patrick Remy, Elmedin Turic
+    
 
-    This programm is about teaching Test Driven Development. 
 
+**INSTALLATION INFORMATION OF THE APPLICATION**
 
-**INSTALLING INFORMATION**
-
-    *General System Requirements
-
-    *Windows Users
-
-    *Mac OS X Users
-        e.g. Simply double-click the „TDDT-NULL“-icon
-
-    *Linux/Unix Users
+    1.  Just drag&drop the executable file for your specific operating system into your application folder.
+    2.  Double-click to launch the application.
+    3.  Have fun. :-D
 
 
 ##License
