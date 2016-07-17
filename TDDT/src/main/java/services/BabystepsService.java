@@ -20,10 +20,9 @@ public class BabystepsService {
 	CodeArea sourceCodeArea;
 	Thread t = new Thread();
 	Date dateStart = new Date();
-	Alert alert = new Alert(Alert.AlertType.ERROR);
 	
 	/**
-	 * Counstructs babysteps service with time label
+	 * Counstructs babysteps service
 	 * 
 	 * @param counterLabel
 	 */
@@ -81,23 +80,22 @@ public class BabystepsService {
 				long formatTime = currentTime / 1000;
 				String dateFormatted = String.format("%02d:%02d:%02d", formatTime/3600, (formatTime % 3600) / 60, (formatTime % 60));
 				
-				
 				if(currentTime <= 0) {
+					running = false;
+					
 					Platform.runLater(() -> {
 						sourceCodeArea.replaceText(cachedContent);
-						if(!alert.isShowing())
-						{
+						
+						Alert alert = new Alert(Alert.AlertType.ERROR);
 						alert = new Alert(Alert.AlertType.ERROR);
 						alert.setTitle("Babysteps");
 						alert.setHeaderText("Out of time");
-						alert.setContentText("Unfortunately, you did not finish in time :(\nThe code you've written in this coding stage will now be reset!");
+						alert.setContentText("Unfortunately, you did not finish in time :(\nThe code you've written in this coding stage will now be resetted!");
 						alert.initModality(Modality.WINDOW_MODAL);
 						alert.showAndWait();
-						}
 						
+						start();
 				    });
-					dateStart=new Date();
-					
 				} else {
 					Platform.runLater(() -> {
 						timeLabel.setText(dateFormatted);
@@ -105,7 +103,7 @@ public class BabystepsService {
 				}
 			
 				try {
-					Thread.sleep(50);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 					System.out.println("Error while measuring time");
