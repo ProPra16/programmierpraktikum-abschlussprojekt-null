@@ -20,6 +20,7 @@ public class BabystepsService {
 	CodeArea sourceCodeArea;
 	Thread t = new Thread();
 	Date dateStart = new Date();
+	Alert alert = new Alert(Alert.AlertType.ERROR);
 	
 	/**
 	 * Counstructs babysteps service with time label
@@ -84,14 +85,15 @@ public class BabystepsService {
 				if(currentTime <= 0) {
 					Platform.runLater(() -> {
 						sourceCodeArea.replaceText(cachedContent);
-						
-						Alert alert = new Alert(Alert.AlertType.ERROR);
+						if(!alert.isShowing())
+						{
+						alert = new Alert(Alert.AlertType.ERROR);
 						alert.setTitle("Babysteps");
 						alert.setHeaderText("Out of time");
 						alert.setContentText("Unfortunately, you did not finish in time :(\nThe code you've written in this coding stage will now be reset!");
 						alert.initModality(Modality.WINDOW_MODAL);
 						alert.showAndWait();
-					
+						}
 						
 				    });
 					dateStart=new Date();
