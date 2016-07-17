@@ -5,8 +5,6 @@
 
     Project name: TDDT (Test Driven Development Trainer)
     © Copyright 2016 Pascal Fischer, Christian Karamann, Marvin Krause, Patrick Remy, Elmedin Turic
-    
-
 
 ##INSTALLATION INFORMATION OF THE APPLICATION
 
@@ -23,4 +21,4 @@
 
 
 ##License
-[READ LISENCE.md](LICENSE.md) 
+[READ LICENSE.md](LICENSE.md) 
