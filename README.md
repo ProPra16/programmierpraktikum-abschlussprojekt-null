@@ -1,5 +1,5 @@
 ##README
-[![Build Status](https://travis-ci.org/ProPra16/programmierpraktikum-abschlussprojekt-null.svg?branch=master)](https://travis-ci.org/ProPra16/programmierpraktikum-abschlussprojekt-null) [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/ProPra16/programmierpraktikum-abschlussprojekt-team-2/blob/master/License.md)
+[![Build Status](https://travis-ci.org/ProPra16/programmierpraktikum-abschlussprojekt-null.svg?branch=master)](https://travis-ci.org/ProPra16/programmierpraktikum-abschlussprojekt-null) [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/ProPra16/programmierpraktikum-abschlussprojekt-null/blob/master/LICENSE.md)
 
 ##GENERAL INFORMATION
 
